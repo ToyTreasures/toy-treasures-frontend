@@ -7,14 +7,24 @@ const api = axios.create({
   },
 });
 
-const getAllItems = async () => {
+const getAllItems = async (queryParams = "") => {
   try {
-    const res = await api.get("/");
-    return res.data;
+    const res = await api.get("/" + queryParams);
+    return res.data.items;
   } catch (error) {
-    console.log("Get all items error", error);
+    console.error("Error fetching items:", error);
+    throw error;
   }
 };
+
+// const getAllItems = async () => {
+//   try {
+//     const res = await api.get("/");
+//     return res.data;
+//   } catch (error) {
+//     console.log("Get all items error", error);
+//   }
+// };
 
 const getItemById = async (id) => {
   try {
