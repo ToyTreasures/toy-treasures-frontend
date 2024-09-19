@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <header>
-      <div className="bg-gray-800 text-white py-2">
+      <div className="bg-[#a5c926] text-white py-2">
         <div className="container mx-auto flex flex-col md:flex-col justify-between items-center">
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
             <span>Call Us: +1 213 974-5898</span>
@@ -47,39 +47,19 @@ const Navbar = () => {
             </span>
           </div>
           <div className="flex space-x-4 mt-2 md:mt-0">
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
               <FaTwitter />
             </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
               <FaFacebook />
             </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
               <FaInstagram />
             </a>
-            <a
-              href="https://pinterest.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">
               <FaPinterest />
             </a>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
               <FaYoutube />
             </a>
           </div>
@@ -140,10 +120,7 @@ const Navbar = () => {
             }}
             data-nav-menu-open=""
           >
-            <NavLink
-              to="/catalog"
-              className="nav-link w-nav-link w--nav-link-open block px-4 py-2"
-            >
+            <NavLink to="/catalog" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
               Catalog
             </NavLink>
             <NavLink
@@ -152,10 +129,7 @@ const Navbar = () => {
             >
               Delivery
             </NavLink>
-            <NavLink
-              to="/about"
-              className="nav-link w-nav-link w--nav-link-open block px-4 py-2"
-            >
+            <NavLink to="/about" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
               About
             </NavLink>
             <NavLink
@@ -164,10 +138,7 @@ const Navbar = () => {
             >
               Contacts
             </NavLink>
-            <NavLink
-              to="/cart"
-              className="nav-link w-nav-link w--nav-link-open block px-4 py-2"
-            >
+            <NavLink to="/cart" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
               Cart
             </NavLink>
             {/* {user ? (
