@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 // import ItemDetailsPage from "./pages/ItemDetailsPage";
-// import Signup from "./pages/Signup";
-// import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SellItem from "./pages/SellItem";
 
 const AppRoutes = () => {
   return (
@@ -18,9 +19,10 @@ const AppRoutes = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
-            {/* <Route path="/shop/:id" element={<ItemDetailsPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} /> */}
+            {/* <Route path="/shop/:id" element={<ItemDetailsPage />} />*/}
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sell-item" element={<SellItem />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
