@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import HeroSection from "../Layouts/HomeLayouts/HomeComponents/HeroSection";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div className="w-full">
+      <HeroSection />
+    </div>
+  );
+};
 
-export default Home
+export default Home;
