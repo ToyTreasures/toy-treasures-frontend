@@ -31,6 +31,12 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        window.location.href = "/login";
+        return Promise.reject(error);
+      }
+
       try {
         const refreshResponse = await refreshAccessToken();
         const { accessToken } = refreshResponse;
