@@ -5,16 +5,16 @@ import {
   FaPinterest,
   FaYoutube,
 } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom";
+import logo from "../assets/HomeComponent/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#a5c926] pt-12 text-white">
+    <footer className="bg-[#a5c926]  text-white">
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
-        {/* Footer Left - Brand */}
         <div className="footer-left">
-          <Link to="/" className="text-2xl font-bold">
-            ToyStore
+          <Link to="/">
+            <img src={logo} alt="ToyStore Logo" className="h-48 w-48" />{" "}
           </Link>
         </div>
 
@@ -79,8 +79,7 @@ const Footer = () => {
           </a>
         </div>
       </div>
-      <div className="border-t border-white flex flex-col lg:flex-row justify-between items-center mt-12 mr-4 ml-4 pt-8 pb-8">
-        {/* Copyright Notice */}
+      <div className="border-t border-white flex flex-col lg:flex-row justify-between items-center mt-8 mr-4 ml-4 pt-6 pb-8">
         <div className="text-sm">
           &copy; {new Date().getFullYear()} ToyStore. All rights reserved.
         </div>
