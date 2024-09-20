@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import HeroSection from "../Layouts/HomeLayouts/HomeComponents/HeroSection";
-import ToysTypeSection from "../Layouts/HomeLayouts/HomeComponents/ToysTypeSection";
+import HeroSection from "../Layouts/HomeLayouts/HeroSection";
+import ToysTypeSection from "../Layouts/HomeLayouts/ToysTypeSection";
 
 const Home = () => {
   const toysTypeSectionRef = useRef(null);
