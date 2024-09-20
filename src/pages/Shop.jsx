@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchItems } from "../services/apiCalls";
+import itemServices from "../services/itemService";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Shop = () => {
@@ -40,7 +40,7 @@ const Shop = () => {
     setLoading(true);
     setError("");
     try {
-      const fetchedItems = await fetchItems(queryParams);
+      const fetchedItems = await itemServices.getAllItems(queryParams);
       setItems(fetchedItems);
     } catch (err) {
       setError("Failed to fetch items.");
@@ -48,14 +48,13 @@ const Shop = () => {
     setLoading(false);
   };
 
-  /**************** Construct URL and trigger navigation when filters change ****************/
-  const updateFilters = () => {
+  const getCurrentFilters = () => {
     const filters = [];
 
     if (minPrice) filters.push(`minPrice-${minPrice}`);
     if (maxPrice) filters.push(`maxPrice-${maxPrice}`);
-    if (buy) filters.push("swap-false");
-    if (swap) filters.push("swap-true");
+    if (buy && !swap) filters.push("swap-false");
+    if (swap && !buy) filters.push("swap-true");
 
     const selectedConditions = Object.keys(conditions)
       .filter((key) => conditions[key])
@@ -63,34 +62,56 @@ const Shop = () => {
     if (selectedConditions) filters.push(`condition-${selectedConditions}`);
     if (address) filters.push(`address-${address}`);
 
-    const queryParams = `?search=${search}&filters=${filters.join("--")}`;
+    return filters;
+  }
+
+  const updateFilters = () => {
+    const filters = getCurrentFilters();
+
+    const queryParams =
+      search || filters.length
+        ? `?${search && `search=${search}`}${
+            filters.length ? `&filters=${filters.join("--")}` : ""
+          }`
+        : "";
+
     navigate(`${location.pathname}${queryParams}`, { replace: true });
 
     fetchFilteredItems(queryParams);
   };
 
-  // Handle search separately
   const handleSearch = () => {
-    const queryParams = `?search=${search}`;
-    navigate(`${location.pathname}${queryParams}`, { replace: true });
+    if (search) {
+      const queryParams = `?search=${search}`;
+      navigate(`${location.pathname}${queryParams}`, { replace: true });
 
-    fetchFilteredItems(queryParams);
+      fetchFilteredItems(queryParams);
+    }
   };
 
-  // Reset filters
   const resetFilters = () => {
-    setSearch("");
-    setMinPrice("");
-    setMaxPrice("");
-    setBuy(false);
-    setSwap(false);
-    setConditions({ new: false, gentle: false, used: false });
-    setAddress("");
-    navigate(location.pathname, { replace: true });
-    fetchFilteredItems("");
+    if (
+      search ||
+      minPrice ||
+      maxPrice ||
+      buy ||
+      swap ||
+      conditions.new ||
+      conditions.gentle ||
+      conditions.used ||
+      address
+    ) {
+      setSearch("");
+      setMinPrice("");
+      setMaxPrice("");
+      setBuy(false);
+      setSwap(false);
+      setConditions({ new: false, gentle: false, used: false });
+      setAddress("");
+      navigate(location.pathname, { replace: true });
+    }
   };
 
-  // Trigger filter updates whenever the filters change
   useEffect(() => {
     updateFilters();
   }, [minPrice, maxPrice, buy, swap, conditions, address]);
@@ -245,6 +266,16 @@ const Shop = () => {
             <div key={item._id} className="card shadow-lg p-4">
               <h2 className="text-xl font-bold">{item.name}</h2>
               <p>{item.description}</p>
+              <p
+                className={
+                  item.isAvailableForSwap ? "text-success" : "text-error"
+                }
+              >
+                {item.isAvailableForSwap
+                  ? "Available For Swap"
+                  : "NOT Available For Swap"}
+              </p>
+              <p className="text-lg font-semibold">{item.condition}</p>
               <p className="text-lg font-semibold">${item.price}</p>
             </div>
           ))

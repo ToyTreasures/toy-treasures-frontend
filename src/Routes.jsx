@@ -6,9 +6,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Profile from "./pages/Profile";
 import ItemDetails from "./pages/ItemDetails";
-// import Signup from "./pages/Signup";
-// import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import SellItem from "./pages/SellItem";
 
 const AppRoutes = () => {
   return (
@@ -21,8 +22,9 @@ const AppRoutes = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/:id" element={<ItemDetails />} />
-            {/* <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} /> */}
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sell-item" element={<SellItem />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
