@@ -14,7 +14,7 @@ const ItemDetails = () => {
         const response = await itemService.getItemById(id);
         setItem(response.item);
       } catch (error) {
-        setError("Failed to fetch item details.");
+        setError(error.error);
       } finally {
         setLoading(false);
       }
@@ -47,12 +47,7 @@ const ItemDetails = () => {
             <p className="text-lg font-bold">${item.price}</p>
             <p>Available: {item.count}</p>
             <div className="card-actions justify-end">
-              <button
-                className="btn btn-primary"
-                onClick={() => addToCart(item)}
-              >
-                Add to Cart
-              </button>
+              <button className="btn btn-primary">Add to Cart</button>
             </div>
           </div>
         </div>
