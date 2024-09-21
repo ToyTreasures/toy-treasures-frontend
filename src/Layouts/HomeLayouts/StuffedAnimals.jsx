@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import StuffedAnimalsCard from "../StuffedAnimalsCard";
+import ItemCard from "../itemCard";
 
 const StuffedAnimals = () => {
-  const products = [
+  const items = [
     {
       id: 1,
       name: "Teddy Bear",
@@ -58,12 +58,12 @@ const StuffedAnimals = () => {
             </svg>
           </Link>
         </div>
-        <div class="w-full h-0.5 mt-8 bg-gray-200 relative">
-          <div class="w-[136px] h-full bg-lime-500 absolute top-0 left-0"></div>
+        <div className="w-full h-0.5 mt-8 bg-gray-200 relative">
+          <div className="w-[136px] h-full bg-lime-500 absolute top-0 left-0"></div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 ">
-          {products.map((product) => (
-            <StuffedAnimalsCard key={product.id} product={product} />
+          {items.map((item) => (
+            <ItemCard key={item.id} item={item} />
           ))}
         </div>
       </div>

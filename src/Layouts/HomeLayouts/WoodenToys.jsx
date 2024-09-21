@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import WoodenToysCard from "../WoodenToysCard";
+import ItemCard from "../itemCard";
 
 const WoodenToys = () => {
-  const products = [
+  const items = [
     {
       id: 1,
       name: "Happy Flower",
@@ -62,8 +62,8 @@ const WoodenToys = () => {
           <div className="w-[136px] h-full bg-lime-500 absolute top-0 left-0"></div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <WoodenToysCard key={product.id} product={product} />
+          {items.map((item) => (
+            <ItemCard key={item.id} item={item} />
           ))}
         </div>
       </div>
