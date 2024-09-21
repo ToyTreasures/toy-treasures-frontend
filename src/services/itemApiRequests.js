@@ -1,5 +1,5 @@
 import axios from "axios";
-import authService from "./authService"; // Adjust the path as necessary
+import authApiRequests from "./authApiRequests";
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api/v1/items",
@@ -39,13 +39,13 @@ api.interceptors.response.use(
       }
 
       try {
-        const refreshResponse = await authService.refreshAccessToken();
+        const refreshResponse = await authApiRequests.refreshAccessToken();
         const { accessToken } = refreshResponse;
         localStorage.setItem("accessToken", accessToken);
         originalRequest.headers["Authorization"] = accessToken;
         return api(originalRequest);
       } catch (refreshError) {
-        await authService.logout();
+        await authApiRequests.logout();
         window.location.href = "/login";
         return Promise.reject(refreshError);
       }
@@ -84,13 +84,13 @@ api.interceptors.response.use(
       }
 
       try {
-        const refreshResponse = await authService.refreshAccessToken();
+        const refreshResponse = await authApiRequests.refreshAccessToken();
         const { accessToken } = refreshResponse;
         localStorage.setItem("accessToken", accessToken);
         originalRequest.headers["Authorization"] = accessToken;
         return api(originalRequest);
       } catch (refreshError) {
-        await authService.logout();
+        await authApiRequests.logout();
         window.location.href = "/login";
         return Promise.reject(refreshError);
       }
@@ -108,15 +108,6 @@ const getAllItems = async (queryParams = "") => {
     throw error;
   }
 };
-
-// const getAllItems = async () => {
-//   try {
-//     const res = await api.get("/");
-//     return res.data;
-//   } catch (error) {
-//     console.log("Get all items error", error);
-//   }
-// };
 
 const getItemById = async (id) => {
   try {
