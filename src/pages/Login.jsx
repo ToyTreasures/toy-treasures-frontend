@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import authApiRequests from "../services/authApiRequests";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import localStorageServices from "../services/localStorageServices";
+import { useUserContext } from "../contexts/UserContext";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -13,7 +15,9 @@ const LoginSchema = Yup.object().shape({
 
 const Login = () => {
   const [loginError, setLoginError] = useState("");
-  // const navigate = useNavigate();
+  const { user, setUser } = useUserContext();
+
+  const navigate = useNavigate();
 
   const initialValues = {
     email: "",
@@ -22,11 +26,11 @@ const Login = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await authApiRequests.login(values);
+      const res = await authApiRequests.login(values);
       setLoginError("");
-      console.log("Login successful:", response);
-      // Redirect to a protected route
-      // navigate("/");
+      localStorageServices.login(res.user, res.accessToken);
+      setUser(res.user);
+      navigate("/");
       resetForm();
     } catch (error) {
       console.error("Login error:", error);
@@ -40,7 +44,9 @@ const Login = () => {
     }
   };
 
-  return (
+  return user ? (
+    <Navigate to="/" replace />
+  ) : (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginSchema}

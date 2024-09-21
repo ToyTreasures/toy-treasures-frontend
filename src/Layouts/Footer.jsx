@@ -63,7 +63,7 @@ const Footer = () => {
       </div>
       <div className="container mx-auto border-t border-white flex flex-col md:flex-row justify-between items-center py-12 gap-8">
         <div className="text-sm">
-          &copy; {new Date().getFullYear()} ToyStore. All rights reserved.
+          &copy; {new Date().getFullYear()} ToyzCity. All rights reserved.
         </div>
 
         <div className="text-sm flex flex-col lg:flex-row items-center gap-2 lg:gap-4">
