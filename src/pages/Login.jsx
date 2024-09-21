@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import authService from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import authApiRequests from "../services/authApiRequests";
+import { Navigate, useNavigate } from "react-router-dom";
+import localStorageServices from "../services/localStorageServices";
+import { useUserContext } from "../contexts/UserContext";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -13,6 +15,8 @@ const LoginSchema = Yup.object().shape({
 
 const Login = () => {
   const [loginError, setLoginError] = useState("");
+  const { user, setUser } = useUserContext();
+  
   const navigate = useNavigate();
 
   const initialValues = {
@@ -22,9 +26,10 @@ const Login = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await authService.login(values);
+      const res = await authApiRequests.login(values);
       setLoginError("");
-      console.log("Login successful:", response);
+      localStorageServices.login(res.user, res.accessToken);
+      setUser(res.user);
       navigate("/");
       resetForm();
     } catch (error) {
@@ -39,28 +44,40 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-10 p-4 md:p-8">
-      <div className="w-full md:w-1/2 p-4 md:p-8 rounded-lg">
-        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
-          Login
-        </h1>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={LoginSchema}
-          onSubmit={onSubmit}
-        >
-          {({ isSubmitting }) => (
-            <Form className="space-y-4">
-              {loginError && (
-                <div
-                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                  role="alert"
-                >
-                  <span className="block sm:inline">{loginError}</span>
-                </div>
-              )}
-
+  return user ? (
+    <Navigate to="/" replace />
+  ) : (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={LoginSchema}
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form className="space-y-4">
+          <div className="space-y-2">
+            <div className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+              </svg>
+              <Field
+                type="text"
+                name="email"
+                placeholder="Email"
+                className="grow"
+              />
+            </div>
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
               <div className="space-y-2">
                 <label htmlFor="email" className="ml-4 font-semibold">
                   Email

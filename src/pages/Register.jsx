@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import authService from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import registerImage from "../assets/register/r1.jpg";
+import authApiRequests from "../services/authApiRequests";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required("Full Name is required"),
@@ -31,7 +31,7 @@ const Register = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await authService.register(values);
+      const response = await authApiRequests.register(values);
       setRegisterError("");
       console.log("Registration successful:", response);
       navigate("/login");

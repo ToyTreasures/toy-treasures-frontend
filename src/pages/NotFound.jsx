@@ -1,5 +1,5 @@
-import React from "react";
-import CoverImg from "../assets/HomeComponent/5baddd4835e113c6299a48f5_li-tzuni-507346-unsplash.jpg";
+import { Link } from "react-router-dom";
+import CoverImg from "../assets/hero-bg.jpg";
 
 const NotFound = () => {
   return (
@@ -12,9 +12,9 @@ const NotFound = () => {
         <p className="mb-4">
           The page you are looking for doesnt exist or has been moved.
         </p>
-        <a href="/" className="btn bg-[#a5c926]">
+        <Link to="/" className="btn bg-[#a5c926]">
           Go to Home
-        </a>
+        </Link>
       </div>
     </div>
   );

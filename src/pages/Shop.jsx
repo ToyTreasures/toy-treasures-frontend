@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import itemServices from "../services/itemService";
+import itemApiRequestss from "../services/itemApiRequests";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Shop = () => {
@@ -40,7 +40,7 @@ const Shop = () => {
     setLoading(true);
     setError("");
     try {
-      const fetchedItems = await itemServices.getAllItems(queryParams);
+      const fetchedItems = await itemApiRequestss.getAllItems(queryParams);
       setItems(fetchedItems);
     } catch (err) {
       setError("Failed to fetch items.");
