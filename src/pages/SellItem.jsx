@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import itemService from "../services/itemService";
+import itemApiRequests from "../services/itemApiRequests"; // Assuming you have a service to handle API calls
 
 const SellItemSchema = Yup.object().shape({
   name: Yup.string().required("Item Name is required"),
@@ -36,7 +36,7 @@ const SellItem = () => {
         return;
       }
 
-      const response = await itemService.createItem(values);
+      const response = await itemApiRequests.createItem(values);
       setSubmitError("");
       console.log("Item added successfully:", response);
       resetForm();
