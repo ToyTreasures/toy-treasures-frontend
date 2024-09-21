@@ -112,12 +112,30 @@ const Navbar = () => {
 
           <div className="flex items-center space-x-2">
             <NavLink
+              to="/login"
+              className="nav-link hover:underline hidden md:inline-flex"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="/register"
+              className="nav-link hover:underline hidden md:inline-flex"
+            >
+              Register
+            </NavLink>
+            <NavLink
               to="/cart"
               className="flex items-center relative p-2 rounded-md"
             >
-              <span className="absolute top-[-1px] right-[-8px] bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
+              <div className="absolute top-[-10px] right-[5px] flex flex-col items-center">
+                <div className="flex justify-center space-x-1 mb-[-2px]">
+                  <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
+                  <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
+                </div>
+                <div className="bg-[var(--primary-color)] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  0
+                </div>
+              </div>
               <FaShoppingCart className="text-xl" />
             </NavLink>
             {/* {user ? (
@@ -125,12 +143,12 @@ const Navbar = () => {
                 <span className="hidden md:inline">Welcome, {user.name}</span>
                 <button onClick={handleLogout} className="btn btn-secondary">
                   Logout
-                </button>
+                  </button>
               </>
             ) : (
               <>
                 <NavLink to="/login" className="btn btn-primary hidden md:inline-flex">
-                  Login
+                Login
                 </NavLink>
                 <NavLink to="/signup" className="btn btn-secondary hidden md:inline-flex">
                   Sign Up
@@ -151,6 +169,24 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
             <ul className="menu w-full">
+              <li>
+                <NavLink
+                  to="/register"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/login"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  Login
+                </NavLink>
+              </li>
               <li>
                 <NavLink
                   to="/shop"
