@@ -5,34 +5,35 @@ import {
   FaPinterest,
   FaYoutube,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import logo from "../assets/HomeComponent/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#a5c926] pt-12 text-white">
+    <footer className="bg-[#a5c926]  text-white">
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
-        {/* Footer Left - Brand */}
         <div className="footer-left">
-          <a href="/" className="text-2xl font-bold">
-            ToyStore
-          </a>
+          <Link to="/">
+            <img src={logo} alt="ToyStore Logo" className="h-48 w-48" />{" "}
+          </Link>
         </div>
 
         <div className="footer-nav flex space-x-6">
-          <a href="/" className="footer-link hover:underline">
+          <Link to="/" className="footer-link hover:underline">
             Home
-          </a>
-          <a href="/catalog" className="footer-link hover:underline">
-            Catalog
-          </a>
-          <a href="/delivery" className="footer-link hover:underline">
+          </Link>
+          <Link to="/shop" className="footer-link hover:underline">
+            Shop
+          </Link>
+          <Link to="/delivery" className="footer-link hover:underline">
             Delivery
-          </a>
-          <a href="/about" className="footer-link hover:underline">
+          </Link>
+          <Link to="/about" className="footer-link hover:underline">
             About
-          </a>
-          <a href="/contacts" className="footer-link hover:underline">
+          </Link>
+          <Link to="/contacts" className="footer-link hover:underline">
             Contacts
-          </a>
+          </Link>
         </div>
 
         <div className="footer-social flex space-x-4">
@@ -77,14 +78,12 @@ const Footer = () => {
             <FaYoutube />
           </a>
         </div>
-      </div>{" "}
-      <div className="border-t borde-white  flex flex-col lg:flex-row justify-between items-center mt-12 mr-4 ml-4 pt-8 pb-8">
-        {/* Copyright Notice */}
+      </div>
+      <div className="border-t border-white flex flex-col lg:flex-row justify-between items-center mt-8 mr-4 ml-4 pt-6 pb-8">
         <div className="text-sm">
           &copy; {new Date().getFullYear()} ToyStore. All rights reserved.
         </div>
 
-        {/* Footer Links */}
         <div className="text-sm flex flex-col lg:flex-row items-center gap-2 lg:gap-4">
           <div>
             Powered by{" "}
@@ -98,13 +97,13 @@ const Footer = () => {
             </a>
           </div>
           <div className="hidden lg:block">|</div>
-          <a href="/terms-of-service" className="underline">
+          <Link to="/terms-of-service" className="underline">
             Terms of Service
-          </a>
+          </Link>
           <div className="hidden lg:block">|</div>
-          <a href="/privacy-policy" className="underline">
+          <Link to="/privacy-policy" className="underline">
             Privacy Policy
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
