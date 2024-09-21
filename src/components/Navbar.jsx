@@ -35,8 +35,8 @@ const Navbar = () => {
   };
 
   return (
-    <header>
-      <div className="bg-[#a5c926] text-white py-2">
+    <header className="sticky top-0 z-50">
+      <div className="bg-[var(--primary-color)] text-white py-2 hidden md:flex">
         <div className="container mx-auto flex flex-row justify-between items-center">
           <div className="flex flex-row space-x-4">
             <span className="text-[11px] md:text-sm">
@@ -88,10 +88,11 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <nav className="navbar bg-base-100 shadow-lg relative">
-        <div className="container mx-auto flex justify-between items-center">
+      <nav className="navbar bg-white shadow-lg relative">
+        <div className="container mx-auto flex justify-between items-baseline">
           <NavLink to="/" className="flex items-center">
-            <img src={logo} alt="ToyStore Logo" className="h-16 w-auto" />{" "}
+            {/* <img src={logo} alt="ToyStore Logo" className="h-16 w-auto" />{" "} */}
+            <p className="text-2xl font-bold">ToyzCity</p>
           </NavLink>
 
           <div className="hidden md:flex space-x-4 flex-grow">
@@ -114,12 +115,9 @@ const Navbar = () => {
               to="/cart"
               className="flex items-center relative p-2 rounded-md"
             >
-              <span className="ml-1 text-lg pr-3">Cart</span>
-              {/* {cartItemCount > 0 && ( */}
               <span className="absolute top-[-1px] right-[-8px] bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                {/* {cartItemCount} */}0
+                0
               </span>
-              {/* )} */}
               <FaShoppingCart className="text-xl" />
             </NavLink>
             {/* {user ? (
@@ -151,7 +149,7 @@ const Navbar = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-base-200 shadow-lg md:hidden z-50">
+          <div className="absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
             <ul className="menu w-full">
               <li>
                 <NavLink
