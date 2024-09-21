@@ -1,5 +1,5 @@
 import axios from "axios";
-import authService from "./authService"; // Adjust the path as necessary
+import authService from "./authService";
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api/v1/items",
@@ -108,15 +108,6 @@ const getAllItems = async (queryParams = "") => {
     throw error;
   }
 };
-
-// const getAllItems = async () => {
-//   try {
-//     const res = await api.get("/");
-//     return res.data;
-//   } catch (error) {
-//     console.log("Get all items error", error);
-//   }
-// };
 
 const getItemById = async (id) => {
   try {

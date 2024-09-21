@@ -90,7 +90,7 @@ const Navbar = () => {
       </div>
       <nav className="navbar bg-white shadow-lg relative">
         <div className="container mx-auto flex justify-between items-baseline">
-          <NavLink to="/" className="flex items-center">
+          <NavLink to="/" className="flex items-center me-4">
             {/* <img src={logo} alt="ToyStore Logo" className="h-16 w-auto" />{" "} */}
             <p className="text-2xl font-bold">ToyzCity</p>
           </NavLink>
