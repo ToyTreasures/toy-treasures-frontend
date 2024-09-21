@@ -7,9 +7,7 @@ import localStorageServices from "../services/localStorageServices";
 import { useUserContext } from "../contexts/UserContext";
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
+  email: Yup.string().email("Invalid email format").required("Email is required"),
   password: Yup.string().min(8).required("Password is required"),
 });
 
@@ -49,14 +47,8 @@ const Login = () => {
   ) : (
     <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-10 p-4 md:p-8">
       <div className="w-full md:w-1/2 p-4 md:p-8 rounded-lg">
-        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
-          Login
-        </h1>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={LoginSchema}
-          onSubmit={onSubmit}
-        >
+        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">Login</h1>
+        <Formik initialValues={initialValues} validationSchema={LoginSchema} onSubmit={onSubmit}>
           {({ isSubmitting }) => (
             <Form className="space-y-4">
               {loginError && (
@@ -81,11 +73,7 @@ const Login = () => {
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
               </div>
 
               <div className="space-y-2">
@@ -101,11 +89,7 @@ const Login = () => {
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
               </div>
 
               <button
