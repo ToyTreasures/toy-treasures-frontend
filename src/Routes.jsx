@@ -1,9 +1,8 @@
-// src/Routes.js
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./layouts/Navbar";
+import Footer from "./layouts/Footer";
 import Profile from "./pages/Profile";
 import ItemDetails from "./pages/ItemDetails";
 import NotFound from "./pages/NotFound";
@@ -19,9 +18,8 @@ const AppRoutes = () => {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
             <Route path="/shop" element={<Shop />} />
-            <Route path="/shop/:id" element={<ItemDetails />} />
+            {/* <Route path="/shop/:id" element={<ItemDetailsPage />} />*/}
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/sell-item" element={<SellItem />} />
