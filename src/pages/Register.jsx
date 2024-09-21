@@ -61,12 +61,24 @@ const Register = () => {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">
+              {registerError && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                  role="alert"
+                >
+                  <span className="block sm:inline">{registerError}</span>
+                </div>
+              )}
               <div className="space-y-2">
+                <label htmlFor="name" className="ml-4 font-semibold">
+                  Full Name
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     type="text"
                     name="name"
-                    placeholder="Full Name"
+                    id="name"
+                    placeholder="Enter your full name"
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
@@ -78,11 +90,15 @@ const Register = () => {
               </div>
 
               <div className="space-y-2">
+                <label htmlFor="email" className="ml-4 font-semibold">
+                  Email
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     type="text"
                     name="email"
-                    placeholder="Email"
+                    id="email"
+                    placeholder="Enter your email address"
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
@@ -94,11 +110,15 @@ const Register = () => {
               </div>
 
               <div className="space-y-2">
+                <label htmlFor="password" className="ml-4 font-semibold">
+                  Password
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    id="password"
+                    placeholder="Create a strong password"
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
@@ -110,11 +130,15 @@ const Register = () => {
               </div>
 
               <div className="space-y-2">
+                <label htmlFor="phoneNumber" className="ml-4 font-semibold">
+                  Phone Nummber
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     type="text"
                     name="phoneNumber"
-                    placeholder="Phone Number"
+                    id="phoneNumber"
+                    placeholder="Enter your phone number"
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
@@ -126,17 +150,20 @@ const Register = () => {
               </div>
 
               <div className="space-y-2">
+                <label htmlFor="address" className="ml-4 font-semibold">
+                  Address
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     as="select"
                     name="address"
+                    id="address"
                     className="grow bg-transparent outline-none w-full"
                   >
                     <option value="">Select Address</option>
                     <option value="Cairo">Cairo</option>
                     <option value="Giza">Giza</option>
                     <option value="Alexandria">Alexandria</option>
-                    {/* Add other governorates here */}
                   </Field>
                 </div>
                 <ErrorMessage
@@ -145,10 +172,6 @@ const Register = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
-
-              {registerError && (
-                <div className="text-red-500">{registerError}</div>
-              )}
 
               <button
                 type="submit"
