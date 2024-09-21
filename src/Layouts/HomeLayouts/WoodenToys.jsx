@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import WoodenToysCard from "../../components/WoodenToysCard";
+import WoodenToysCard from "../WoodenToysCard";
 
 const WoodenToys = () => {
   const products = [
