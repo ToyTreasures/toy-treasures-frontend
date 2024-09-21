@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import authApiRequests from "../services/authApiRequests";
 import { Navigate, useNavigate } from "react-router-dom";
-import localStorageServices from "../services/localStorageServices";
+import localStorageServices from "../services/localStorageServices"; 
 import { useUserContext } from "../contexts/UserContext";
 
 const LoginSchema = Yup.object().shape({
@@ -120,8 +120,6 @@ const Login = () => {
             </Form>
           )}
         </Formik>
-      </div>
-    </div>
   );
 };
 
