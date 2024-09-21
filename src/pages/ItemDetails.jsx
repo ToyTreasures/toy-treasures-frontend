@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import itemService from "../services/itemService";
+import itemApiRequests from "../services/itemApiRequests";
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -11,7 +11,7 @@ const ItemDetails = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await itemService.getItemById(id);
+        const response = await itemApiRequests.getItemById(id);
         setItem(response.item);
       } catch (error) {
         setError(error.error);

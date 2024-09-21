@@ -1,5 +1,5 @@
 import axios from "axios";
-import authService from "./authService";
+import authApiRequests from "./authApiRequests";
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api/v1/items",
@@ -39,13 +39,13 @@ api.interceptors.response.use(
       }
 
       try {
-        const refreshResponse = await authService.refreshAccessToken();
+        const refreshResponse = await authApiRequests.refreshAccessToken();
         const { accessToken } = refreshResponse;
         localStorage.setItem("accessToken", accessToken);
         originalRequest.headers["Authorization"] = accessToken;
         return api(originalRequest);
       } catch (refreshError) {
-        await authService.logout();
+        await authApiRequests.logout();
         window.location.href = "/login";
         return Promise.reject(refreshError);
       }
@@ -84,13 +84,13 @@ api.interceptors.response.use(
       }
 
       try {
-        const refreshResponse = await authService.refreshAccessToken();
+        const refreshResponse = await authApiRequests.refreshAccessToken();
         const { accessToken } = refreshResponse;
         localStorage.setItem("accessToken", accessToken);
         originalRequest.headers["Authorization"] = accessToken;
         return api(originalRequest);
       } catch (refreshError) {
-        await authService.logout();
+        await authApiRequests.logout();
         window.location.href = "/login";
         return Promise.reject(refreshError);
       }

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CoverImg from "../assets/HomeComponent/5baddd4835e113c6299a48f5_li-tzuni-507346-unsplash.jpg";
+import CoverImg from "../assets/hero-bg.jpg";
 
 const NotFound = () => {
   return (

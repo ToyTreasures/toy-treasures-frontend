@@ -11,7 +11,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 // import { useContext, useEffect } from "react";
-import logo from "../assets/HomeComponent/logo.png";
+import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

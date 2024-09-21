@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import authService from "../services/authService";
+import authApiRequests from "../services/authApiRequests";
 import { useNavigate } from "react-router-dom";
 
 const LoginSchema = Yup.object().shape({
@@ -22,7 +22,7 @@ const Login = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await authService.login(values);
+      const response = await authApiRequests.login(values);
       setLoginError("");
       console.log("Login successful:", response);
       // Redirect to a protected route
