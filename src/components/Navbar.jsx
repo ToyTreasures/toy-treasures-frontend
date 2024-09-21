@@ -11,6 +11,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 // import { useContext, useEffect } from "react";
+import logo from "../assets/HomeComponent/logo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,129 +37,194 @@ const Navbar = () => {
   return (
     <header>
       <div className="bg-[#a5c926] text-white py-2">
-        <div className="container mx-auto flex flex-col md:flex-col justify-between items-center">
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
-            <span>Call Us: +1 213 974-5898</span>
-            <span>
+        <div className="container mx-auto flex flex-row justify-between items-center">
+          <div className="flex flex-row space-x-4">
+            <span className="text-[11px] md:text-sm">
+              Call Us: +1 213 974-5898
+            </span>
+            <span className="text-[11px] md:text-sm">
               Email:{" "}
               <a href="mailto:toystore@template.com" className="underline">
-                toystore@template.com
+                ToyzCity@template.com
               </a>
             </span>
           </div>
-          <div className="flex space-x-4 mt-2 md:mt-0">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <div className="flex space-x-4 mt-0 md:mt-0">
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaTwitter />
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebook />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram />
             </a>
-            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://pinterest.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaPinterest />
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaYoutube />
             </a>
           </div>
         </div>
       </div>
-      <nav className="navbar bg-base-100 shadow-lg">
-        <div className="container mx-auto flex justify-between items-center py-4">
-          <NavLink to="/" className="text-xl font-bold">
-            ToyStore
+      <nav className="navbar bg-base-100 shadow-lg relative">
+        <div className="container mx-auto flex justify-between items-center">
+          <NavLink to="/" className="flex items-center">
+            <img src={logo} alt="ToyStore Logo" className="h-16 w-auto" />{" "}
           </NavLink>
-          <div className="hidden md:flex space-x-4">
-            <NavLink to="/shop" className="nav-link">
+
+          <div className="hidden md:flex space-x-4 flex-grow">
+            <NavLink to="/shop" className="nav-link hover:underline">
               Shop
             </NavLink>
-            <NavLink to="/delivery" className="nav-link">
+            <NavLink to="/delivery" className="nav-link hover:underline">
               Delivery
             </NavLink>
-            <NavLink to="/about" className="nav-link">
+            <NavLink to="/about" className="nav-link hover:underline">
               About
             </NavLink>
-            <NavLink to="/contacts" className="nav-link">
+            <NavLink to="/contacts" className="nav-link hover:underline">
               Contacts
             </NavLink>
-            <NavLink to="/cart" className="btn btn-ghost">
-              <FaShoppingCart />
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <NavLink
+              to="/cart"
+              className="flex items-center relative p-2 rounded-md"
+            >
+              <span className="ml-1 text-lg pr-3">Cart</span>
+              {/* {cartItemCount > 0 && ( */}
+              <span className="absolute top-[-1px] right-[-8px] bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {/* {cartItemCount} */}0
+              </span>
+              {/* )} */}
+              <FaShoppingCart className="text-xl" />
             </NavLink>
             {/* {user ? (
               <>
-                <span className="btn btn-ghost">Welcome, {user.name}</span>
+                <span className="hidden md:inline">Welcome, {user.name}</span>
                 <button onClick={handleLogout} className="btn btn-secondary">
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <NavLink to="/login" className="btn btn-primary">
+                <NavLink to="/login" className="btn btn-primary hidden md:inline-flex">
                   Login
                 </NavLink>
-                <NavLink to="/signup" className="btn btn-secondary">
+                <NavLink to="/signup" className="btn btn-secondary hidden md:inline-flex">
                   Sign Up
                 </NavLink>
               </>
             )} */}
-          </div>
-          <div className="md:hidden">
-            <button onClick={toggleMobileMenu} className="btn btn-ghost">
-              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-            </button>
+            <div className="md:hidden">
+              <button
+                onClick={toggleMobileMenu}
+                className="p-2 rounded-md hover:bg-green-100 transition"
+              >
+                {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+              </button>
+            </div>
           </div>
         </div>
+
         {isMobileMenuOpen && (
-          <nav
-            role="navigation"
-            className="nav-menu w-nav-menu md:hidden bg-base-100 shadow-lg"
-            style={{
-              transition: "all 400ms",
-              transform: "translateY(0px) translateX(0px)",
-            }}
-            data-nav-menu-open=""
-          >
-            <NavLink to="/catalog" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
-              Catalog
-            </NavLink>
-            <NavLink
-              to="/delivery"
-              className="nav-link w-nav-link w--nav-link-open block px-4 py-2"
-            >
-              Delivery
-            </NavLink>
-            <NavLink to="/about" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
-              About
-            </NavLink>
-            <NavLink
-              to="/contacts"
-              className="nav-link w-nav-link w--nav-link-open block px-4 py-2"
-            >
-              Contacts
-            </NavLink>
-            <NavLink to="/cart" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
-              Cart
-            </NavLink>
-            {/* {user ? (
-              <>
-                <span className="nav-link w-nav-link w--nav-link-open block px-4 py-2">Welcome, {user.name}</span>
-                <button onClick={handleLogout} className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <NavLink to="/login" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
-                  Login
+          <div className="absolute top-full left-0 right-0 bg-base-200 shadow-lg md:hidden z-50">
+            <ul className="menu w-full">
+              <li>
+                <NavLink
+                  to="/shop"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  Shop
                 </NavLink>
-                <NavLink to="/signup" className="nav-link w-nav-link w--nav-link-open block px-4 py-2">
-                  Sign Up
+              </li>
+              <li>
+                <NavLink
+                  to="/delivery"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  Delivery
                 </NavLink>
-              </>
-            )} */}
-          </nav>
+              </li>
+              <li>
+                <NavLink
+                  to="/about"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  About
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/contacts"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  Contacts
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/cart"
+                  onClick={toggleMobileMenu}
+                  className="w-full py-3 px-4 hover:bg-base-300"
+                >
+                  Cart
+                </NavLink>
+              </li>
+              {/* {user ? (
+                <>
+                  <li>
+                    <span className="w-full py-3 px-4">Welcome, {user.name}</span>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout} className="w-full py-3 px-4 hover:bg-base-300">
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <NavLink to="/login" onClick={toggleMobileMenu} className="w-full py-3 px-4 hover:bg-base-300">
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/signup" onClick={toggleMobileMenu} className="w-full py-3 px-4 hover:bg-base-300">
+                      Sign Up
+                    </NavLink>
+                  </li>
+                </>
+              )} */}
+            </ul>
+          </div>
         )}
       </nav>
     </header>
