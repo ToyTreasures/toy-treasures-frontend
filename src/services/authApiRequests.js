@@ -65,8 +65,6 @@ const register = async (user) => {
 const login = async (user) => {
   try {
     const res = await api.post("/login", user);
-    localStorage.setItem("accessToken", res.data.accessToken);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
     return res.data;
   } catch (error) {
     throw error.response.data;
