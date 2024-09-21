@@ -8,7 +8,7 @@ const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string().min(8).required("Password is required"),
 });
 
 const Login = () => {
@@ -62,11 +62,15 @@ const Login = () => {
               )}
 
               <div className="space-y-2">
+                <label htmlFor="email" className="ml-4 font-semibold">
+                  Email
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     type="text"
                     name="email"
-                    placeholder="Email"
+                    id="email"
+                    placeholder="Enter your email address"
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
@@ -78,11 +82,15 @@ const Login = () => {
               </div>
 
               <div className="space-y-2">
+                <label htmlFor="password" className="ml-4 font-semibold">
+                  Password
+                </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
                   <Field
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    id="password"
+                    placeholder="Enter your password"
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
