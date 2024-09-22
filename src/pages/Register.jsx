@@ -34,9 +34,9 @@ const Register = () => {
   };
 
   return (
-    <div className=" flex flex-col md:flex-row w-full max-w-6xl mx-auto justify-around gap-4 md:gap-10 my-4 p-4">
-      <div className="w-full md:w-1/2 p-2 md:p-4 rounded-lg">
-        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-4">
+    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto justify-around gap-4 md:gap-10 my-4 md:my-10  p-4 md:p-8">
+      <div className="w-full md:w-1/2 p-4 md:p-8 rounded-lg shadow-2xl">
+        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6 ">
           Create Account
         </h1>
         <Formik
