@@ -1,6 +1,6 @@
 import React from "react";
-import { Play } from "lucide-react";
 import BackgroundImage from "../../assets/story-bg.jpg";
+import { IoIosPlay } from "react-icons/io";
 
 const Story = () => {
   return (
@@ -19,8 +19,8 @@ const Story = () => {
             including ad placement, demographic, even the consumer's mood.
           </p>
         </div>
-        <button className="flex items-center justify-center w-16 h-16 rounded-full bg-[--primary-color] transition-transform duration-300 ease-in-out transform hover:scale-110">
-          <Play size={24} />
+        <button className="flex items-center justify-center w-16 h-16  rounded-full bg-[--primary-color] transition-transform duration-300 ease-in-out transform hover:scale-110">
+          <IoIosPlay className="ms-1" size={32} />
         </button>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Send } from "lucide-react";
+import { IoIosSend } from "react-icons/io";
 
 const Subscribe = () => {
   return (
@@ -7,7 +7,7 @@ const Subscribe = () => {
       <div className="w-4/5 bg-white rounded-2xl shadow-sm py-8 px-6 lg:py-16 lg:px-12 flex flex-col lg:flex-row  justify-between items-center space-y-6 lg:space-y-0">
         <div className="flex flex-col md:flex-row items-center md:flex-1 md:pr-4 space-y-4 md:space-y-0 md:space-x-6">
           <div className="bg-[--primary-color] rounded-full p-5">
-            <Send className="text-white" />
+            <IoIosSend className="text-white" size={32} />
           </div>
           <div className="text-center md:text-left">
             <h4 className="text-xl md:text-2xl font-semibold">Subscribe to our newsletter & </h4>
