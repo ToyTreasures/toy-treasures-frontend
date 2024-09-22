@@ -32,11 +32,9 @@ const Login = () => {
       resetForm();
     } catch (error) {
       console.error("Login error:", error);
-      if (error.error) {
-        setLoginError(error.error);
-      } else {
-        setLoginError("An unexpected error occurred. Please try again.");
-      }
+      setLoginError(
+        error.error || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -97,14 +95,15 @@ const Login = () => {
                 </div>
                 <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
               </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-lime-500 transition-colors"
-              >
-                {isSubmitting ? "Logging in..." : "Login"}
-              </button>
+              <div className="flex justify-center ">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-lime-500 transition-colors"
+                >
+                  {isSubmitting ? "Logging in..." : "Login"}
+                </button>
+              </div>
             </Form>
           )}
         </Formik>
