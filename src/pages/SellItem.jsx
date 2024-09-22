@@ -40,18 +40,16 @@ const SellItem = () => {
       navigate("/");
     } catch (error) {
       console.error("Submission error:", error);
-      if (error.error) {
-        setSubmitError(error.error);
-      } else {
-        setSubmitError("An unexpected error occurred. Please try again.");
-      }
+      setSubmitError(
+        error.error || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-10 p-4 md:p-8">
+    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-2 p-4 md:p-4">
       <div className="w-full md:w-1/2 p-4 md:p-8 ">
         <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
           Sell Your Item
@@ -68,7 +66,6 @@ const SellItem = () => {
                   className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
                   role="alert"
                 >
-                  <strong className="font-bold">Error: </strong>
                   <span className="block sm:inline">{submitError}</span>
                 </div>
               )}

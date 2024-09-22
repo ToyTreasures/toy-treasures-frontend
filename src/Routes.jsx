@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
 import ContactUs from "./pages/ContactUs";
+import SellerContacts from "./pages/SellerContacts";
 
 const AppRoutes = () => {
   return (
@@ -87,11 +88,11 @@ const AppRoutes = () => {
             }
           />
           <Route
-            path="/contacts"
+            path="/sellers/:id"
             element={
               <>
                 <Navbar />
-                <ContactUs />
+                <SellerContacts />
                 <Footer />
               </>
             }
