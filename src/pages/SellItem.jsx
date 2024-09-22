@@ -1,19 +1,8 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests"; // Assuming you have a service to handle API calls
-
-const SellItemSchema = Yup.object().shape({
-  name: Yup.string().required("Item Name is required"),
-  description: Yup.string().required("Description is required"),
-  price: Yup.number()
-    .typeError("Price must be a number")
-    .positive("Price must be a positive number")
-    .required("Price is required"),
-  condition: Yup.string().required("Condition is required"),
-  isAvailableForSwap: Yup.boolean(),
-});
+import itemApiRequests from "../services/itemApiRequests";
+import { SellItemSchema } from "../utils/validatoin/itemValidation";
 
 const SellItem = () => {
   const [submitError, setSubmitError] = useState("");
@@ -23,9 +12,9 @@ const SellItem = () => {
     name: "",
     description: "",
     price: "",
+    image: null,
     condition: "",
     isAvailableForSwap: false,
-    address: "",
   };
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -36,7 +25,15 @@ const SellItem = () => {
         return;
       }
 
-      const response = await itemApiRequests.createItem(values);
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("description", values.description);
+      formData.append("price", values.price);
+      formData.append("condition", values.condition);
+      formData.append("isAvailableForSwap", values.isAvailableForSwap);
+      formData.append("thumbnail", values.image);
+
+      const response = await itemApiRequests.createItem(formData);
       setSubmitError("");
       console.log("Item added successfully:", response);
       resetForm();
@@ -64,7 +61,7 @@ const SellItem = () => {
           validationSchema={SellItemSchema}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, setFieldValue }) => (
             <Form className="space-y-4">
               {submitError && (
                 <div
@@ -133,6 +130,29 @@ const SellItem = () => {
                 </div>
                 <ErrorMessage
                   name="price"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="image" className="ml-4 font-semibold">
+                  Image
+                </label>
+                <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept=".jpg,.jpeg,.png"
+                    className="grow bg-transparent outline-none w-full"
+                    onChange={(event) => {
+                      setFieldValue("image", event.currentTarget.files[0]);
+                    }}
+                  />
+                </div>
+                <ErrorMessage
+                  name="image"
                   component="div"
                   className="text-red-500 text-sm"
                 />
