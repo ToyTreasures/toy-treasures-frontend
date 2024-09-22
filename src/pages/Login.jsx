@@ -7,9 +7,7 @@ import localStorageServices from "../services/localStorageServices";
 import { useUserContext } from "../contexts/UserContext";
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
+  email: Yup.string().email("Invalid email format").required("Email is required"),
   password: Yup.string().min(8).required("Password is required"),
 });
 
@@ -81,11 +79,7 @@ const Login = () => {
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
               </div>
 
               <div className="space-y-2">
@@ -101,11 +95,7 @@ const Login = () => {
                     className="grow bg-transparent outline-none w-full"
                   />
                 </div>
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
               </div>
 
               <button
