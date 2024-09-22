@@ -42,7 +42,7 @@ const ItemCard = ({ item }) => {
         <div className="text-white bg-[--primary-color]  rounded-full text-sm p-1 mx-auto w-2/5 text-center">
           ${item.price.toFixed(2)} USD
         </div>
-        <button className="bg-[#a4c13b] my-3 w-full h-12 border-none rounded-none flex items-center justify-center gap-2 text-white font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group">
+        <button className="bg-[--primary-color] my-3 w-full h-12 border-none rounded-full flex items-center justify-center gap-2 text-white font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group">
           <svg
             className="w-5 h-5 fill-white z-10 transition-transform duration-300 ease-in-out group-hover:animate-slide-left"
             viewBox="0 0 576 512"

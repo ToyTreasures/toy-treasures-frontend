@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
+import ContactUs from "./pages/ContactUs";
 import SellerContacts from "./pages/SellerContacts";
 import ProtectedRoute from "./components/ProtectedRoute";
 
