@@ -3,9 +3,6 @@ import authApiRequests from "./authApiRequests";
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api/v1/items",
-  headers: {
-    "Content-Type": "application/json",
-  },
   withCredentials: true,
 });
 
