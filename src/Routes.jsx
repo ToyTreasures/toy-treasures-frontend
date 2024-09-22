@@ -97,6 +97,16 @@ const AppRoutes = () => {
               </>
             }
           />
+          <Route
+            path="/contacts"
+            element={
+              <>
+                <Navbar />
+                <ContactUs />
+                <Footer />
+              </>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
