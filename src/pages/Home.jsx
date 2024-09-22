@@ -3,6 +3,7 @@ import Business from "../Layouts/HomeLayouts/Business";
 import HeroSection from "../Layouts/HomeLayouts/HeroSection";
 import Story from "../Layouts/HomeLayouts/Story";
 import StuffedAnimals from "../Layouts/HomeLayouts/StuffedAnimals";
+import Subscripe from "../Layouts/HomeLayouts/Subscripe";
 import ToysTypeSection from "../Layouts/HomeLayouts/ToysTypeSection";
 import WoodenToys from "../Layouts/HomeLayouts/WoodenToys";
 
@@ -16,6 +17,7 @@ const Home = () => {
       <WoodenToys />
       <Story />
       <Business />
+      <Subscripe />
     </div>
   );
 };
