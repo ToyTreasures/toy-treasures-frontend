@@ -45,7 +45,7 @@ const Login = () => {
   return user ? (
     <Navigate to="/" replace />
   ) : (
-    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-10 p-4 md:p-8">
+    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-4 p-4 md:p-4">
       <div className="w-full md:w-1/2 p-4 md:p-8 rounded-lg">
         <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
           Login
@@ -105,14 +105,15 @@ const Login = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-lime-500 transition-colors"
-              >
-                {isSubmitting ? "Logging in..." : "Login"}
-              </button>
+              <div className="flex justify-center ">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-lime-500 transition-colors"
+                >
+                  {isSubmitting ? "Logging in..." : "Login"}
+                </button>
+              </div>
             </Form>
           )}
         </Formik>

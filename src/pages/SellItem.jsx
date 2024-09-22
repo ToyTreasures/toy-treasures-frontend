@@ -49,7 +49,7 @@ const SellItem = () => {
   };
 
   return (
-    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-10 p-4 md:p-8">
+    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-2 p-4 md:p-4">
       <div className="w-full md:w-1/2 p-4 md:p-8 ">
         <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
           Sell Your Item
