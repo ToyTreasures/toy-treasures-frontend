@@ -17,12 +17,8 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (id) => {
-  try {
     const res = await api.get(`/${id}`);
     return res.data;
-  } catch (error) {
-    console.log("Get user by id error", error);
-  }
 };
 
 const updateUser = async (id, data) => {
