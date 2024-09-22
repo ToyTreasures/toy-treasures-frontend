@@ -19,14 +19,7 @@ const Story = () => {
             including ad placement, demographic, even the consumer's mood.
           </p>
         </div>
-        <button
-          className="flex items-center justify-center w-16 h-16 rounded-full bg-[--primary-color] transition-transform duration-300 ease-in-out transform hover:scale-110"
-          onClick={(e) => {
-            e.preventDefault();
-            console.log("Open video lightbox");
-          }}
-          aria-label="Watch video"
-        >
+        <button className="flex items-center justify-center w-16 h-16 rounded-full bg-[--primary-color] transition-transform duration-300 ease-in-out transform hover:scale-110">
           <Play size={24} />
         </button>
       </div>
