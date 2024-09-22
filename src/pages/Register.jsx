@@ -25,12 +25,9 @@ const Register = () => {
       navigate("/login");
       resetForm();
     } catch (error) {
-      console.error("Registration error:", error);
-      if (error.error) {
-        setRegisterError(error.error);
-      } else {
-        setRegisterError("An unexpected error occurred. Please try again.");
-      }
+      setRegisterError(
+        error.error || "An unexpected error occurred. Please try again later."
+      );
     } finally {
       setSubmitting(false);
     }

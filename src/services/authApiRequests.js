@@ -24,6 +24,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (
+      error.response &&
       error.response.status === 401 &&
       error.response.data.error ===
         "Your token has expired, please log in again" &&
@@ -49,38 +50,33 @@ api.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-    return Promise.reject(error);
+
+    if (!error.response) {
+      console.error("Network error: ", error.message);
+      return Promise.reject({
+        error: "Server is currently unavailable. Please try again later.",
+      });
+    }
+
+    return Promise.reject(error.response.data);
   }
 );
 
 const register = async (user) => {
-  try {
-    const res = await api.post("/register", user);
-    return res.data;
-  } catch (error) {
-    throw error.response.data;
-  }
+  const res = await api.post("/register", user);
+  return res.data;
 };
 
 const login = async (user) => {
-  try {
-    const res = await api.post("/login", user);
-    return res.data;
-  } catch (error) {
-    throw error.response.data;
-  }
+  const res = await api.post("/login", user);
+  return res.data;
 };
 
 const logout = async () => {
-  try {
-    const res = await api.post("/logout");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("user");
-    return res.data;
-  } catch (error) {
-    console.log("Logout error:", error);
-    throw error;
-  }
+  const res = await api.post("/logout");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user");
+  return res.data;
 };
 
 const refreshAccessToken = async () => {

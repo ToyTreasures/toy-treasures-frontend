@@ -40,11 +40,9 @@ const SellItem = () => {
       navigate("/");
     } catch (error) {
       console.error("Submission error:", error);
-      if (error.error) {
-        setSubmitError(error.error);
-      } else {
-        setSubmitError("An unexpected error occurred. Please try again.");
-      }
+      setSubmitError(
+        error.error || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -68,7 +66,6 @@ const SellItem = () => {
                   className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
                   role="alert"
                 >
-                  <strong className="font-bold">Error: </strong>
                   <span className="block sm:inline">{submitError}</span>
                 </div>
               )}

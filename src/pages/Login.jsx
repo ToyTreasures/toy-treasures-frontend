@@ -34,11 +34,9 @@ const Login = () => {
       resetForm();
     } catch (error) {
       console.error("Login error:", error);
-      if (error.error) {
-        setLoginError(error.error);
-      } else {
-        setLoginError("An unexpected error occurred. Please try again.");
-      }
+      setLoginError(
+        error.error || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
