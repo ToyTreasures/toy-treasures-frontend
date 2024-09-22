@@ -1,7 +1,7 @@
 import React from "react";
 import businessImage from "../../assets/business-img.jpeg";
 
-const Business = () => {
+const BusinessSection = () => {
   return (
     <section className="flex flex-col justify-center items-center my-28 w-4/5 mx-auto">
       <div className="flex flex-col justify-center items-center w-full max-w-[1200px] bg-transparent">
@@ -39,4 +39,4 @@ const Business = () => {
   );
 };
 
-export default Business;
+export default BusinessSection;

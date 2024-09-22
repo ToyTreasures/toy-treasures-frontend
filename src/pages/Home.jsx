@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import Business from "../Layouts/HomeLayouts/Business";
+import BusinessSection from "../Layouts/HomeLayouts/BusinessSection";
 import HeroSection from "../Layouts/HomeLayouts/HeroSection";
 import Story from "../Layouts/HomeLayouts/Story";
 import StuffedAnimals from "../Layouts/HomeLayouts/StuffedAnimals";
@@ -16,7 +16,7 @@ const Home = () => {
       <StuffedAnimals />
       <WoodenToys />
       <Story />
-      <Business />
+      <BusinessSection />
       <Subscripe />
     </div>
   );
