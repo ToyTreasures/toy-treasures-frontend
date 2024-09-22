@@ -1,12 +1,42 @@
-import React from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const ItemCard = ({ item }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, [item.image]);
+
+  useEffect(() => {
+    if (imgRef.current) {
+      imgRef.current.onload = handleImageLoad;
+    }
+    return () => {
+      if (imgRef.current) {
+        imgRef.current.onload = null;
+      }
+    };
+  }, [item.image, handleImageLoad]);
+
   return (
     <div className="transform transition-all duration-300 hover:scale-105 bg-white mt-14 rounded-2xl p-4 ">
       <Link to={`/item/${item.name}`} className="flex flex-col items-center gap-2 ">
-        <div className="mb-4 p-10">
-          <img src={item.image} alt={item.name} className="w-full h-auto" />
+        <div className="mb-4 p-10 relative w-full aspect-square">
+          {!imageLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[--primary-color]"></div>
+            </div>
+          )}
+          <img
+            src={item.image}
+            alt={item.name}
+            className={`w-full h-full object-cover transition-opacity duration-300 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            onLoad={() => setImageLoaded(true)}
+          />
         </div>
         <h6 className="text-lg font-semibold mb-2">{item.name}</h6>
         <div className="text-white bg-[--primary-color]  rounded-full text-sm p-1 mx-auto w-2/5 text-center">
