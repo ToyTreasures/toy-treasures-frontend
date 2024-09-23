@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
 import ContactUs from "./pages/ContactUs";
 import SellerContacts from "./pages/SellerContacts";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -73,7 +72,7 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <ProtectedRoute element={<Login />} isRequiredToLogIn={false} />
+                <Login />
                 <Footer />
               </>
             }
@@ -93,10 +92,17 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <ProtectedRoute
-                  element={<SellerContacts />}
-                  isRequiredToLogIn={true}
-                />
+                <SellerContacts />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <>
+                <Navbar />
+                <ContactUs />
                 <Footer />
               </>
             }
