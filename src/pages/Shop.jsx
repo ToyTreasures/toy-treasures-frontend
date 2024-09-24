@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import itemApiRequests from "../services/itemApiRequests";
-import ItemCard from "../Layouts/itemCard";
+import ItemCard from "../components/ItemCard";
 
 const Shop = () => {
   const [items, setItems] = useState([]);

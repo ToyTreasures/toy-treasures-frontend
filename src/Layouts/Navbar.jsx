@@ -103,8 +103,8 @@ const Navbar = () => {
             <NavLink to="/about" className="nav-link hover:underline">
               About
             </NavLink>
-            <NavLink to="/contacts" className="nav-link hover:underline">
-              Contacts
+            <NavLink to="/contact-us" className="nav-link hover:underline">
+              Contact Us
             </NavLink>
           </div>
 
@@ -238,11 +238,11 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/contacts"
+                  to="/contact-us"
                   onClick={toggleMobileMenu}
                   className="w-full py-3 px-4 hover:bg-base-300"
                 >
-                  Contacts
+                  Contact Us
                 </NavLink>
               </li>
               <li>
