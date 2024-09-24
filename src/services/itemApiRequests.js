@@ -61,7 +61,7 @@ api.interceptors.response.use(
 
 const getAllItems = async (queryParams = "") => {
   const res = await api.get("/" + queryParams);
-  return res.data.items;
+  return res.data;
 };
 
 const getItemById = async (id) => {
