@@ -24,7 +24,7 @@ const ProfilePage = () => {
                 aria-label="Account pages"
               >
                 {[
-                  { to: "/my-account/dashboard", label: "Dashboard" },
+                  { to: "/my-account/", label: "Dashboard" },
                   { to: "/my-account/user-items", label: "My Items" },
                   { to: "/my-account/swap-requests", label: "Swap Requests" },
                   {
@@ -36,6 +36,7 @@ const ProfilePage = () => {
                   <div key={index} className="mb-4 md:w-full">
                     <NavLink
                       to={item.to}
+                      end
                       className={({ isActive }) =>
                         `md:block py-2 px-4 font-bold rounded transition duration-150 ease-in-out bg-[--primary-color] hover:bg-[--secondary-color] hover:bg-gray-200 hover:text-[--secondary-color] ${
                           isActive ? "bg-gray-200" : ""

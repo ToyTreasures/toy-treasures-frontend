@@ -124,7 +124,7 @@ const AccountDetails = () => {
                 className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
                 onChange={(e) => {
                   setFieldValue("password", e.target.value);
-                  e.target.value !== initialValues.password && isValid
+                  e.target.value !== initialValues.password
                     ? setIsFormModified(true)
                     : setIsFormModified(false);
                 }}
@@ -150,7 +150,7 @@ const AccountDetails = () => {
                   className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
                   onChange={(e) => {
                     setFieldValue("phoneNumber", e.target.value);
-                    e.target.value !== initialValues.phoneNumber && isValid
+                    e.target.value !== initialValues.phoneNumber
                       ? setIsFormModified(true)
                       : setIsFormModified(false);
                   }}
@@ -176,7 +176,7 @@ const AccountDetails = () => {
                   className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
                   onChange={(e) => {
                     setFieldValue("address", e.target.value);
-                    e.target.value !== initialValues.address && isValid
+                    e.target.value !== initialValues.address
                       ? setIsFormModified(true)
                       : setIsFormModified(false);
                   }}

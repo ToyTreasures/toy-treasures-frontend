@@ -47,7 +47,7 @@ const AppRoutes = () => {
               </>
             }
           >
-            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="" element={<UserDashboard />} />
             <Route path="user-items" element={<UserItems />} />
             <Route path="swap-requests" element={<SwapRequests />} />
             <Route path="edit-account" element={<AccountDetails />} />
