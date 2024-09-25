@@ -3,7 +3,7 @@ import AppRoutes from "./Routes";
 import { useUserContext } from "./contexts/UserContext";
 
 function App() {
-  const { setUser } = useUserContext();
+  const { setUser, setUserContextLoading } = useUserContext();
 
   useEffect(() => {
     const checkLoggedInUser = () => {
@@ -13,6 +13,7 @@ function App() {
       }
     };
     checkLoggedInUser();
+    setUserContextLoading(false);
   }, []);
 
   return (

@@ -1,19 +1,8 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests"; // Assuming you have a service to handle API calls
-
-const SellItemSchema = Yup.object().shape({
-  name: Yup.string().required("Item Name is required"),
-  description: Yup.string().required("Description is required"),
-  price: Yup.number()
-    .typeError("Price must be a number")
-    .positive("Price must be a positive number")
-    .required("Price is required"),
-  condition: Yup.string().required("Condition is required"),
-  isAvailableForSwap: Yup.boolean(),
-});
+import itemApiRequests from "../services/itemApiRequests";
+import { SellItemSchema } from "../utils/validatoin/itemValidation";
 
 const SellItem = () => {
   const [submitError, setSubmitError] = useState("");
@@ -23,9 +12,9 @@ const SellItem = () => {
     name: "",
     description: "",
     price: "",
+    image: null,
     condition: "",
     isAvailableForSwap: false,
-    address: "",
   };
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -36,25 +25,31 @@ const SellItem = () => {
         return;
       }
 
-      const response = await itemApiRequests.createItem(values);
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("description", values.description);
+      formData.append("price", values.price);
+      formData.append("condition", values.condition);
+      formData.append("isAvailableForSwap", values.isAvailableForSwap);
+      formData.append("thumbnail", values.image);
+
+      const response = await itemApiRequests.createItem(formData);
       setSubmitError("");
       console.log("Item added successfully:", response);
       resetForm();
       navigate("/");
     } catch (error) {
       console.error("Submission error:", error);
-      if (error.error) {
-        setSubmitError(error.error);
-      } else {
-        setSubmitError("An unexpected error occurred. Please try again.");
-      }
+      setSubmitError(
+        error.error || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-10 p-4 md:p-8">
+    <div className="flex w-full max-w-6xl mx-auto justify-center my-4 md:my-2 p-4 md:p-4">
       <div className="w-full md:w-1/2 p-4 md:p-8 ">
         <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
           Sell Your Item
@@ -64,14 +59,13 @@ const SellItem = () => {
           validationSchema={SellItemSchema}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, setFieldValue }) => (
             <Form className="space-y-4">
               {submitError && (
                 <div
                   className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
                   role="alert"
                 >
-                  <strong className="font-bold">Error: </strong>
                   <span className="block sm:inline">{submitError}</span>
                 </div>
               )}
@@ -133,6 +127,29 @@ const SellItem = () => {
                 </div>
                 <ErrorMessage
                   name="price"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="image" className="ml-4 font-semibold">
+                  Image
+                </label>
+                <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept=".jpg,.jpeg,.png"
+                    className="grow bg-transparent outline-none w-full"
+                    onChange={(event) => {
+                      setFieldValue("image", event.currentTarget.files[0]);
+                    }}
+                  />
+                </div>
+                <ErrorMessage
+                  name="image"
                   component="div"
                   className="text-red-500 text-sm"
                 />

@@ -10,11 +10,19 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
+import ContactUs from "./pages/ContactUs";
+import SellerContacts from "./pages/SellerContacts";
+import ProtectedRoute from "./components/ProtectedRoute";
+import UserDashboard from "./Layouts/Profile/UserDashboard";
+import AccountDetails from "./Layouts/Profile/AccountDetails";
+import UserItems from "./Layouts/Profile/UserItems";
+import SwapRequests from "./Layouts/Profile/SwapRequests";
+import Wishlist from "./Layouts/Profile/Wishlist";
 
 const AppRoutes = () => {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen justify-between">
         <Routes>
           <Route
             path="/"
@@ -42,16 +50,6 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <Shop />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <>
-                <Navbar />
-                <About />
                 <Footer />
               </>
             }

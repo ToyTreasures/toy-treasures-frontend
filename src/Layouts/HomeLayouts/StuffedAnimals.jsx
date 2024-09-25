@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ItemCard from "../itemCard";
+import ItemCard from "../../components/ItemCard";
 
 const StuffedAnimals = () => {
   const items = [
@@ -35,9 +35,9 @@ const StuffedAnimals = () => {
 
   return (
     <div className="py-12">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-8">
-          <h3 className="text-[28px] text-black">Stuffed Animals</h3>
+      <div className="w-full lg:max-w-6xl mx-auto px-4 sm:w-4/5">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+          <h3 className="text-[28px] text-black mb-4 sm:mb-0">Stuffed Animals</h3>
           <Link
             to="/shop"
             className="py-2 border-b-2 border-gray-300 transition-colors duration-300 ease-in-out text-gray-900 text-sm font-semibold no-underline hover:border-lime-500 flex items-center gap-1"
@@ -60,7 +60,7 @@ const StuffedAnimals = () => {
         <div className="w-full h-0.5 mt-8 bg-gray-200 relative">
           <div className="w-[136px] h-full bg-lime-500 absolute top-0 left-0"></div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 ">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mt-8">
           {items.map((item) => (
             <ItemCard key={item.id} item={item} />
           ))}

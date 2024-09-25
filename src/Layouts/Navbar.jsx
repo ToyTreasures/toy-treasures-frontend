@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   FaFacebook,
@@ -10,25 +10,23 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
-// import { useContext, useEffect } from "react";
-import logo from "../assets/logo.png";
+import { useUserContext } from "../contexts/UserContext";
+import localStorageServices from "../services/localStorageServices";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUserContext();
 
-  // useEffect(() => {
-  //   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  //   if (loggedInUser) {
-  //     setUser({ ...loggedInUser });
-  //   }
-  // }, [setUser]);
+  useEffect(() => {
+    setLoading(false);
+  });
 
-  // const handleLogout = () => {
-  //   setUser(null);
-  //   localStorage.removeItem("loggedInUser");
-  // };
+  const handleLogout = () => {
+    setUser(null);
+    localStorageServices.logout();
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -105,24 +103,43 @@ const Navbar = () => {
             <NavLink to="/about" className="nav-link hover:underline">
               About
             </NavLink>
-            <NavLink to="/contacts" className="nav-link hover:underline">
-              Contacts
+            <NavLink to="/contact-us" className="nav-link hover:underline">
+              Contact Us
             </NavLink>
           </div>
 
           <div className="flex items-center space-x-2">
-            <NavLink
-              to="/login"
-              className="nav-link hover:underline hidden md:inline-flex"
-            >
-              Login
-            </NavLink>
-            <NavLink
-              to="/register"
-              className="nav-link hover:underline hidden md:inline-flex"
-            >
-              Register
-            </NavLink>
+            {loading ? (
+              <span className="loading loading-bars loading-md"></span>
+            ) : !user ? (
+              <>
+                <NavLink
+                  to="/login"
+                  className="nav-link hover:underline hidden md:inline-flex"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className="nav-link hover:underline hidden md:inline-flex"
+                >
+                  Register
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <span className="hidden md:inline text-[var(--primary-color)]">
+                  Welcome, {user.name}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="nav-link hover:underline hidden md:inline-flex"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+
             <NavLink
               to="/cart"
               className="flex items-center relative p-2 rounded-md"
@@ -138,23 +155,6 @@ const Navbar = () => {
               </div>
               <FaShoppingCart className="text-xl" />
             </NavLink>
-            {/* {user ? (
-              <>
-                <span className="hidden md:inline">Welcome, {user.name}</span>
-                <button onClick={handleLogout} className="btn btn-secondary">
-                  Logout
-                  </button>
-              </>
-            ) : (
-              <>
-                <NavLink to="/login" className="btn btn-primary hidden md:inline-flex">
-                Login
-                </NavLink>
-                <NavLink to="/signup" className="btn btn-secondary hidden md:inline-flex">
-                  Sign Up
-                </NavLink>
-              </>
-            )} */}
             <div className="md:hidden">
               <button
                 onClick={toggleMobileMenu}
@@ -167,26 +167,48 @@ const Navbar = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
+          <div className="flex flex-col pt-4 absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
+            {user && (
+              <span className="text-[var(--primary-color)]">
+                Welcome, {user.name}
+              </span>
+            )}
             <ul className="menu w-full">
-              <li>
-                <NavLink
-                  to="/register"
-                  onClick={toggleMobileMenu}
-                  className="w-full py-3 px-4 hover:bg-base-300"
-                >
-                  Register
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/login"
-                  onClick={toggleMobileMenu}
-                  className="w-full py-3 px-4 hover:bg-base-300"
-                >
-                  Login
-                </NavLink>
-              </li>
+              {user ? (
+                <li>
+                  <button
+                    onClick={() => {
+                      toggleMobileMenu();
+                      handleLogout();
+                    }}
+                    className="w-full py-3 px-4 hover:bg-base-300"
+                  >
+                    Logout
+                  </button>
+                </li>
+              ) : (
+                <>
+                  {" "}
+                  <li>
+                    <NavLink
+                      to="/register"
+                      onClick={toggleMobileMenu}
+                      className="w-full py-3 px-4 hover:bg-base-300"
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/login"
+                      onClick={toggleMobileMenu}
+                      className="w-full py-3 px-4 hover:bg-base-300"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              )}
               <li>
                 <NavLink
                   to="/shop"
@@ -216,11 +238,11 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/contacts"
+                  to="/contact-us"
                   onClick={toggleMobileMenu}
                   className="w-full py-3 px-4 hover:bg-base-300"
                 >
-                  Contacts
+                  Contact Us
                 </NavLink>
               </li>
               <li>

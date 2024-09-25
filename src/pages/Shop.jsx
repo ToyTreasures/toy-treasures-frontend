@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
-import itemApiRequestss from "../services/itemApiRequests";
 import { useNavigate, useLocation } from "react-router-dom";
+import itemApiRequests from "../services/itemApiRequests";
+import ItemCard from "../components/ItemCard";
 
 const Shop = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  //pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 6;
   // Filter states
   const [search, setSearch] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -40,10 +44,30 @@ const Shop = () => {
     setLoading(true);
     setError("");
     try {
-      const fetchedItems = await itemApiRequestss.getAllItems(queryParams);
-      setItems(fetchedItems);
+      const response = await itemApiRequests.getAllItems(queryParams);
+      console.log("response", response);
+
+      if (response && response.items && response.items.length > 0) {
+        console.log("response", response);
+        setItems(response.items);
+        setTotalPages(
+          Math.ceil(response.paginationMetaData.itemsNumber / itemsPerPage)
+        );
+        console.log("total pages", totalPages);
+        console.log(
+          "response.paginationMetaData.itemsNumber",
+          response.paginationMetaData.itemsNumber
+        );
+        console.log("momooooooo", itemsPerPage);
+      } else {
+        setItems([]);
+        setTotalPages(1);
+      }
     } catch (err) {
-      setError("Failed to fetch items.");
+      console.error("Error fetching items:", err);
+      setError("Failed to fetch items: " + (err.message || "Unknown error"));
+      setItems([]);
+      setTotalPages(1);
     }
     setLoading(false);
   };
@@ -63,17 +87,17 @@ const Shop = () => {
     if (address) filters.push(`address-${address}`);
 
     return filters;
-  }
+  };
 
   const updateFilters = () => {
     const filters = getCurrentFilters();
 
     const queryParams =
       search || filters.length
-        ? `?${search && `search=${search}`}${
-            filters.length ? `&filters=${filters.join("--")}` : ""
-          }`
-        : "";
+        ? `?${search ? `search=${search}&` : ""}${
+            filters.length ? `filters=${filters.join("--")}&` : ""
+          }page=${currentPage}&limit=${itemsPerPage}`
+        : `?page=${currentPage}&limit=${itemsPerPage}`;
 
     navigate(`${location.pathname}${queryParams}`, { replace: true });
 
@@ -81,205 +105,241 @@ const Shop = () => {
   };
 
   const handleSearch = () => {
-    if (search) {
-      const queryParams = `?search=${search}`;
-      navigate(`${location.pathname}${queryParams}`, { replace: true });
-
-      fetchFilteredItems(queryParams);
-    }
+    setCurrentPage(1);
+    updateFilters();
   };
 
   const resetFilters = () => {
-    if (
-      search ||
-      minPrice ||
-      maxPrice ||
-      buy ||
-      swap ||
-      conditions.new ||
-      conditions.gentle ||
-      conditions.used ||
-      address
-    ) {
-      setSearch("");
-      setMinPrice("");
-      setMaxPrice("");
-      setBuy(false);
-      setSwap(false);
-      setConditions({ new: false, gentle: false, used: false });
-      setAddress("");
-      navigate(location.pathname, { replace: true });
-    }
+    setSearch("");
+    setMinPrice("");
+    setMaxPrice("");
+    setBuy(false);
+    setSwap(false);
+    setConditions({ new: false, gentle: false, used: false });
+    setAddress("");
+    setCurrentPage(1);
+    navigate(location.pathname, { replace: true });
+    updateFilters();
   };
 
   useEffect(() => {
     updateFilters();
-  }, [minPrice, maxPrice, buy, swap, conditions, address]);
+  }, [currentPage]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+    updateFilters();
+  }, [minPrice, maxPrice, buy, swap, conditions, address, search]);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
-    <div className="shop-page p-6 flex">
-      <div className="filters w-1/5 p-4 bg-gray-100">
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="input input-bordered w-full"
-          />
-          <button
-            className="btn btn-primary w-full mt-2"
-            onClick={handleSearch}
-          >
-            Search
-          </button>
-        </div>
-
-        <div className="flex mb-4 gap-4">
-          <div>
-            <input
-              className="cursor-pointer"
-              id="buy"
-              type="checkbox"
-              checked={buy}
-              onChange={(e) => {
-                setBuy(e.target.checked);
-                updateFilters();
-              }}
-            />
-            <label className="ml-2 cursor-pointer" htmlFor="buy">
-              Buy
-            </label>
-          </div>
-
-          <div>
-            <input
-              className="cursor-pointer"
-              id="swap"
-              type="checkbox"
-              checked={swap}
-              onChange={(e) => {
-                setSwap(e.target.checked);
-                updateFilters();
-              }}
-            />
-            <label htmlFor="swap" className="ml-2 cursor-pointer">
-              Swap
-            </label>
-          </div>
-        </div>
-
-        <div className="flex gap-4 mb-4">
-          <input
-            type="number"
-            placeholder="Min Price"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="input input-bordered w-full"
-          />
-          <input
-            type="number"
-            placeholder="Max Price"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="input input-bordered w-full"
-          />
-        </div>
-
-        <div className="mb-4">
-          <div>
-            <input
-              className="cursor-pointer"
-              id="new"
-              type="checkbox"
-              checked={conditions.new}
-              onChange={(e) => {
-                setConditions({ ...conditions, new: e.target.checked });
-                updateFilters();
-              }}
-            />
-            <label htmlFor="new" className="ml-2 cursor-pointer">
-              New
-            </label>
-          </div>
-
-          <div>
-            <input
-              className="cursor-pointer"
-              id="gentle"
-              type="checkbox"
-              checked={conditions.gentle}
-              onChange={(e) => {
-                setConditions({ ...conditions, gentle: e.target.checked });
-                updateFilters();
-              }}
-            />
-            <label htmlFor="gentle" className="ml-2 cursor-pointer">
-              Gentle
-            </label>
-          </div>
-
-          <div>
-            <input
-              className="cursor-pointer"
-              id="used"
-              type="checkbox"
-              checked={conditions.used}
-              onChange={(e) => {
-                setConditions({ ...conditions, used: e.target.checked });
-                updateFilters();
-              }}
-            />
-            <label htmlFor="used" className="ml-2 cursor-pointer">
-              Used
-            </label>
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <select
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="select select-bordered w-full"
-          >
-            <option value="">Select Governorate</option>
-            {governorates.map((gov, index) => (
-              <option key={index} value={gov}>
-                {gov}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button className="btn btn-secondary w-full" onClick={resetFilters}>
-          Reset Filters
-        </button>
-      </div>
-
-      <div className="items-grid w-4/5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : (
-          items.map((item) => (
-            <div key={item._id} className="card shadow-lg p-4">
-              <h2 className="text-xl font-bold">{item.name}</h2>
-              <p>{item.description}</p>
-              <p
-                className={
-                  item.isAvailableForSwap ? "text-success" : "text-error"
-                }
+    <div className="shop-page p-6 bg-gray-100">
+      <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="filters w-full h-max mt-14 md:w-1/4 bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-3">Filters</h2>
+            <div className="mb-3">
+              <input
+                type="text"
+                placeholder="Search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="border border-gray-300 rounded-md w-full p-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-150 ease-in-out"
+              />
+              <button
+                className="mt-2 btn text-white bg-[--secondary-color] hover:bg-[var(--primary-color)] w-full rounded-md p-2 text-sm transition duration-150 ease-in-out"
+                onClick={handleSearch}
               >
-                {item.isAvailableForSwap
-                  ? "Available For Swap"
-                  : "NOT Available For Swap"}
-              </p>
-              <p className="text-lg font-semibold">{item.condition}</p>
-              <p className="text-lg font-semibold">${item.price}</p>
+                Search
+              </button>
             </div>
-          ))
-        )}
+
+            <div className="flex mb-3 gap-4 text-sm">
+              <div className="flex items-center">
+                <input
+                  className="cursor-pointer"
+                  id="buy"
+                  type="checkbox"
+                  checked={buy}
+                  onChange={(e) => setBuy(e.target.checked)}
+                />
+                <label className="ml-1 cursor-pointer" htmlFor="buy">
+                  Buy
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  className="cursor-pointer"
+                  id="swap"
+                  type="checkbox"
+                  checked={swap}
+                  onChange={(e) => setSwap(e.target.checked)}
+                />
+                <label htmlFor="swap" className="ml-1 cursor-pointer">
+                  Swap
+                </label>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 mb-3">
+              <input
+                type="number"
+                placeholder="Min Price"
+                value={minPrice}
+                min={0}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="border border-gray-300 rounded-md w-full p-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-150 ease-in-out"
+              />
+              <input
+                type="number"
+                placeholder="Max Price"
+                value={maxPrice}
+                min={0}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="border border-gray-300 rounded-md w-full p-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-150 ease-in-out"
+              />
+            </div>
+
+            <div className="mb-3">
+              <h3 className="font-semibold mb-1 text-sm">Condition</h3>
+              <div className="flex flex-wrap gap-2">
+                {Object.keys(conditions).map((condition) => (
+                  <div key={condition} className="flex items-center">
+                    <input
+                      className="cursor-pointer"
+                      id={condition}
+                      type="checkbox"
+                      checked={conditions[condition]}
+                      onChange={(e) =>
+                        setConditions({
+                          ...conditions,
+                          [condition]: e.target.checked,
+                        })
+                      }
+                    />
+                    <label
+                      htmlFor={condition}
+                      className="ml-1 cursor-pointer capitalize text-sm"
+                    >
+                      {condition}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <select
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="select select-bordered w-full p-2 rounded-md bg-white text-gray-700 border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-150 ease-in-out"
+              >
+                <option value="" disabled>
+                  Select Governorate
+                </option>
+                {governorates.map((gov, index) => (
+                  <option key={index} value={gov}>
+                    {gov}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              className="btn text-white bg-[--secondary-color] hover:bg-[var(--primary-color)] w-full rounded-md p-2 text-sm transition duration-150 ease-in-out"
+              onClick={resetFilters}
+            >
+              Reset Filters
+            </button>
+          </div>
+
+          <div className="items-grid w-full md:w-3/4">
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <span className="loading loading-spinner loading-lg"></span>
+              </div>
+            ) : error ? (
+              <div className="text-error text-center">
+                <p>{error}</p>
+                <button
+                  className="btn btn-primary mt-4"
+                  onClick={() => {
+                    setError("");
+                    updateFilters();
+                  }}
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : items.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.map((item) => (
+                    <ItemCard key={item._id} item={item} />
+                  ))}
+                </div>
+                {/* <div className="mt-8 flex justify-center">
+                  <div className="btn-group">
+                    <button
+                      className="btn"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
+                      disabled={currentPage === 1}
+                    >
+                      «
+                    </button>
+                    <button className="btn text-white bg-[--secondary-color]">
+                      Page {currentPage}
+                    </button>
+                    <button
+                      className="btn  text-white bg-[--secondary-color] hover:bg-[var(--primary-color)]"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      »
+                    </button>
+                  </div>
+                </div> */}
+                <div className="mt-8 flex justify-center">
+                  <div className="btn-group">
+                    <button
+                      className="btn  text-white bg-[--secondary-color] hover:bg-[var(--primary-color)]"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      «
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          className="btn bg-[var(--primary-color)] px-3 mx-1"
+                          onClick={() => handlePageChange(page)}
+                        >
+                          Page {page}
+                        </button>
+                      )
+                    )}
+                    <button
+                      className="btn  text-white bg-[--secondary-color] hover:bg-[var(--primary-color)]"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      // disabled={currentPage === totalPages}
+                    >
+                      »
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <p className="text-center">No items found.</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
