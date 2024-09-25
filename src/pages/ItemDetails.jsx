@@ -149,6 +149,17 @@ const ItemDetails = () => {
           <StuffedAnimals />
           <WoodenToys />
         </div>
+        <div className="text-center md:text-left">
+          <h4 className="text-xl md:text-2xl font-varela-round">
+            Subscribe to our newsletter{" "}
+          </h4>
+          <h4 className="text-xl md:text-2xl flex flex-wrap justify-center md:justify-start  gap-2 font-varela-round">
+            &get{" "}
+            <span className="text-[--primary-color] We're on Instagram!">
+              10% discount!
+            </span>
+          </h4>
+        </div>
       </div>
     </div>
   );

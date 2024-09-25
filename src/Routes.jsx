@@ -4,6 +4,7 @@ import Shop from "./pages/Shop";
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import Profile from "./pages/Profile";
+import About from "./pages/About";
 import ItemDetails from "./pages/ItemDetails";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
@@ -15,13 +16,86 @@ const AppRoutes = () => {
     <Router>
       <div className="flex flex-col min-h-screen">
         <Routes>
-          <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
-          <Route path="/profile" element={<><Navbar /><Profile /><Footer /></>} />
-          <Route path="/shop" element={<><Navbar /><Shop /><Footer /></>} />
-          <Route path="/items/:id" element={<><Navbar /><ItemDetails /><Footer /></>} />
-          <Route path="/register" element={<><Navbar /><Register /><Footer /></>} />
-          <Route path="/login" element={<><Navbar /><Login /><Footer /></>} />
-          <Route path="/sell-item" element={<><Navbar /><SellItem /><Footer /></>} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <Home />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                <Navbar />
+                <Profile />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              <>
+                <Navbar />
+                <Shop />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <>
+                <Navbar />
+                <About />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/items/:id"
+            element={
+              <>
+                <Navbar />
+                <ItemDetails />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Navbar />
+                <Register />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Navbar />
+                <Login />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/sell-item"
+            element={
+              <>
+                <Navbar />
+                <SellItem />
+                <Footer />
+              </>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
