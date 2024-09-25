@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RegisterSchema } from "../utils/validatoin/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
 import authApiRequests from "../services/authApiRequests";
+import cities from "../utils/staticData/cities.json";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
@@ -84,9 +85,11 @@ const Register = () => {
                     className="grow bg-transparent outline-none w-full"
                   >
                     <option value="">Select Address</option>
-                    <option value="Cairo">Cairo</option>
-                    <option value="Giza">Giza</option>
-                    <option value="Alexandria">Alexandria</option>
+                    {cities.map((city, index) => (
+                      <option key={index} value={city}>
+                        {city}
+                      </option>
+                    ))}
                   </Field>
                 </div>
                 <ErrorMessage
