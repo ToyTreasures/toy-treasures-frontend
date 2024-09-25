@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
 import ContactUs from "./pages/ContactUs";
+import About from "./pages/About";
 import SellerContacts from "./pages/SellerContacts";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserDashboard from "./Layouts/Profile/UserDashboard";
@@ -124,6 +125,16 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <ContactUs />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <>
+                <Navbar />
+                <About />
                 <Footer />
               </>
             }
