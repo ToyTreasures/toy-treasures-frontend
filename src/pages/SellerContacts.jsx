@@ -14,11 +14,10 @@ const SellerContacts = () => {
         const res = await userApiRequests.getUserById(sellerId);
         setSeller(res.user);
       } catch (error) {
-        if (error.code === "ERR_BAD_REQUEST") {
-          setError("Invalid user ID: " + sellerId);
-        } else {
-          setError("Error fetching seller details, check your internet connection");
-        }
+        setError(
+          error ||
+            "Error fetching seller details, check your internet connection"
+        );
       }
     };
     fetchSellerDetails();

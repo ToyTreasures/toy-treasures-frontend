@@ -1,11 +1,15 @@
 import React, { useCallback } from "react";
+import { Link } from "react-router-dom";
 import CoverImg from "../../assets/hero-bg.jpg";
 
 const HeroSection = ({ toysTypeSectionRef }) => {
   const handleSmoothScroll = useCallback(
     (e) => {
       e.preventDefault();
-      toysTypeSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      toysTypeSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     },
     [toysTypeSectionRef]
   );
@@ -25,12 +29,13 @@ const HeroSection = ({ toysTypeSectionRef }) => {
           <br />
           Template for Webflow
         </h1>
-        <button
-          className="bg-[#a5c926] text-white rounded-3xl h-12 p-2 w-full sm:w-8/12 md:w-6/12 lg:w-4/12 text-sm leading-6 font-bold text-center hover:shadow-[0_8px_8px_-4px_rgba(165,201,38,0.5)] hover:scale-105 transition-transform"
+        <Link
+          to="/shop"
+          className="flex items-center justify-center bg-[#a5c926] text-white rounded-3xl h-12 p-2 w-full sm:w-8/12 md:w-6/12 lg:w-4/12 text-sm leading-6 font-bold text-center hover:shadow-[0_8px_8px_-4px_rgba(165,201,38,0.5)] hover:scale-105 transition-transform"
           aria-label="Open Catalog"
         >
           Open Catalog
-        </button>
+        </Link>
       </div>
       <div className="absolute -bottom-[30px] left-0 right-0 flex justify-center">
         <button
