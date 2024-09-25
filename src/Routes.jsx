@@ -4,13 +4,13 @@ import Shop from "./pages/Shop";
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import Profile from "./pages/Profile";
-import About from "./pages/About";
 import ItemDetails from "./pages/ItemDetails";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
 import ContactUs from "./pages/ContactUs";
+import About from "./pages/About";
 import SellerContacts from "./pages/SellerContacts";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserDashboard from "./Layouts/Profile/UserDashboard";
@@ -35,15 +35,24 @@ const AppRoutes = () => {
             }
           />
           <Route
-            path="/profile"
+            path="/my-account/*"
             element={
               <>
                 <Navbar />
-                <Profile />
+                <ProtectedRoute
+                  element={<Profile />}
+                  isRequiredToLogIn={true}
+                />
                 <Footer />
               </>
             }
-          />
+          >
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="user-items" element={<UserItems />} />
+            <Route path="swap-requests" element={<SwapRequests />} />
+            <Route path="account-details" element={<AccountDetails />} />
+            <Route path="wishlist" element={<Wishlist />} />
+          </Route>
           <Route
             path="/shop"
             element={
@@ -79,7 +88,7 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <Login />
+                <ProtectedRoute element={<Login />} isRequiredToLogIn={false} />
                 <Footer />
               </>
             }
@@ -89,7 +98,43 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <SellItem />
+                <ProtectedRoute
+                  element={<SellItem />}
+                  isRequiredToLogIn={true}
+                />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/sellers/:id"
+            element={
+              <>
+                <Navbar />
+                <ProtectedRoute
+                  element={<SellerContacts />}
+                  isRequiredToLogIn={true}
+                />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/contact-us"
+            element={
+              <>
+                <Navbar />
+                <ContactUs />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <>
+                <Navbar />
+                <About />
                 <Footer />
               </>
             }

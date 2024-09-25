@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Link } from "react-router-dom";
-// import BackgroundImage from "../assets/story-bg.jpg";
+import BackgroundImage from "../assets/story-bg.jpg";
 import { IoIosPlay } from "react-icons/io";
 import { IoIosSend } from "react-icons/io";
 
@@ -120,9 +120,7 @@ const About = () => {
       <section
         className="flex flex-col items-center justify-center py-28 px-6 my-20 bg-black bg-opacity-30 bg-blend-overlay bg-cover bg-center bg-no-repeat bg-fixed text-white"
         style={{
-          // backgroundImage: `url(${BackgroundImage})`,
-          backgroundImage: `urlhttps://assets.website-files.com/5badda2935e11303a89a461e/5bb5c77fe7ca6c69b821cffc_about-image-p-1600.jpeg"
-            alt="Toy Store)`,
+          backgroundImage: `url(${BackgroundImage})`,
         }}
       >
         <div className="flex flex-col items-center justify-center w-full max-w-4xl">
