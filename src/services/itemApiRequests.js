@@ -58,13 +58,19 @@ api.interceptors.response.use(
     }
 
     if (error.code === "ERR_NETWORK") {
+      if (!navigator.onLine) {
+        return Promise.reject({
+          message: "Network Error, please check your internet connection",
+        });
+      }
+
       return Promise.reject({
-        message: "Network Error, please check your internet connection",
+        message: "Server is Down, please try again later",
       });
     }
 
     return Promise.reject({
-      message: "Server is currently unavailable. Please try again later.",
+      message: "Something wen wrong, Please try again later",
     });
   }
 );

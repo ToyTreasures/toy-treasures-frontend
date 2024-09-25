@@ -54,7 +54,7 @@ const Shop = () => {
         setTotalPages(1);
       }
     } catch (err) {
-      setError("Failed to fetch items: " + (err.message || "Unknown error"));
+      setError("Failed to fetch items: " + (err.message || "Something wen wrong, Please try again later"));
       setItems([]);
       setTotalPages(1);
     }

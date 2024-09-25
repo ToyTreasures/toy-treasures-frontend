@@ -16,7 +16,7 @@ const SellerContacts = () => {
       } catch (error) {
         setError(
           error ||
-            "Error fetching seller details, check your internet connection"
+            "Error fetching seller details, please try again later"
         );
       }
     };

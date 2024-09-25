@@ -51,19 +51,29 @@ api.interceptors.response.use(
       }
     }
 
+    if (error.response) {
+      return Promise.reject({ message: error.response.data });
+    }
+
+    if (error.error) {
+      return Promise.reject({ message: error.error });
+    }
+
     if (error.code === "ERR_NETWORK") {
-      return Promise.reject(
-        "Network Error, please check your internet connection"
-      );
+      if (!navigator.onLine) {
+        return Promise.reject({
+          message: "Network Error, please check your internet connection",
+        });
+      }
+
+      return Promise.reject({
+        message: "Server is Down, please try again later",
+      });
     }
 
-    if (error.code === "ERR_BAD_REQUEST") {
-      return Promise.reject(error.response.data.error);
-    }
-
-    return Promise.reject(
-      "Server is currently unavailable. Please try again later."
-    );
+    return Promise.reject({
+      message: "Something wen wrong, Please try again later",
+    });
   }
 );
 
