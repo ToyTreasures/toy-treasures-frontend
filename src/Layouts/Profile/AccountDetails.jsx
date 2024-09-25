@@ -1,0 +1,218 @@
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
+import { useOutletContext } from "react-router-dom";
+import { UpdateUserSchema } from "../../utils/validatoin/userValidation";
+import cities from "../../utils/staticData/cities.json";
+import { useState } from "react";
+import userApiRequests from "../../services/userApiRequests";
+import { getModifiedFields } from "../../utils/formUtils";
+
+const AccountDetails = () => {
+  const { user, setUser } = useOutletContext();
+  const [updateUserFormError, setUpdateUserFormError] = useState("");
+  const [isFormModified, setIsFormModified] = useState(false);
+
+  const initialValues = {
+    name: user.name || "",
+    email: user.email || "",
+    password: "",
+    phoneNumber: user.phoneNumber || "",
+    address: user.address || "",
+  };
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    const modifiedValues = getModifiedFields(initialValues, values);
+    if (Object.keys(modifiedValues).length === 0) {
+      setSubmitting(false);
+      return;
+    }
+    try {
+      const response = await userApiRequests.updateUser(
+        user._id,
+        modifiedValues
+      );
+      setUpdateUserFormError("");
+      setUser(response.user);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      setIsFormModified(false);
+      console.log("Data Updated successfully:", response);
+    } catch (error) {
+      console.log(error);
+      setUpdateUserFormError(
+        error.error || "An unexpected error occurred. Please try again later."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <h2 className="text-2xl font-bold mb-6">Account Details</h2>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={UpdateUserSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize={true}
+      >
+        {({ isSubmitting, setFieldValue, initialValues, isValid }) => (
+          <Form className="space-y-6">
+            {updateUserFormError && (
+              <div className="bg-red-200 border border-red-400 text-red-800 px-4 py-2 rounded relative mb-2">
+                <span className="block sm:inline">{updateUserFormError}</span>
+              </div>
+            )}
+            <div className="space-y-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-white"
+              >
+                Name
+              </label>
+              <Field
+                type="text"
+                name="name"
+                className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
+                onChange={(e) => {
+                  setFieldValue("name", e.target.value);
+                  e.target.value !== initialValues.name
+                    ? setIsFormModified(true)
+                    : setIsFormModified(false);
+                }}
+              />
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-white"
+              >
+                Email
+              </label>
+              <Field
+                type="email"
+                name="email"
+                className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
+                onChange={(e) => {
+                  setFieldValue("email", e.target.value);
+                  e.target.value !== initialValues.email
+                    ? setIsFormModified(true)
+                    : setIsFormModified(false);
+                }}
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-white"
+              >
+                Password
+              </label>
+              <Field
+                type="password"
+                name="password"
+                className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
+                onChange={(e) => {
+                  setFieldValue("password", e.target.value);
+                  e.target.value !== initialValues.password && isValid
+                    ? setIsFormModified(true)
+                    : setIsFormModified(false);
+                }}
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            <div className=" flex justify-between">
+              <div className="space-y-2 w-5/12">
+                <label
+                  htmlFor="phoneNumber"
+                  className="block text-sm font-medium text-white"
+                >
+                  Phone Number
+                </label>
+                <Field
+                  type="text"
+                  name="phoneNumber"
+                  className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
+                  onChange={(e) => {
+                    setFieldValue("phoneNumber", e.target.value);
+                    e.target.value !== initialValues.phoneNumber && isValid
+                      ? setIsFormModified(true)
+                      : setIsFormModified(false);
+                  }}
+                />
+                <ErrorMessage
+                  name="phoneNumber"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              <div className="space-y-2 w-5/12">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-white"
+                >
+                  Address
+                </label>
+                <Field
+                  as="select"
+                  name="address"
+                  id="address"
+                  className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
+                  onChange={(e) => {
+                    setFieldValue("address", e.target.value);
+                    e.target.value !== initialValues.address && isValid
+                      ? setIsFormModified(true)
+                      : setIsFormModified(false);
+                  }}
+                >
+                  <option value="">Select Address</option>
+                  {cities.map((city, index) => (
+                    <option key={index} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="address"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+            </div>
+            <div className="text-center">
+              <button
+                type="submit"
+                disabled={isSubmitting || !isFormModified}
+                className={`mt-4 w-3/5 py-2 px-4 font-bold rounded-md transition duration-150 ease-in-out ${
+                  isFormModified && isValid
+                    ? "bg-[--primary-color] text-[--secondary-color] hover:bg-lime-300"
+                    : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                }`}
+              >
+                {isSubmitting ? "Saving Your Changes..." : "Save Change"}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </>
+  );
+};
+
+export default AccountDetails;
