@@ -12,6 +12,11 @@ import SellItem from "./pages/SellItem";
 import ContactUs from "./pages/ContactUs";
 import SellerContacts from "./pages/SellerContacts";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserDashboard from "./Layouts/Profile/UserDashboard";
+import AccountDetails from "./Layouts/Profile/AccountDetails";
+import UserItems from "./Layouts/Profile/UserItems";
+import SwapRequests from "./Layouts/Profile/SwapRequests";
+import Wishlist from "./Layouts/Profile/Wishlist";
 
 const AppRoutes = () => {
   return (
@@ -29,15 +34,24 @@ const AppRoutes = () => {
             }
           />
           <Route
-            path="/profile"
+            path="/my-account/*"
             element={
               <>
                 <Navbar />
-                <Profile />
+                <ProtectedRoute
+                  element={<Profile />}
+                  isRequiredToLogIn={true}
+                />
                 <Footer />
               </>
             }
-          />
+          >
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="user-items" element={<UserItems />} />
+            <Route path="swap-requests" element={<SwapRequests />} />
+            <Route path="account-details" element={<AccountDetails />} />
+            <Route path="wishlist" element={<Wishlist />} />
+          </Route>
           <Route
             path="/shop"
             element={
@@ -83,7 +97,10 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <SellItem />
+                <ProtectedRoute
+                  element={<SellItem />}
+                  isRequiredToLogIn={true}
+                />
                 <Footer />
               </>
             }
