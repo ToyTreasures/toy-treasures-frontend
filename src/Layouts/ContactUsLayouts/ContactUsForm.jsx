@@ -1,59 +1,85 @@
-import React from 'react';
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-
+import contactUsRequest from "../../services/contactUsRequests";
+import { contactUsSchema } from "../../utils/validatoin/contactUsValidation";
 
 const ContactUsForm = () => {
-       const validationSchema = Yup.object().shape({
-         fullName: Yup.string().required("Full Name is required"),
-         email: Yup.string().email("Invalid email").required("Email is required"),
-         messageText: Yup.string().required("messageText is required"),
-       });
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [backendErrors, setBackendErrors] = useState(null);
 
-       const initialValues = {
-         fullName: "",
-         email: "",
-         messageText: "",
-       };
+  const initialValues = {
+    fullName: "",
+    email: "",
+    messageText: "",
+  };
 
-       const handleSubmit = (values, { setSubmitting }) => {
-         console.log(values);
-         setSubmitting(false);
-       };
-      return (
-        <div>
-          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-              <Form className="space-y-6">
-                <div>
-                  <label htmlFor="fullName" className="block text-xs font-semibold text-gray-800 mb-2">
-                    Full Name
-                  </label>
-                  <Field type="text" id="fullName" name="fullName" placeholder="Enter you Name" className="w-full h-12 px-7 rounded-full border-2 border-gray-200 bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none" />
-                  <ErrorMessage name="fullName" component="div" className="text-red-500 text-xs mt-1" />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-xs font-semibold text-gray-800 mb-2">
-                    Email Address
-                  </label>
-                  <Field type="email" id="email" name="email" placeholder="Your contact email" className="w-full h-12 px-7 rounded-full border-2 border-gray-200 bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none" />
-                  <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
-                </div>
-                <div>
-                  <label htmlFor="messageText" className="block text-xs font-semibold text-gray-800 mb-2">
-                    Message
-                  </label>
-                  <Field as="textarea" id="messageText" placeholder="Message text ..." name="messageText" className="w-full min-h-[160px] px-7 py-6 rounded-3xl border-2 border-gray-200 bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none resize-y" />
-                  <ErrorMessage name="messageText" component="div" className="text-red-500 text-xs mt-1" />
-                </div>
-                <button type="submit" disabled={isSubmitting} className="w-1/2 sm:w-auto px-6 py-3 rounded-full bg-[--primary-color] text-white text-sm font-semibold transition-all duration-500 hover:shadow-md hover:transform hover:scale-105 focus:outline-none">
-                  Send Message
-                </button>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      );
-}
+  const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
+    try {
+      const response = await contactUsRequest.sendEmail(values);
+      console.log(response);
+      setSubmitStatus("success");
+      setBackendErrors(null);
+      resetForm();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+      handleSubmissionError(error, setErrors);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleSubmissionError = (error, setErrors) => {
+    if (error.response && error.response.data) {
+      if (error.response.data.errors) {
+        const backendValidationErrors = {};
+        error.response.data.errors.forEach((errorMsg) => {
+          const field = errorMsg.split(" ")[0].toLowerCase();
+          backendValidationErrors[field] = errorMsg;
+        });
+        setErrors(backendValidationErrors);
+      } else if (error.response.data.error) {
+        setBackendErrors([error.response.data.error]);
+      }
+    } else {
+      setBackendErrors(["An unexpected error occurred. Please try again."]);
+    }
+  };
+
+  return (
+    <Formik initialValues={initialValues} validationSchema={contactUsSchema} onSubmit={handleSubmit}>
+      {({ isSubmitting, errors, touched }) => {
+        const renderField = (name, label, type = "text", as = "input") => (
+          <>
+            <label htmlFor={name} className="block mb-2 font-semibold">
+              {label}
+            </label>
+            <Field
+              type={type}
+              name={name}
+              as={as}
+              className={`w-full ${as === "textarea" ? "min-h-[160px] py-6" : "h-12"} px-7 rounded-${as === "textarea" ? "3xl" : "full"} border-2 ${errors[name] && touched[name] ? "border-red-500" : "border-gray-200"} bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none ${as === "textarea" ? "resize-y" : ""}`}/>
+            <ErrorMessage name={name} component="div" className="text-red-500 mt-1" />
+          </>
+        );
+
+        return (
+          <Form className="space-y-6">
+            {renderField("fullName", "Full Name")}
+            {renderField("email", "Email Address", "email")}
+            {renderField("messageText", "Message", "text", "textarea")}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-1/2 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 p-2 sm:p-3 bg-[--primary-color] text-white text-xs font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300">
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
 
 export default ContactUsForm;
