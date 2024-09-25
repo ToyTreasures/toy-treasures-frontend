@@ -22,7 +22,7 @@ const ItemCard = ({ item }) => {
 
   return (
     <div className="transform transition-all duration-300 hover:scale-105 bg-white mt-4 sm:mt-8 md:mt-10 lg:mt-14 rounded-lg sm:rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4">
-      <Link to={`/item/${item.name}`} className="flex flex-col items-center gap-1 sm:gap-2">
+      <Link to={`/items/${item._id}`} className="flex flex-col items-center gap-1 sm:gap-2">
         <div className="mb-2 sm:mb-3 md:mb-4 p-4 sm:p-6 md:p-8 lg:p-10 relative w-full aspect-square">
           {!imageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">

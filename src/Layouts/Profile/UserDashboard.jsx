@@ -30,7 +30,7 @@ const UserDashboard = () => {
             to="/my-account/edit-account"
             className=" text-white  font-bold  font-boldhover:underline"
           >
-            edit your password and account details
+            Change your account information
           </Link>
           .
         </p>
@@ -46,8 +46,8 @@ const UserDashboard = () => {
             icon: "🤝",
           },
           {
-            to: "/my-account/account-details",
-            label: "Account details",
+            to: "/my-account/edit-account",
+            label: "Edit Account",
             icon: "🙎‍♂️",
           },
           { to: "/my-account/wishlist", label: "Wishlist", icon: "❤️" },

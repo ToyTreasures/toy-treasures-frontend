@@ -7,7 +7,7 @@ const Shop = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  //pagination
+  //pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
@@ -45,26 +45,15 @@ const Shop = () => {
     setError("");
     try {
       const response = await itemApiRequests.getAllItems(queryParams);
-      console.log("response", response);
 
       if (response && response.items && response.items.length > 0) {
-        console.log("response", response);
         setItems(response.items);
-        setTotalPages(
-          Math.ceil(response.paginationMetaData.itemsNumber / itemsPerPage)
-        );
-        console.log("total pages", totalPages);
-        console.log(
-          "response.paginationMetaData.itemsNumber",
-          response.paginationMetaData.itemsNumber
-        );
-        console.log("momooooooo", itemsPerPage);
+        setTotalPages(response.paginationMetaData.pagesNumber);
       } else {
         setItems([]);
         setTotalPages(1);
       }
     } catch (err) {
-      console.error("Error fetching items:", err);
       setError("Failed to fetch items: " + (err.message || "Unknown error"));
       setItems([]);
       setTotalPages(1);
@@ -105,8 +94,10 @@ const Shop = () => {
   };
 
   const handleSearch = () => {
-    setCurrentPage(1);
-    updateFilters();
+    if (search) {
+      setCurrentPage(1);
+      updateFilters();
+    }
   };
 
   const resetFilters = () => {
@@ -129,22 +120,53 @@ const Shop = () => {
   useEffect(() => {
     setCurrentPage(1);
     updateFilters();
-  }, [minPrice, maxPrice, buy, swap, conditions, address, search]);
+  }, [minPrice, maxPrice, buy, swap, conditions, address]);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <div className="shop-page p-6 bg-gray-100">
       <div className="container mx-auto">
+        <div className="join mt-6">
+          <button
+            className="text-white bg-[var(--primary-color)] join-item btn"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            «
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              className={`bg-${
+                page === currentPage
+                  ? "[--secondary-color] text-white "
+                  : "gray-700 "
+              } join-item btn`}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            className=" text-white bg-[var(--primary-color)] join-item btn"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            »
+          </button>
+        </div>
         <div className="flex flex-col md:flex-row gap-6">
           <div className="filters w-full h-max mt-14 md:w-1/4 bg-white p-4 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-3">Filters</h2>
             <div className="mb-3">
               <input
                 type="text"
-                placeholder="Search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search"
                 className="border border-gray-300 rounded-md w-full p-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-150 ease-in-out"
               />
               <button
@@ -279,60 +301,6 @@ const Shop = () => {
                   {items.map((item) => (
                     <ItemCard key={item._id} item={item} />
                   ))}
-                </div>
-                {/* <div className="mt-8 flex justify-center">
-                  <div className="btn-group">
-                    <button
-                      className="btn"
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.max(prev - 1, 1))
-                      }
-                      disabled={currentPage === 1}
-                    >
-                      «
-                    </button>
-                    <button className="btn text-white bg-[--secondary-color]">
-                      Page {currentPage}
-                    </button>
-                    <button
-                      className="btn  text-white bg-[--secondary-color] hover:bg-[var(--primary-color)]"
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                      }
-                      disabled={currentPage === totalPages}
-                    >
-                      »
-                    </button>
-                  </div>
-                </div> */}
-                <div className="mt-8 flex justify-center">
-                  <div className="btn-group">
-                    <button
-                      className="btn  text-white bg-[--secondary-color] hover:bg-[var(--primary-color)]"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      «
-                    </button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (page) => (
-                        <button
-                          key={page}
-                          className="btn bg-[var(--primary-color)] px-3 mx-1"
-                          onClick={() => handlePageChange(page)}
-                        >
-                          Page {page}
-                        </button>
-                      )
-                    )}
-                    <button
-                      className="btn  text-white bg-[--secondary-color] hover:bg-[var(--primary-color)]"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      // disabled={currentPage === totalPages}
-                    >
-                      »
-                    </button>
-                  </div>
                 </div>
               </>
             ) : (

@@ -48,14 +48,24 @@ api.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-    if (!error.response) {
-      console.error("Network error: ", error.message);
+
+    if (error.response) {
+      return Promise.reject({ message: error.response.data });
+    }
+
+    if (error.error) {
+      return Promise.reject({ message: error.error });
+    }
+
+    if (error.code === "ERR_NETWORK") {
       return Promise.reject({
-        error: "Server is currently unavailable. Please try again later.",
+        message: "Network Error, please check your internet connection",
       });
     }
 
-    return Promise.reject(error.response.data);
+    return Promise.reject({
+      message: "Server is currently unavailable. Please try again later.",
+    });
   }
 );
 

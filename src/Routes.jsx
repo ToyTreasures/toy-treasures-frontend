@@ -49,7 +49,7 @@ const AppRoutes = () => {
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="user-items" element={<UserItems />} />
             <Route path="swap-requests" element={<SwapRequests />} />
-            <Route path="account-details" element={<AccountDetails />} />
+            <Route path="edit-account" element={<AccountDetails />} />
             <Route path="wishlist" element={<Wishlist />} />
           </Route>
           <Route
