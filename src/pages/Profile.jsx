@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
+import localStorageServices from "../services/localStorageServices";
 
 const ProfilePage = () => {
+  const { user, setUser } = useUserContext();
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorageServices.logout();
+  };
+
   return (
     <div className="bg-gray-100 h-full  py-14 ">
       <div className="container mx-auto px-4 max-w-7xl ">
@@ -15,85 +24,37 @@ const ProfilePage = () => {
                 aria-label="Account pages"
               >
                 {[
-                  { to: "/my-account", label: "Dashboard" },
-                  { to: "/my-account/orders", label: "Orders" },
-                  { to: "/my-account/edit-address", label: "Addresses" },
-                  { to: "/my-account/edit-account", label: "Account details" },
-                  { to: "/wishlist", label: "Wishlist" },
-                  { to: "/my-account/logout", label: "Logout" },
+                  { to: "/my-account/dashboard", label: "Dashboard" },
+                  { to: "/my-account/user-items", label: "My Items" },
+                  { to: "/my-account/swap-requests", label: "Swap Requests" },
+                  {
+                    to: "/my-account/account-details",
+                    label: "Account details",
+                  },
+                  { to: "/my-account/wishlist", label: "Wishlist" },
                 ].map((item, index) => (
-                  <Link
+                  <NavLink
                     key={index}
                     to={item.to}
-                    className="block py-2 px-4 font-bold rounded transition duration-150 ease-in-out  bg-[--primary-color]  hover:text-white hover:bg-[--secondary-color] hover:bg-gray-200 hover:text-[--secondary-color]"
+                    className={({ isActive }) =>
+                      `block py-2 px-4 font-bold rounded transition duration-150 ease-in-out bg-[--primary-color] hover:bg-[--secondary-color] hover:bg-gray-200 hover:text-[--secondary-color] ${
+                        isActive ? "bg-gray-200" : ""
+                      }`
+                    }
                   >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 ))}
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-start py-2 px-4 font-bold rounded transition duration-150 ease-in-out  bg-[--primary-color]  hover:bg-[--secondary-color] hover:bg-red-400 hover:text-[--secondary-color]"
+                >
+                  Logout
+                </button>
               </nav>
             </div>
             <div className="md:w-3/4 p-6 bg-[--secondary-color] text-white">
-              <div className="mb-6">
-                <p className="text-lg mb-2">
-                  Hello <strong>mohamed-9432</strong> (not{" "}
-                  <strong>mohamed-9432</strong>?{" "}
-                  <Link to="/logout" className="text-white hover:underline">
-                    Log out
-                  </Link>
-                  )
-                </p>
-                <p className=" text-white ">
-                  From your account dashboard you can view your{" "}
-                  <Link
-                    to="/my-account/orders"
-                    className=" text-white font-bold  hover:underline"
-                  >
-                    recent orders
-                  </Link>
-                  , manage your{" "}
-                  <Link
-                    to="/my-account/edit-address"
-                    className=" text-white font-bold  hover:underline"
-                  >
-                    shipping and billing addresses
-                  </Link>
-                  , and{" "}
-                  <Link
-                    to="/my-account/edit-account"
-                    className=" text-white  font-bold  font-boldhover:underline"
-                  >
-                    edit your password and account details
-                  </Link>
-                  .
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  { to: "/my-account", label: "Dashboard", icon: "🏠" },
-                  { to: "/my-account/orders", label: "Orders", icon: "📦" },
-                  {
-                    to: "/my-account/edit-address",
-                    label: "Addresses",
-                    icon: "🏡",
-                  },
-                  {
-                    to: "/my-account/edit-account",
-                    label: "Account details",
-                    icon: "👤",
-                  },
-                  { to: "/wishlist", label: "Wishlist", icon: "❤️" },
-                  { to: "/my-account/logout", label: "Logout", icon: "🚪" },
-                ].map((item, index) => (
-                  <Link
-                    key={index}
-                    to={item.to}
-                    className="flex flex-col items-center p-4  rounded-lg shadow-sm text-center transition duration-150 ease-in-out bg-[--primary-color] text-[--secondary-color]  hover:text-white hover:bg-[--secondary-color] hover:bg-gray-200 hover:shadow-md"
-                  >
-                    <span className="text-3xl">{item.icon}</span>
-                    <span className="font-bold">{item.label}</span>
-                  </Link>
-                ))}
-              </div>
+              <Outlet context={{ user, setUser, handleLogout }} />
             </div>
           </div>
         </div>
