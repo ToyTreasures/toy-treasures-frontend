@@ -1,112 +1,85 @@
 import axios from "axios";
+import { setupInterceptors } from "./interceptor";
+import localStorageService from "../services/localStorageServices";
 
-const api = axios.create({
-  baseURL: "http://localhost:5000/api/v1/auth",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
-});
+class AuthService {
+  constructor() {
+    this.api = axios.create({
+      baseURL: "http://localhost:5000/api/v1/auth",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers["Authorization"] = token;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+    this.isRefreshing = false;
+    this.refreshSubscribers = [];
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (
+    setupInterceptors(this.api, this);
+  }
+
+  isTokenExpiredError(error) {
+    const isExpired =
       error.response &&
       error.response.status === 401 &&
-      error.response.data.error ===
-        "Your token has expired, please log in again" &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        window.location.href = "/login";
-        return Promise.reject(error);
-      }
-
-      try {
-        const refreshResponse = await refreshAccessToken();
-        const { accessToken } = refreshResponse;
-        localStorage.setItem("accessToken", accessToken);
-        originalRequest.headers["Authorization"] = accessToken;
-        return api(originalRequest);
-      } catch (refreshError) {
-        await logout();
-        window.location.href = "/login";
-        return Promise.reject(refreshError);
-      }
-    }
-
-    if (error.response) {
-      return Promise.reject({ message: error.response.data });
-    }
-
-    if (error.error) {
-      return Promise.reject({ message: error.error });
-    }
-
-    if (error.code === "ERR_NETWORK") {
-      if (!navigator.onLine) {
-        return Promise.reject({
-          message: "Network Error, please check your internet connection",
-        });
-      }
-
-      return Promise.reject({
-        message: "Server is Down, please try again later",
-      });
-    }
-
-    return Promise.reject({
-      message: "Something wen wrong, Please try again later",
-    });
+      (error.response.data.error === "Unauthorized, Access token has expired" ||
+        error.response.data.error === "Unauthorized, Invalid token");
+    return isExpired;
   }
-);
 
-const register = async (user) => {
-  const res = await api.post("/register", user);
-  return res.data;
-};
+  isRefreshTokenExpiredError(error) {
+    return (
+      error.response &&
+      error.response.status === 401 &&
+      error.response.data.error === "Unauthorized, Invalid refresh token" //must be exact like the backend response
+    );
+  }
 
-const login = async (user) => {
-  const res = await api.post("/login", user);
-  return res.data;
-};
+  addRefreshSubscriber(callback, errorCallback) {
+    this.refreshSubscribers.push({ callback, errorCallback });
+  }
 
-const logout = async () => {
-  const res = await api.post("/logout");
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("user");
-  return res.data;
-};
+  onRefreshed(token) {
+    this.refreshSubscribers.forEach(({ callback }) => callback(token));
+    this.refreshSubscribers = [];
+  }
 
-const refreshAccessToken = async () => {
-  try {
-    const res = await api.post("/refresh-token");
+  onRefreshFailure(error) {
+    this.refreshSubscribers.forEach(({ errorCallback }) =>
+      errorCallback(error)
+    );
+    this.refreshSubscribers = [];
+  }
+
+  async register(user) {
+    const res = await this.api.post("/register", user);
+    localStorageService.setAccessToken(res.data.accessToken);
+    localStorageService.setUser(res.data.user);
     return res.data;
-  } catch (error) {
-    console.log("Refresh Access Token error:", error);
-    throw error;
   }
-};
 
-export default {
-  register,
-  login,
-  logout,
-  refreshAccessToken,
-};
+  async login(user) {
+    const res = await this.api.post("/login", user);
+    localStorageService.setAccessToken(res.data.accessToken);
+    localStorageService.setUser(res.data.user);
+    return res.data;
+  }
+
+  async logout() {
+    try {
+      await this.api.post("/logout");
+    } finally {
+      localStorageService.clearTokensAndUser();
+    }
+  }
+
+  async refreshAccessToken() {
+    const res = await this.api.post("/refresh-token");
+    return {
+      accessToken: res.data.accessToken,
+      user: res.data.user,
+    };
+  }
+}
+
+export default new AuthService();
