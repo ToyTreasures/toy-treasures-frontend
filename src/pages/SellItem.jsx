@@ -14,6 +14,7 @@ const SellItem = () => {
     price: "",
     image: null,
     condition: "",
+    category: "",
     isAvailableForSwap: false,
   };
 
@@ -30,16 +31,15 @@ const SellItem = () => {
       formData.append("description", values.description);
       formData.append("price", values.price);
       formData.append("condition", values.condition);
+      formData.append("category", values.category);
       formData.append("isAvailableForSwap", values.isAvailableForSwap);
       formData.append("thumbnail", values.image);
 
       const response = await itemApiRequests.createItem(formData);
       setSubmitError("");
-      console.log("Item added successfully:", response);
       resetForm();
       navigate("/");
     } catch (error) {
-      console.error("Submission error:", error);
       setSubmitError(
         error.error || "An unexpected error occurred. Please try again."
       );
@@ -174,6 +174,32 @@ const SellItem = () => {
                 </div>
                 <ErrorMessage
                   name="condition"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="category" className="ml-4 font-semibold">
+                  Category
+                </label>
+                <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
+                  <Field
+                    as="select"
+                    name="category"
+                    id="category"
+                    className="grow bg-transparent outline-none w-full"
+                  >
+                    <option value="">Select Item Category</option>
+                    <option value="Action Figures">Action Figures</option>
+                    <option value="Board Games">Board Games</option>
+                    <option value="Wooden Toys">Wooden Toys</option>
+                    <option value="Doll & Plush">Doll & Plush</option>
+                    <option value="Technology">Technology</option>
+                  </Field>
+                </div>
+                <ErrorMessage
+                  name="category"
                   component="div"
                   className="text-red-500 text-sm"
                 />
