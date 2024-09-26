@@ -18,6 +18,7 @@ import AccountDetails from "./Layouts/Profile/AccountDetails";
 import UserItems from "./Layouts/Profile/UserItems";
 import SwapRequests from "./Layouts/Profile/SwapRequests";
 import WishlistSection from "./Layouts/Profile/WishlistSection";
+import Wishlist from "./pages/Wishlist";
 
 const AppRoutes = () => {
   return (
@@ -135,6 +136,16 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <About />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <>
+                <Navbar />
+                <Wishlist />
                 <Footer />
               </>
             }
