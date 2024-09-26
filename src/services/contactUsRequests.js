@@ -7,10 +7,27 @@ const api = axios.create({
   },
 });
 
-const sendEmail = async (emailData) => {
-  const res = await api.post("", emailData); 
-  return res.data;
+const handleApiError = (error) => {
+  if (!navigator.onLine) {
+    return new Error("NO_INTERNET");
+  }
+  if (error.response) {
+    if (error.response.status === 500) {
+      return new Error("INTERNAL_SERVER_ERROR");
+    }
+    return new Error(error.response.data.message || "DEFAULT");
+  } else if (error.request) {
+    return new Error("SERVER_UNAVAILABLE");
+  } else {
+    return new Error("DEFAULT");
+  }
 };
 
-
-export default {sendEmail}
+export const sendEmail = async (emailData) => {
+  try {
+    const res = await api.post("", emailData);
+    return res.data;
+  } catch (error) {
+    throw handleApiError(error);
+  }
+};
