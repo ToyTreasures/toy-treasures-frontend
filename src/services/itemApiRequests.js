@@ -85,6 +85,11 @@ const getItemById = async (id) => {
   return res.data;
 };
 
+const getUsersItems = async (id) => {
+  const res = await api.get(`/user-items/${id}`);
+  return res.data;
+};
+
 const createItem = async (data) => {
   const res = await api.post("/", data);
   return res.data;
@@ -103,6 +108,7 @@ const deleteItem = async (id) => {
 export default {
   getAllItems,
   getItemById,
+  getUsersItems,
   createItem,
   updateItem,
   deleteItem,
