@@ -22,7 +22,6 @@ const Register = () => {
     try {
       const response = await authApiRequests.register(values);
       setRegisterError("");
-      console.log("Registration successful:", response);
       navigate("/login");
       resetForm();
     } catch (error) {

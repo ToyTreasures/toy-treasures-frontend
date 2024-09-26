@@ -34,9 +34,7 @@ const AccountDetails = () => {
       setUser(response.user);
       localStorage.setItem("user", JSON.stringify(response.user));
       setIsFormModified(false);
-      console.log("Data Updated successfully:", response);
     } catch (error) {
-      console.log(error);
       setUpdateUserFormError(
         error.error || "An unexpected error occurred. Please try again later."
       );

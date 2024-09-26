@@ -13,15 +13,16 @@ const ContactUsForm = () => {
     messageText: "",
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm, setErrors }) => {
+  const handleSubmit = async (
+    values,
+    { setSubmitting, resetForm, setErrors }
+  ) => {
     try {
       const response = await contactUsRequest.sendEmail(values);
-      console.log(response);
       setSubmitStatus("success");
       setBackendErrors(null);
       resetForm();
     } catch (error) {
-      console.error("Error submitting form:", error);
       setSubmitStatus("error");
       handleSubmissionError(error, setErrors);
     } finally {
@@ -47,7 +48,11 @@ const ContactUsForm = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} validationSchema={contactUsSchema} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={contactUsSchema}
+      onSubmit={handleSubmit}
+    >
       {({ isSubmitting, errors, touched }) => {
         const renderField = (name, label, type = "text", as = "input") => (
           <>
@@ -58,8 +63,21 @@ const ContactUsForm = () => {
               type={type}
               name={name}
               as={as}
-              className={`w-full ${as === "textarea" ? "min-h-[160px] py-6" : "h-12"} px-7 rounded-${as === "textarea" ? "3xl" : "full"} border-2 ${errors[name] && touched[name] ? "border-red-500" : "border-gray-200"} bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none ${as === "textarea" ? "resize-y" : ""}`}/>
-            <ErrorMessage name={name} component="div" className="text-red-500 mt-1" />
+              className={`w-full ${
+                as === "textarea" ? "min-h-[160px] py-6" : "h-12"
+              } px-7 rounded-${as === "textarea" ? "3xl" : "full"} border-2 ${
+                errors[name] && touched[name]
+                  ? "border-red-500"
+                  : "border-gray-200"
+              } bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none ${
+                as === "textarea" ? "resize-y" : ""
+              }`}
+            />
+            <ErrorMessage
+              name={name}
+              component="div"
+              className="text-red-500 mt-1"
+            />
           </>
         );
 
@@ -72,7 +90,8 @@ const ContactUsForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-1/2 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 p-2 sm:p-3 bg-[--primary-color] text-white text-xs font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300">
+              className="w-1/2 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 p-2 sm:p-3 bg-[--primary-color] text-white text-xs font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300"
+            >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </Form>

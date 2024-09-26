@@ -27,14 +27,12 @@ const Login = () => {
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const res = await authApiRequests.login(values);
-      console.log(res);
       setLoginError("");
       localStorageServices.setTokensAndUser(res.user, res.accessToken);
       setUser(res.user);
       navigate("/");
       resetForm();
     } catch (error) {
-      console.error("Login error:", error);
       setLoginError(
         error.error || "An unexpected error occurred. Please try again."
       );
