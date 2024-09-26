@@ -17,7 +17,8 @@ import UserDashboard from "./Layouts/Profile/UserDashboard";
 import AccountDetails from "./Layouts/Profile/AccountDetails";
 import UserItems from "./Layouts/Profile/UserItems";
 import SwapRequests from "./Layouts/Profile/SwapRequests";
-import Wishlist from "./Layouts/Profile/Wishlist";
+import WishlistSection from "./Layouts/Profile/WishlistSection";
+import Wishlist from "./pages/Wishlist";
 
 const AppRoutes = () => {
   return (
@@ -51,7 +52,7 @@ const AppRoutes = () => {
             <Route path="user-items" element={<UserItems />} />
             <Route path="swap-requests" element={<SwapRequests />} />
             <Route path="edit-account" element={<AccountDetails />} />
-            <Route path="wishlist" element={<Wishlist />} />
+            <Route path="wishlist" element={<WishlistSection />} />
           </Route>
           <Route
             path="/shop"
@@ -135,6 +136,16 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <About />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <>
+                <Navbar />
+                <Wishlist />
                 <Footer />
               </>
             }
