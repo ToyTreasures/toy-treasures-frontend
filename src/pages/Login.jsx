@@ -27,8 +27,9 @@ const Login = () => {
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const res = await authApiRequests.login(values);
+      console.log(res);
       setLoginError("");
-      localStorageServices.login(res.user, res.accessToken);
+      localStorageServices.setTokensAndUser(res.user, res.accessToken);
       setUser(res.user);
       navigate("/");
       resetForm();

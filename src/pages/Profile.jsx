@@ -7,7 +7,7 @@ const ProfilePage = () => {
 
   const handleLogout = () => {
     setUser(null);
-    localStorageServices.logout();
+    localStorageServices.clearTokensAndUser();
   };
 
   return (

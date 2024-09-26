@@ -25,7 +25,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     setUser(null);
-    localStorageServices.logout();
+    localStorageServices.clearTokensAndUser();
   };
 
   const toggleMobileMenu = () => {
