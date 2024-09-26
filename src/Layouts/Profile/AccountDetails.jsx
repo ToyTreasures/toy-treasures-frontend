@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { useOutletContext } from "react-router-dom";
-import { UpdateUserSchema } from "../../utils/validatoin/userValidation";
+import { UpdateUserSchema } from "../../utils/validation/userValidation";
 import cities from "../../utils/staticData/cities.json";
 import { useState } from "react";
 import userApiRequests from "../../services/userApiRequests";

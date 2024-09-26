@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import contactUsRequest from "../../services/contactUsRequests";
-import { contactUsSchema } from "../../utils/validatoin/contactUsValidation";
+import { contactUsSchema } from "../../utils/validation/contactUsValidation";
 
 const ContactUsForm = () => {
   const [submitStatus, setSubmitStatus] = useState(null);

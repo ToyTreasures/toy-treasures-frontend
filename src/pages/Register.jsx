@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
-import { RegisterSchema } from "../utils/validatoin/userValidation";
+import { RegisterSchema } from "../utils/validation/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
 import authApiRequests from "../services/authApiRequests";
 import cities from "../utils/staticData/cities.json";
