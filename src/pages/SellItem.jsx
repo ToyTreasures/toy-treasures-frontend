@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import itemApiRequests from "../services/itemApiRequests";
+import categoryApiRequests from "../services/categoryApiRequests";
 import { SellItemSchema } from "../utils/validation/itemValidation";
 
 const SellItem = () => {
@@ -26,16 +27,20 @@ const SellItem = () => {
         return;
       }
 
+      const response = await categoryApiRequests.getCategoryByName(
+        values.category
+      );
+
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("description", values.description);
       formData.append("price", values.price);
       formData.append("condition", values.condition);
-      formData.append("category", values.category);
+      formData.append("category", response.category._id);
       formData.append("isAvailableForSwap", values.isAvailableForSwap);
       formData.append("thumbnail", values.image);
 
-      const response = await itemApiRequests.createItem(formData);
+      await itemApiRequests.createItem(formData);
       setSubmitError("");
       resetForm();
       navigate("/");
