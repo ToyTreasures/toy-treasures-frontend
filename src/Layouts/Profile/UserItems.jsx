@@ -7,11 +7,11 @@ const UserItems = () => {
   const { user } = useOutletContext();
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchUserItems = async (userId) => {
     setLoading(true);
-    setError("");
+    setErrorMessage("");
     try {
       const response = await itemApiRequests.getUsersItems(userId);
 
@@ -20,10 +20,10 @@ const UserItems = () => {
       } else {
         setUserItems([]);
       }
-    } catch (err) {
-      setError(
+    } catch (error) {
+      setErrorMessage(
         "Failed to fetch items: " +
-          (err.message || "Something wen wrong, Please try again later")
+          (error.error || "Something wen wrong, Please try again later")
       );
       setUserItems([]);
     }
@@ -41,8 +41,13 @@ const UserItems = () => {
         <h1 className="text-2xl font-bold mb-6">My Items</h1>
         {loading ? (
           <p>Loading...</p>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
+        ) : errorMessage ? (
+          <div
+            className="bg-red-200 border border-red-400 text-red-800 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
+            <span className="block sm:inline">{errorMessage}</span>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {userItems.length > 0 ? (
