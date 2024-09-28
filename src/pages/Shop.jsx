@@ -273,7 +273,7 @@ const Shop = () => {
             </div>
 
             <button
-              className="btn text-white bg-[--secondary-color] hover:bg-[var(--primary-color)] w-full rounded-md p-2 text-sm transition duration-150 ease-in-out"
+              className="btn text-white bg-[--secondary-color] hover:bg-error w-full rounded-md p-2 text-sm transition duration-150 ease-in-out"
               onClick={resetFilters}
             >
               Reset Filters
