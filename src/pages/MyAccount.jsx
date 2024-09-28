@@ -3,7 +3,7 @@ import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
 import authApiRequests from "../services/authApiRequests";
 
-const ProfilePage = () => {
+const MyAccount = () => {
   const { user, setUser } = useUserContext();
 
   const handleLogout = async () => {
@@ -27,7 +27,7 @@ const ProfilePage = () => {
               >
                 {[
                   { to: "/my-account/", label: "Dashboard" },
-                  { to: "/my-account/user-items", label: "My Items" },
+                  { to: "/my-account/my-items", label: "My Items" },
                   { to: "/my-account/swap-requests", label: "Swap Requests" },
                   {
                     to: "/my-account/edit-account",
@@ -61,4 +61,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default MyAccount;

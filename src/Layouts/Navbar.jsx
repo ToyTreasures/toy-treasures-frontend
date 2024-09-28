@@ -136,6 +136,11 @@ const Navbar = () => {
                     {user.name}
                   </span>
                 </p>
+
+                <NavLink to="/sell-item" className="nav-link hover:underline">
+                  Sell a toy
+                </NavLink>
+
                 <NavLink to="/my-account" className="nav-link hover:underline">
                   My Account
                 </NavLink>
@@ -163,7 +168,6 @@ const Navbar = () => {
                 </div>
               </div>
               <BsBagHeartFill className="text-xl" />{" "}
-              {/* Changed to use BsBagHeartFill */}
             </NavLink>
             <div className="md:hidden">
               <button
@@ -179,12 +183,21 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="flex flex-col pt-4 absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
             {user && (
-              <p className="text-[var(--primary-color)]">
-                Welcome,&nbsp;
-                <span className="text-[var(--secondary-color)] font-semibold">
-                  {user.name}
-                </span>
-              </p>
+              <>
+                <p className="text-[var(--primary-color)]">
+                  Welcome,&nbsp;
+                  <span className="text-[var(--secondary-color)] font-semibold">
+                    {user.name}
+                  </span>
+                </p>
+                <NavLink to="/sell-item" className="nav-link hover:underline">
+                  Sell a toy
+                </NavLink>
+
+                <NavLink to="/my-account" className="nav-link hover:underline">
+                  My Account
+                </NavLink>
+              </>
             )}
             <ul className="menu w-full">
               {!user ? (

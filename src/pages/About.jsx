@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Link } from "react-router-dom";
 import BackgroundImage from "../assets/story-bg.jpg";
 import { IoIosPlay } from "react-icons/io";
@@ -9,7 +8,7 @@ const About = () => {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="text-center py-16 px-96">
+        <div className="text-center md:py-16 md:px-96">
           <p className="text-sm text-[#a5c926]  mb-3 sm:mb-5 leading-4 font-semibold">
             All You Need is Fun!
           </p>
