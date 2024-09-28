@@ -1,40 +1,48 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaSadTear, FaTrashAlt, FaPlus } from "react-icons/fa";
 import itemApiRequests from "../services/itemApiRequests";
 import { useUserContext } from "../contexts/UserContext";
-import MyItemCard from "../components/MyItemCard"; // Make sure this path is correct
+import MyItemCard from "../components/MyItemCard";
 
 const MyItemsPage = () => {
   const { user } = useUserContext();
   const [userItems, setUserItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isRedirected, setIsRedirected] = useState(false);
 
-  const fetchUserItems = async (userId) => {
-    setIsLoading(true);
-    setError("");
-    try {
-      const response = await itemApiRequests.getUsersItems(userId);
-      if (response && response.items && response.items.length > 0) {
-        setUserItems(response.items);
-      } else {
-        setUserItems([]);
-      }
-    } catch (error) {
-      setError(
-        "Failed to fetch items: " +
-          (error.message || "Something went wrong. Please try again later")
-      );
-      setUserItems([]);
-    }
-    setIsLoading(false);
-  };
+  const location = useLocation();
 
   useEffect(() => {
-    if (user && user._id) {
-      fetchUserItems(user._id);
+    const fetchUserItems = async (userId) => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const response = await itemApiRequests.getUsersItems(userId);
+        if (response && response.items && response.items.length > 0) {
+          setUserItems(response.items);
+        } else {
+          setUserItems([]);
+        }
+      } catch (error) {
+        setError(
+          "Failed to fetch items: " +
+            (error.message || "Something went wrong. Please try again later")
+        );
+        setUserItems([]);
+      }
+      setIsLoading(false);
+    };
+
+    if (location.state?.isRedirected) {
+      setIsRedirected(true);
+      setTimeout(() => {
+        setIsRedirected(false);
+      }, 3000);
     }
+
+    fetchUserItems(user._id);
   }, [user]);
 
   const removeAllItems = async () => {

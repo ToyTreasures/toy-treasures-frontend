@@ -64,7 +64,7 @@ const MyItems = () => {
             )}
           </div>
           <Link
-            to="/my-items-page"
+            to="/my-items"
             className="btn btn-ghost font-bold bg-[--primary-color] text-[--secondary-color] w-full"
           >
             View All My Items

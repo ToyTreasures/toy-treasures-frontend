@@ -1,5 +1,6 @@
 import axios from "axios";
-import { handleError } from "./interceptor";
+import AuthService from "./authApiRequests";
+import { handleError, setupInterceptors } from "./interceptor";
 
 class ContactUsService {
   constructor() {
@@ -9,15 +10,12 @@ class ContactUsService {
         "Content-Type": "application/json",
       },
     });
+    setupInterceptors(this.api, AuthService);
   }
 
   async sendEmail(emailData) {
-    try {
-      const res = await this.api.post("/", emailData);
-      return res.data;
-    } catch (error) {
-      handleError(error);
-    }
+    const res = await this.api.post("/", emailData);
+    return res.data;
   }
 }
 

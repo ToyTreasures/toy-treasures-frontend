@@ -10,14 +10,6 @@ const INITIAL_VALUES = {
   messageText: "",
 };
 
-const ERROR_MESSAGES = {
-  NO_INTERNET: "No internet connection. Please check your network.",
-  SERVER_UNAVAILABLE:
-    "Server is currently unavailable. Please try again later.",
-  INTERNAL_SERVER_ERROR: "Something went wrong. Please try again.",
-  DEFAULT: "An error occurred. Please try again.",
-};
-
 const ContactUsForm = () => {
   const [toastConfig, setToastConfig] = useState({
     show: false,
@@ -37,26 +29,13 @@ const ContactUsForm = () => {
     async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
         const response = await contactUsService.sendEmail(values);
-        console.log(response);
         showToast("Message sent successfully!", "success");
         resetForm();
       } catch (error) {
-        console.error("Error submitting form:", error);
         const errorMessage =
-          ERROR_MESSAGES[error.message] || ERROR_MESSAGES.DEFAULT;
+          error.message || "Unexpected error occured, please try again later";
         showToast(errorMessage, "error");
-
-        if (error.response?.data?.errors) {
-          const backendValidationErrors = error.response.data.errors.reduce(
-            (acc, errorMsg) => {
-              const field = errorMsg.split(" ")[0].toLowerCase();
-              acc[field] = errorMsg;
-              return acc;
-            },
-            {}
-          );
-          setErrors(backendValidationErrors);
-        }
+        setErrors(errorMessage);
       } finally {
         setSubmitting(false);
       }
@@ -64,33 +43,30 @@ const ContactUsForm = () => {
     [showToast]
   );
 
-  const renderField = useCallback(
-    ({ name, label, type = "text", as = "input" }) => (
-      <div className="mb-4">
-        <label htmlFor={name} className="block mb-2 font-semibold">
-          {label}
-        </label>
-        <Field
-          id={name}
-          name={name}
-          type={type}
-          as={as}
-          className={`w-full ${
-            as === "textarea" ? "min-h-[160px] py-6" : "h-12"
-          } px-7 rounded-${
-            as === "textarea" ? "3xl" : "full"
-          } border-2 border-gray-200 bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none ${
-            as === "textarea" ? "resize-y" : ""
-          }`}
-        />
-        <ErrorMessage
-          name={name}
-          component="div"
-          className="text-red-500 mt-1 text-sm"
-        />
-      </div>
-    ),
-    []
+  const renderField = ({ name, label, type = "text", as = "input" }) => (
+    <div className="mb-4">
+      <label htmlFor={name} className="block mb-2 font-semibold">
+        {label}
+      </label>
+      <Field
+        id={name}
+        name={name}
+        type={type}
+        as={as}
+        className={`w-full ${
+          as === "textarea" ? "min-h-[160px] py-6" : "h-12"
+        } px-7 rounded-${
+          as === "textarea" ? "3xl" : "full"
+        } border-2 border-gray-200 bg-gray-100 transition-colors duration-300 focus:border-[--primary-color] focus:outline-none ${
+          as === "textarea" ? "resize-y" : ""
+        }`}
+      />
+      <ErrorMessage
+        name={name}
+        component="div"
+        className="text-red-500 mt-1 text-sm"
+      />
+    </div>
   );
 
   return (
@@ -101,6 +77,7 @@ const ContactUsForm = () => {
     >
       {({ isSubmitting }) => (
         <Form className="space-y-6 relative">
+          {/* Render form fields */}
           {renderField({ name: "fullName", label: "Full Name" })}
           {renderField({
             name: "email",
