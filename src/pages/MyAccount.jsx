@@ -7,7 +7,7 @@ const ProfilePage = () => {
   const { user, setUser } = useUserContext();
 
   const handleLogout = async () => {
-    await authApiRequests.login(values);
+    await authApiRequests.logout();
     setUser(null);
     localStorageServices.clearTokensAndUser();
   };
@@ -49,12 +49,6 @@ const ProfilePage = () => {
                     </NavLink>
                   </div>
                 ))}
-                <button
-                  onClick={handleLogout}
-                  className="md:text-start block w-full py-2 px-4 font-bold rounded transition duration-150 ease-in-out  bg-[--primary-color]  hover:bg-[--secondary-color] hover:bg-red-400 hover:text-[--secondary-color]"
-                >
-                  Logout
-                </button>
               </nav>
             </div>
             <div className="md:w-3/4 p-6 bg-[--secondary-color] text-white">

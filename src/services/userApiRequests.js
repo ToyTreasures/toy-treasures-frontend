@@ -14,17 +14,17 @@ class Userervice {
   }
 
   async getAllUsers() {
-    const res = await api.get("/");
+    const res = await this.api.get("/");
     return res.data;
   }
 
   async getUserById(id) {
-    const res = await api.get(`/${id}`);
+    const res = await this.api.get(`/${id}`);
     return res.data;
   }
 
   async updateUser(id, data) {
-    const res = await api.patch(`/${id}`, data);
+    const res = await this.api.patch(`/${id}`, data);
     return res.data;
   }
 }

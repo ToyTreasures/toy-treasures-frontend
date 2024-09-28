@@ -1,9 +1,9 @@
-import UserItemCard from "../../components/UserItemCard";
+import MyItemCard from "../../components/MyItemCard";
 import { useEffect, useState } from "react";
 import itemApiRequests from "../../services/itemApiRequests";
 import { useOutletContext } from "react-router-dom";
 
-const UserItems = () => {
+const MyItems = () => {
   const { user } = useOutletContext();
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,4 +65,4 @@ const UserItems = () => {
     </>
   );
 };
-export default UserItems;
+export default MyItems;

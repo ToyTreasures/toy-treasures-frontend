@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
-import Profile from "./pages/Profile";
+import MyAccount from "./pages/MyAccount";
 import ItemDetails from "./pages/ItemDetails";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
@@ -13,11 +13,11 @@ import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
 import SellerContacts from "./pages/SellerContacts";
 import ProtectedRoute from "./components/ProtectedRoute";
-import UserDashboard from "./Layouts/Profile/UserDashboard";
-import AccountDetails from "./Layouts/Profile/AccountDetails";
-import UserItems from "./Layouts/Profile/UserItems";
-import SwapRequests from "./Layouts/Profile/SwapRequests";
-import WishlistSection from "./Layouts/Profile/WishlistSection";
+import UserDashboard from "./Layouts/MyAccount/UserDashboard";
+import EditAccount from "./Layouts/MyAccount/EditAccount";
+import MyItems from "./Layouts/MyAccount/MyItems";
+import SwapRequests from "./Layouts/MyAccount/SwapRequests";
+import WishlistSection from "./Layouts/MyAccount/WishlistSection";
 import Wishlist from "./pages/Wishlist";
 
 const AppRoutes = () => {
@@ -41,7 +41,7 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <ProtectedRoute
-                  element={<Profile />}
+                  element={<MyAccount />}
                   isRequiredToLogIn={true}
                 />
                 <Footer />
@@ -49,9 +49,9 @@ const AppRoutes = () => {
             }
           >
             <Route path="" element={<UserDashboard />} />
-            <Route path="user-items" element={<UserItems />} />
+            <Route path="user-items" element={<MyItems />} />
             <Route path="swap-requests" element={<SwapRequests />} />
-            <Route path="edit-account" element={<AccountDetails />} />
+            <Route path="edit-account" element={<EditAccount />} />
             <Route path="wishlist" element={<WishlistSection />} />
           </Route>
           <Route

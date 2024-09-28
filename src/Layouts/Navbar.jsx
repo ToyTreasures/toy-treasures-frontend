@@ -26,7 +26,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    await authApiRequests.login(values);
+    await authApiRequests.logout();
     setUser(null);
     localStorageServices.clearTokensAndUser();
   };
