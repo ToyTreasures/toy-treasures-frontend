@@ -54,7 +54,10 @@ const Shop = () => {
         setTotalPages(1);
       }
     } catch (err) {
-      setError("Failed to fetch items: " + (err.message || "Something wen wrong, Please try again later"));
+      setError(
+        "Failed to fetch items: " +
+          (err.message || "Something wen wrong, Please try again later")
+      );
       setItems([]);
       setTotalPages(1);
     }
@@ -127,7 +130,7 @@ const Shop = () => {
   };
 
   return (
-    <div className="shop-page p-6 bg-gray-100">
+    <div className="pb-6">
       <div className="container mx-auto">
         <div className="join mt-6">
           <button

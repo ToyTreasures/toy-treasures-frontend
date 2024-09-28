@@ -19,6 +19,7 @@ export const SellItemSchema = Yup.object().shape({
   price: Yup.number()
     .typeError("Price must be a number")
     .positive("Price must be a positive number")
+    .min(1)
     .required("Price is required"),
   image: Yup.mixed()
     .required("Image is required")
@@ -29,7 +30,7 @@ export const SellItemSchema = Yup.object().shape({
     )
     .test(
       "fileFormat",
-      "Unsupported Format",
+      "upload images only",
       (value) => value && SUPPORTED_FORMATS.includes(value.type)
     ),
   condition: Yup.string().required("Condition is required"),

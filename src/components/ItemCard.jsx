@@ -31,7 +31,7 @@ const ItemCard = ({ item }) => {
           )}
           <img
             ref={imgRef}
-            src={item.image}
+            src={item.thumbnail}
             alt={item.name}
             className={`w-full h-full object-cover transition-opacity duration-300 ${
               imageLoaded ? "opacity-100" : "opacity-0"

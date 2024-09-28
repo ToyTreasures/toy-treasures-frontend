@@ -20,12 +20,6 @@ const SellItem = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("description", values.description);
@@ -38,7 +32,7 @@ const SellItem = () => {
       await itemApiRequests.createItem(formData);
       setSubmitError("");
       resetForm();
-      navigate("/");
+      navigate("/my-account/my-items");
     } catch (error) {
       setSubmitError(
         error.message || "An unexpected error occurred. Please try again."
@@ -120,6 +114,7 @@ const SellItem = () => {
                     type="number"
                     name="price"
                     id="price"
+                    step="0.01"
                     min="1"
                     placeholder="Enter item price"
                     className="grow bg-transparent outline-none w-full"
@@ -211,6 +206,7 @@ const SellItem = () => {
                 <div className="flex items-center gap-2 p-4">
                   <Field
                     type="checkbox"
+                    id="isAvailableForSwap"
                     name="isAvailableForSwap"
                     className="w-4 h-4"
                   />
