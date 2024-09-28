@@ -3,7 +3,7 @@ import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
 import authApiRequests from "../services/authApiRequests";
 
-const ProfilePage = () => {
+const MyAccount = () => {
   const { user, setUser } = useUserContext();
 
   const handleLogout = async () => {
@@ -61,4 +61,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default MyAccount;

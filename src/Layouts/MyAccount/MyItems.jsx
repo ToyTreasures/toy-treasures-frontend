@@ -52,7 +52,7 @@ const MyItems = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {userItems.length > 0 ? (
               userItems.map((item, index) => (
-                <UserItemCard item={item} key={index} />
+                <MyItemCard item={item} key={index} />
               ))
             ) : (
               <h1 className="text-2xl font-bold mb-6 text-center">

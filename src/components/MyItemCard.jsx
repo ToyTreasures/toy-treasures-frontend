@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-const UserItemCard = ({ item }) => {
+const MyItemCard = ({ item }) => {
   const timeAgo = formatDistanceToNow(parseISO(item.createdAt), {
     addSuffix: true,
   });
@@ -37,4 +37,4 @@ const UserItemCard = ({ item }) => {
   );
 };
 
-export default UserItemCard;
+export default MyItemCard;
