@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
+import localStorageServices from "../services/localStorageServices";
 import { RegisterSchema } from "../utils/validation/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
 import authApiRequests from "../services/authApiRequests";
@@ -21,6 +22,10 @@ const Register = () => {
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const response = await authApiRequests.register(values);
+      localStorageServices.setTokensAndUser(
+        response.user,
+        response.accessToken
+      );
       setRegisterError("");
       navigate("/login");
       resetForm();

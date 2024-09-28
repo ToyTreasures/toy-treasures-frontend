@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
+import authApiRequests from "../services/authApiRequests";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,7 +24,8 @@ const Navbar = () => {
     setLoading(false);
   });
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await authApiRequests.login(values);
     setUser(null);
     localStorageServices.clearTokensAndUser();
   };

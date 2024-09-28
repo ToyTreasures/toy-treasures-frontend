@@ -1,11 +1,13 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
+import authApiRequests from "../services/authApiRequests";
 
 const ProfilePage = () => {
   const { user, setUser } = useUserContext();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await authApiRequests.login(values);
     setUser(null);
     localStorageServices.clearTokensAndUser();
   };

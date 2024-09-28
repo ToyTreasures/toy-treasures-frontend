@@ -1,6 +1,5 @@
 import axios from "axios";
 import { setupInterceptors } from "./interceptor";
-import localStorageService from "../services/localStorageServices";
 
 class AuthService {
   constructor() {
@@ -53,24 +52,16 @@ class AuthService {
 
   async register(user) {
     const res = await this.api.post("/register", user);
-    localStorageService.setAccessToken(res.data.accessToken);
-    localStorageService.setUser(res.data.user);
     return res.data;
   }
 
   async login(user) {
     const res = await this.api.post("/login", user);
-    localStorageService.setAccessToken(res.data.accessToken);
-    localStorageService.setUser(res.data.user);
     return res.data;
   }
 
   async logout() {
-    try {
-      await this.api.post("/logout");
-    } finally {
-      localStorageService.clearTokensAndUser();
-    }
+    await this.api.post("/logout");
   }
 
   async refreshAccessToken() {
