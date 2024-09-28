@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import contactUsRequest from "../../services/contactUsRequests";
+import contactUsService from "../../services/contactUsApiRequests";
 import { contactUsSchema } from "../../utils/validation/contactUsValidation";
 
 const ContactUsForm = () => {
@@ -18,7 +18,7 @@ const ContactUsForm = () => {
     { setSubmitting, resetForm, setErrors }
   ) => {
     try {
-      const response = await contactUsRequest.sendEmail(values);
+      const response = await contactUsService.sendEmail(values);
       setSubmitStatus("success");
       setBackendErrors(null);
       resetForm();

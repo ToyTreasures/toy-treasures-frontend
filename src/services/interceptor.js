@@ -63,7 +63,7 @@ export const setupInterceptors = (api, authService) => {
   );
 };
 
-const handleError = (error) => {
+export const handleError = (error) => {
   if (error.response) {
     return { message: error.response.data.error || error.response.data };
   }
