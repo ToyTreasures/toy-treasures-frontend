@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaTimes, FaSadTear, FaInfoCircle, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import wishlistApiRequests from "../services/wishlistApiRequests";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -76,6 +77,10 @@ const Wishlist = () => {
   }
 
   return (
+    <div>
+      <div className="w-full md:w-11/12 mx-auto py-8">
+        <BreadCrumbs currentPage={"Wishlist"} />
+      </div>
     <div className="bg-base-100 rounded-lg shadow-md p-4 sm:p-6 max-w-7xl mx-auto mt-10">
       <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
         My Wishlist
@@ -125,6 +130,7 @@ const Wishlist = () => {
           <FaTrashAlt size={16} className="mr-2" />
           Remove All Items from Wishlist
         </button>
+</div>
       </div>
     </div>
   );

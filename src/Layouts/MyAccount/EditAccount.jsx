@@ -1,13 +1,13 @@
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
-import { useOutletContext } from "react-router-dom";
 import { UpdateUserSchema } from "../../utils/validation/userValidation";
 import cities from "../../utils/staticData/cities.json";
 import { useState } from "react";
 import userApiRequests from "../../services/userApiRequests";
 import { getModifiedFields } from "../../utils/formUtils";
+import { useUserContext } from "../../contexts/UserContext";
 
 const AccountDetails = () => {
-  const { user, setUser } = useOutletContext();
+  const { user, setUser } = useUserContext();
   const [updateUserFormError, setUpdateUserFormError] = useState("");
   const [isFormModified, setIsFormModified] = useState(false);
 

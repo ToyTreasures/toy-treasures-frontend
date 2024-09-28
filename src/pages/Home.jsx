@@ -17,7 +17,6 @@ const Home = () => {
       <WoodenToys />
       <Story />
       <BusinessSection />
-      <Subscripe />
     </div>
   );
 };

@@ -113,40 +113,44 @@ const Navbar = () => {
           <div className="flex items-center space-x-2">
             {loading ? (
               <span className="loading loading-bars loading-md"></span>
-            ) : !user ? (
-              <>
-                <NavLink
-                  to="/login"
-                  className="nav-link hover:underline hidden md:inline-flex"
-                >
-                  Login
-                </NavLink>
-                <NavLink
-                  to="/register"
-                  className="nav-link hover:underline hidden md:inline-flex"
-                >
-                  Register
-                </NavLink>
-              </>
             ) : (
-              <div className="space-x-4 hidden md:flex flex-grow">
-                <p className="hidden md:inline text-[var(--primary-color)]">
-                  Welcome,&nbsp;
-                  <span className="text-[var(--secondary-color)] font-semibold">
-                    {user.name}
-                  </span>
-                </p>
-                <NavLink to="/my-account" className="nav-link hover:underline">
-                  My Account
+              <>
+                <NavLink to="/sell-item" className="nav-link hover:underline me-4 hidden md:inline-flex">
+                  Sell a toy
                 </NavLink>
+                {!user ? (
+                  <>
+                    <NavLink
+                      to="/login"
+                      className="nav-link hover:underline hidden md:inline-flex"
+                    >
+                      Login
+                    </NavLink>
+                    <NavLink
+                      to="/register"
+                      className="nav-link hover:underline hidden md:inline-flex"
+                    >
+                      Register
+                    </NavLink>
+                  </>
+                ) : (
+                  <div className="space-x-4 hidden md:flex flex-grow">
+                    <NavLink
+                      to="/my-account"
+                      className="nav-link hover:underline"
+                    >
+                      My Account
+                    </NavLink>
 
-                <button
-                  onClick={handleLogout}
-                  className="nav-link hover:underline hidden md:inline-flex"
-                >
-                  Logout
-                </button>
-              </div>
+                    <button
+                      onClick={handleLogout}
+                      className="nav-link hover:underline hidden md:inline-flex"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </>
             )}
 
             <NavLink
@@ -163,7 +167,6 @@ const Navbar = () => {
                 </div>
               </div>
               <BsBagHeartFill className="text-xl" />{" "}
-              {/* Changed to use BsBagHeartFill */}
             </NavLink>
             <div className="md:hidden">
               <button
@@ -179,12 +182,14 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="flex flex-col pt-4 absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
             {user && (
-              <p className="text-[var(--primary-color)]">
-                Welcome,&nbsp;
-                <span className="text-[var(--secondary-color)] font-semibold">
-                  {user.name}
-                </span>
-              </p>
+              <>
+                <p className="text-[var(--primary-color)]">
+                  Welcome,&nbsp;
+                  <span className="text-[var(--secondary-color)] font-semibold">
+                    {user.name}
+                  </span>
+                </p>
+              </>
             )}
             <ul className="menu w-full">
               {!user ? (
@@ -208,7 +213,19 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 </>
-              ) : null}
+              ) : (
+                <li>
+                  <NavLink to="/my-account" onClick={toggleMobileMenu}>
+                    My Account
+                  </NavLink>
+                </li>
+              )}
+
+              <li>
+                <NavLink to="/sell-item" onClick={toggleMobileMenu}>
+                  Sell a toy
+                </NavLink>
+              </li>
 
               <li>
                 <NavLink
@@ -255,19 +272,19 @@ const Navbar = () => {
                   Wishlist
                 </NavLink>
               </li>
-              {user ? (
+              {user && (
                 <li>
                   <button
                     onClick={() => {
                       toggleMobileMenu();
                       handleLogout();
                     }}
-                    className="w-full py-3 px-4 hover:bg-base-300"
+                    className="w-full mt-2 py-3 px-4 hover:bg-error"
                   >
                     Logout
                   </button>
                 </li>
-              ) : null}
+              )}
             </ul>
           </div>
         )}
