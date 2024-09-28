@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
-import { RegisterSchema } from "../utils/validatoin/userValidation";
+import localStorageServices from "../services/localStorageServices";
+import { RegisterSchema } from "../utils/validation/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
 import authApiRequests from "../services/authApiRequests";
 import cities from "../utils/staticData/cities.json";
@@ -21,13 +22,16 @@ const Register = () => {
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const response = await authApiRequests.register(values);
+      localStorageServices.setTokensAndUser(
+        response.user,
+        response.accessToken
+      );
       setRegisterError("");
-      console.log("Registration successful:", response);
       navigate("/login");
       resetForm();
     } catch (error) {
       setRegisterError(
-        error.error || "An unexpected error occurred. Please try again later."
+        error.message || "An unexpected error occurred. Please try again later."
       );
     } finally {
       setSubmitting(false);

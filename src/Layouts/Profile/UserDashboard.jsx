@@ -38,7 +38,7 @@ const UserDashboard = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { to: "/my-account/dashboard", label: "Dashboard", icon: "🏠" },
+          { to: "/my-account/", label: "Dashboard", icon: "🏠" },
           { to: "/my-account/user-items", label: "My Items", icon: "📦" },
           {
             to: "/my-account/swap-requests",

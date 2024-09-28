@@ -16,7 +16,7 @@ const ItemDetails = () => {
         const response = await itemApiRequests.getItemById(id);
         setItem(response.item);
       } catch (error) {
-        setError(error.error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
