@@ -23,7 +23,6 @@ const Register = () => {
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const response = await authApiRequests.register(values);
-      console.log(response.user._id);
       await wishlistApiRequests.createWishlist(response.user._id);
       localStorageServices.setTokensAndUser(
         response.user,
