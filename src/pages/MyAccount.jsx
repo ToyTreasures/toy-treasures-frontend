@@ -1,13 +1,15 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
+import authApiRequests from "../services/authApiRequests";
 
 const ProfilePage = () => {
   const { user, setUser } = useUserContext();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await authApiRequests.logout();
     setUser(null);
-    localStorageServices.logout();
+    localStorageServices.clearTokensAndUser();
   };
 
   return (
@@ -24,7 +26,7 @@ const ProfilePage = () => {
                 aria-label="Account pages"
               >
                 {[
-                  { to: "/my-account/dashboard", label: "Dashboard" },
+                  { to: "/my-account/", label: "Dashboard" },
                   { to: "/my-account/user-items", label: "My Items" },
                   { to: "/my-account/swap-requests", label: "Swap Requests" },
                   {
@@ -36,6 +38,7 @@ const ProfilePage = () => {
                   <div key={index} className="mb-4 md:w-full">
                     <NavLink
                       to={item.to}
+                      end
                       className={({ isActive }) =>
                         `md:block py-2 px-4 font-bold rounded transition duration-150 ease-in-out bg-[--primary-color] hover:bg-[--secondary-color] hover:bg-gray-200 hover:text-[--secondary-color] ${
                           isActive ? "bg-gray-200" : ""
@@ -46,12 +49,6 @@ const ProfilePage = () => {
                     </NavLink>
                   </div>
                 ))}
-                <button
-                  onClick={handleLogout}
-                  className="md:text-start block w-full py-2 px-4 font-bold rounded transition duration-150 ease-in-out  bg-[--primary-color]  hover:bg-[--secondary-color] hover:bg-red-400 hover:text-[--secondary-color]"
-                >
-                  Logout
-                </button>
               </nav>
             </div>
             <div className="md:w-3/4 p-6 bg-[--secondary-color] text-white">

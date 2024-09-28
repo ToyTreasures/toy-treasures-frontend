@@ -13,6 +13,7 @@ import { BsBagHeartFill } from "react-icons/bs";
 
 import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
+import authApiRequests from "../services/authApiRequests";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,9 +25,10 @@ const Navbar = () => {
     setLoading(false);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await authApiRequests.logout();
     setUser(null);
-    localStorageServices.logout();
+    localStorageServices.clearTokensAndUser();
   };
 
   const toggleMobileMenu = () => {
@@ -127,17 +129,24 @@ const Navbar = () => {
                 </NavLink>
               </>
             ) : (
-              <>
-                <span className="hidden md:inline text-[var(--primary-color)]">
-                  Welcome, {user.name}
-                </span>
+              <div className="space-x-4 hidden md:flex flex-grow">
+                <p className="hidden md:inline text-[var(--primary-color)]">
+                  Welcome,&nbsp;
+                  <span className="text-[var(--secondary-color)] font-semibold">
+                    {user.name}
+                  </span>
+                </p>
+                <NavLink to="/my-account" className="nav-link hover:underline">
+                  My Account
+                </NavLink>
+
                 <button
                   onClick={handleLogout}
                   className="nav-link hover:underline hidden md:inline-flex"
                 >
                   Logout
                 </button>
-              </>
+              </div>
             )}
 
             <NavLink
@@ -170,24 +179,15 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="flex flex-col pt-4 absolute w-[30%] top-full right-0 bg-base-200 shadow-lg md:hidden z-50">
             {user && (
-              <span className="text-[var(--primary-color)]">
-                Welcome, {user.name}
-              </span>
+              <p className="text-[var(--primary-color)]">
+                Welcome,&nbsp;
+                <span className="text-[var(--secondary-color)] font-semibold">
+                  {user.name}
+                </span>
+              </p>
             )}
             <ul className="menu w-full">
-              {user ? (
-                <li>
-                  <button
-                    onClick={() => {
-                      toggleMobileMenu();
-                      handleLogout();
-                    }}
-                    className="w-full py-3 px-4 hover:bg-base-300"
-                  >
-                    Logout
-                  </button>
-                </li>
-              ) : (
+              {!user ? (
                 <>
                   <li>
                     <NavLink
@@ -208,7 +208,8 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 </>
-              )}
+              ) : null}
+
               <li>
                 <NavLink
                   to="/shop"
@@ -254,6 +255,19 @@ const Navbar = () => {
                   Wishlist
                 </NavLink>
               </li>
+              {user ? (
+                <li>
+                  <button
+                    onClick={() => {
+                      toggleMobileMenu();
+                      handleLogout();
+                    }}
+                    className="w-full py-3 px-4 hover:bg-base-300"
+                  >
+                    Logout
+                  </button>
+                </li>
+              ) : null}
             </ul>
           </div>
         )}

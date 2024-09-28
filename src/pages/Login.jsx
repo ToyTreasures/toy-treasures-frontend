@@ -28,14 +28,13 @@ const Login = () => {
     try {
       const res = await authApiRequests.login(values);
       setLoginError("");
-      localStorageServices.login(res.user, res.accessToken);
+      localStorageServices.setTokensAndUser(res.user, res.accessToken);
       setUser(res.user);
       navigate("/");
       resetForm();
     } catch (error) {
-      console.error("Login error:", error);
       setLoginError(
-        error.error || "An unexpected error occurred. Please try again."
+        error.message || "An unexpected error occurred. Please try again."
       );
     } finally {
       setSubmitting(false);

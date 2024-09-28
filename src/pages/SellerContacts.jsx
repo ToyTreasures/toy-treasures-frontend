@@ -15,8 +15,7 @@ const SellerContacts = () => {
         setSeller(res.user);
       } catch (error) {
         setError(
-          error ||
-            "Error fetching seller details, please try again later"
+          error || "Error fetching seller details, please try again later"
         );
       }
     };

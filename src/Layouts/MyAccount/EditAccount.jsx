@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { useOutletContext } from "react-router-dom";
-import { UpdateUserSchema } from "../../utils/validatoin/userValidation";
+import { UpdateUserSchema } from "../../utils/validation/userValidation";
 import cities from "../../utils/staticData/cities.json";
 import { useState } from "react";
 import userApiRequests from "../../services/userApiRequests";
@@ -34,11 +34,9 @@ const AccountDetails = () => {
       setUser(response.user);
       localStorage.setItem("user", JSON.stringify(response.user));
       setIsFormModified(false);
-      console.log("Data Updated successfully:", response);
     } catch (error) {
-      console.log(error);
       setUpdateUserFormError(
-        error.error || "An unexpected error occurred. Please try again later."
+        error.message || "An unexpected error occurred. Please try again later."
       );
     } finally {
       setSubmitting(false);
@@ -47,7 +45,7 @@ const AccountDetails = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-6">Account Details</h2>
+      <h2 className="text-2xl font-bold mb-6">Edit Your Account</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={UpdateUserSchema}
@@ -124,7 +122,7 @@ const AccountDetails = () => {
                 className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
                 onChange={(e) => {
                   setFieldValue("password", e.target.value);
-                  e.target.value !== initialValues.password && isValid
+                  e.target.value !== initialValues.password
                     ? setIsFormModified(true)
                     : setIsFormModified(false);
                 }}
@@ -150,7 +148,7 @@ const AccountDetails = () => {
                   className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
                   onChange={(e) => {
                     setFieldValue("phoneNumber", e.target.value);
-                    e.target.value !== initialValues.phoneNumber && isValid
+                    e.target.value !== initialValues.phoneNumber
                       ? setIsFormModified(true)
                       : setIsFormModified(false);
                   }}
@@ -176,7 +174,7 @@ const AccountDetails = () => {
                   className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md focus:ring focus:ring-[--primary-color] focus:border-[--primary-color]"
                   onChange={(e) => {
                     setFieldValue("address", e.target.value);
-                    e.target.value !== initialValues.address && isValid
+                    e.target.value !== initialValues.address
                       ? setIsFormModified(true)
                       : setIsFormModified(false);
                   }}
