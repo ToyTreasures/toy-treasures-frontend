@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import itemApiRequests from "../services/itemApiRequests";
-import categoryApiRequests from "../services/categoryApiRequests";
 import { SellItemSchema } from "../utils/validation/itemValidation";
 
 const SellItem = () => {
@@ -21,16 +20,12 @@ const SellItem = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await categoryApiRequests.getCategoryByName(
-        values.category
-      );
-
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("description", values.description);
       formData.append("price", values.price);
       formData.append("condition", values.condition);
-      formData.append("categoryId", response.category._id);
+      formData.append("category", values.category);
       formData.append("isAvailableForSwap", values.isAvailableForSwap);
       formData.append("thumbnail", values.image);
 
@@ -193,8 +188,10 @@ const SellItem = () => {
                     <option value="">Select Item Category</option>
                     <option value="Action Figures">Action Figures</option>
                     <option value="Board Games">Board Games</option>
+                    <option value="Stuffed Animals">Stuffed Animals</option>
                     <option value="Wooden Toys">Wooden Toys</option>
                     <option value="Doll & Plush">Doll & Plush</option>
+                    <option value="Puzzle">Puzzle</option>
                     <option value="Technology">Technology</option>
                   </Field>
                 </div>
