@@ -6,10 +6,11 @@ import {
   FaInstagram,
   FaPinterest,
   FaYoutube,
-  FaShoppingCart,
   FaBars,
   FaTimes,
 } from "react-icons/fa";
+import { BsBagHeartFill } from "react-icons/bs";
+
 import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
 import authApiRequests from "../services/authApiRequests";
@@ -22,7 +23,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setLoading(false);
-  });
+  }, []);
 
   const handleLogout = async () => {
     await authApiRequests.login(values);
@@ -91,7 +92,6 @@ const Navbar = () => {
       <nav className="navbar bg-white shadow-lg relative">
         <div className="container mx-auto flex justify-between items-baseline">
           <NavLink to="/" className="flex items-center me-4">
-            {/* <img src={logo} alt="ToyStore Logo" className="h-16 w-auto" />{" "} */}
             <p className="text-2xl font-bold">ToyzCity</p>
           </NavLink>
 
@@ -150,10 +150,10 @@ const Navbar = () => {
             )}
 
             <NavLink
-              to="/cart"
+              to="/wishlist"
               className="flex items-center relative p-2 rounded-md"
             >
-              <div className="absolute top-[-10px] right-[5px] flex flex-col items-center">
+              <div className="absolute top-[-7px] right-[-1px] flex flex-col items-center">
                 <div className="flex justify-center space-x-1 mb-[-2px]">
                   <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
                   <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
@@ -162,7 +162,8 @@ const Navbar = () => {
                   0
                 </div>
               </div>
-              <FaShoppingCart className="text-xl" />
+              <BsBagHeartFill className="text-xl" />{" "}
+              {/* Changed to use BsBagHeartFill */}
             </NavLink>
             <div className="md:hidden">
               <button
@@ -247,11 +248,11 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/cart"
+                  to="/wishlist"
                   onClick={toggleMobileMenu}
                   className="w-full py-3 px-4 hover:bg-base-300"
                 >
-                  Cart
+                  Wishlist
                 </NavLink>
               </li>
               {user ? (
@@ -267,31 +268,6 @@ const Navbar = () => {
                   </button>
                 </li>
               ) : null}
-              {/* {user ? (
-                <>
-                  <li>
-                    <span className="w-full py-3 px-4">Welcome, {user.name}</span>
-                  </li>
-                  <li>
-                    <button onClick={handleLogout} className="w-full py-3 px-4 hover:bg-base-300">
-                      Logout
-                    </button>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <NavLink to="/login" onClick={toggleMobileMenu} className="w-full py-3 px-4 hover:bg-base-300">
-                      Login
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/signup" onClick={toggleMobileMenu} className="w-full py-3 px-4 hover:bg-base-300">
-                      Sign Up
-                    </NavLink>
-                  </li>
-                </>
-              )} */}
             </ul>
           </div>
         )}
