@@ -1,47 +1,30 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaTimes, FaShoppingCart, FaSadTear } from "react-icons/fa";
-import BackgroundImage from "../../assets/story-bg.jpg";
+import { FaTimes, FaSadTear, FaInfoCircle } from "react-icons/fa";
+import wishlistApiRequests from "../../services/wishlistApiRequests";
 
-const WishlistPreview = () => {
+const WishlistSection = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulating fetch from an API for testing
-    const staticWishlistItems = [
-      {
-        id: 1,
-        title: "Toy Car",
-        image: BackgroundImage,
-        price: 19.99,
-      },
-      {
-        id: 2,
-        title: "Building Blocks",
-        image: BackgroundImage,
-        price: 29.99,
-      },
-      {
-        id: 3,
-        title: "Dollhouse",
-        image: BackgroundImage,
-        price: 49.99,
-      },
-    ];
-
-    setWishlistItems(staticWishlistItems);
-    setIsLoading(false);
+    const fetchWishlistItems = async () => {
+      setIsLoading(true);
+      try {
+        const response = await wishlistApiRequests.getWishlist();
+        setWishlistItems(response.wishlist.items);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchWishlistItems();
   }, []);
 
   const removeFromWishlist = (id) => {
-    setWishlistItems(wishlistItems.filter((item) => item.id !== id));
-  };
-
-  const addToCart = (item) => {
-    console.log(`Added ${item.title} to cart`);
-    // Implement actual add to cart functionality here
+    setWishlistItems(wishlistItems.filter((item) => item._id !== id));
   };
 
   if (isLoading) {
@@ -52,6 +35,9 @@ const WishlistPreview = () => {
     );
   }
 
+  if (error) {
+    return <div className="text-red-500 text-center">{error}</div>;
+  }
   if (wishlistItems.length === 0) {
     return (
       <div className="bg-base-100 rounded-lg shadow-md p-6 text-center">
@@ -73,40 +59,46 @@ const WishlistPreview = () => {
       </div>
     );
   }
+  const limitedWishlistItems = wishlistItems.slice(0, 3);
 
   return (
     <div className="bg-base-100 rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold mb-4">Wishlist Preview</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        {wishlistItems.map((item) => (
+        {limitedWishlistItems.map((item) => (
           <div
             key={item.id}
-            className="relative bg-white rounded-lg shadow-md overflow-hidden"
+            className="relative bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
           >
             <button
-              onClick={() => removeFromWishlist(item.id)}
-              className="absolute top-2 left-2 bg-red-700 text-white rounded-full p-1 transition-transform transform hover:scale-110 hover:bg-red-800 focus:outline-none"
+              onClick={() => removeFromWishlist(item._id)}
+              className="absolute top-2 left-2 bg-red-700 text-white rounded-full p-2 transition-transform transform hover:scale-110 hover:bg-red-800 focus:outline-none"
               aria-label="Remove from wishlist"
             >
-              <FaTimes size={20} />
+              <FaTimes size={16} />
             </button>
             <img
-              src={item.image}
+              src={item.thumbnail}
               alt={item.title}
-              className="w-full h-48 object-cover"
+              className="w-full h-56 object-cover"
             />
             <div className="p-4">
-              <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-              <p className="text-xl font-bold text-[--secondary-color] mb-4 ">
-                ${item.price.toFixed(2)}
+              <h3 className="text-xl font-semibold text-[--secondary-color] mb-2">
+                {item.name}
+              </h3>
+              <p className="text-gray-600 mb-3 text-sm">{item.description}</p>
+              <p className="text-2xl font-bold text-[--secondary-color] mb-4">
+                ${item.price}
               </p>
-              <button
-                onClick={() => addToCart(item)}
-                className="btn btn-sm w-full flex items-center font-bold justify-center bg-[--primary-color] text-[--secondary-color] "
-              >
-                <FaShoppingCart size={16} className="mr-2 " />
-                Add to Cart
-              </button>
+              <div className="flex flex-col gap-2">
+                <Link
+                  to={`/items/${item._id}`}
+                  className="btn btn-sm flex items-center justify-center font-bold bg-[--secondary-color] text-[--primary-color] hover:bg-opacity-80 transition-all duration-300"
+                >
+                  <FaInfoCircle size={16} className="mr-2" />
+                  View Details
+                </Link>
+              </div>
             </div>
           </div>
         ))}
@@ -121,4 +113,4 @@ const WishlistPreview = () => {
   );
 };
 
-export default WishlistPreview;
+export default WishlistSection;

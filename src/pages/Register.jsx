@@ -6,6 +6,7 @@ import { RegisterSchema } from "../utils/validation/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
 import authApiRequests from "../services/authApiRequests";
 import cities from "../utils/staticData/cities.json";
+import wishlistApiRequests from "../services/wishlistApiRequests";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");
@@ -22,6 +23,7 @@ const Register = () => {
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       const response = await authApiRequests.register(values);
+      await wishlistApiRequests.createWishlist(response.user._id);
       localStorageServices.setTokensAndUser(
         response.user,
         response.accessToken
