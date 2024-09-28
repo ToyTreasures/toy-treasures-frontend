@@ -80,7 +80,6 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
-      <Subscribe />
     </section>
   );
 };
