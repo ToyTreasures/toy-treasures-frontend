@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MyItemCard from "../../components/MyItemCard";
 import itemApiRequests from "../../services/itemApiRequests";
-import { useOutletContext } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserContext";
 
 const MyItems = () => {
-  const { user } = useOutletContext();
+  const { user } = useUserContext();
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");

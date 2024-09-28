@@ -152,11 +152,14 @@ const AppRoutes = () => {
             }
           />{" "}
           <Route
-            path="/my-items-page"
+            path="/my-items"
             element={
               <>
                 <Navbar />
-                <MyItemsPage />
+                <ProtectedRoute
+                  element={<MyItemsPage />}
+                  isRequiredToLogIn={true}
+                />
                 <Footer />
               </>
             }

@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserContext";
 
 const UserDashboard = () => {
-  const { user } = useOutletContext();
+  const { user } = useUserContext();
 
   return (
     <>

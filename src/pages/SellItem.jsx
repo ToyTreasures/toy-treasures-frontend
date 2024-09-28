@@ -32,7 +32,7 @@ const SellItem = () => {
       await itemApiRequests.createItem(formData);
       setSubmitError("");
       resetForm();
-      navigate("/my-account/my-items");
+      navigate("/my-items", { state: { isRedirected: true } });
     } catch (error) {
       setSubmitError(
         error.message || "An unexpected error occurred. Please try again."
