@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
-import BackgroundImage from "../assets/story-bg.jpg";
-import { IoIosPlay } from "react-icons/io";
-import { IoIosSend } from "react-icons/io";
 import Story from "../Layouts/HomeLayouts/Story";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 const About = () => {
   return (
     <div>
-      <div className="container mx-auto">
-        <div className="text-center md:py-16 md:px-96">
+      <div className="container mx-auto p-4 md:p-8">
+        <div className="w-full md:w-11/12 mx-auto">
+          <BreadCrumbs currentPage={"About"} />
+        </div>
+        <div className="text-center py-6 md:py-16 md:px-96">
           <p className="text-sm text-[#a5c926]  mb-3 sm:mb-5 leading-4 font-semibold">
             All You Need is Fun!
           </p>

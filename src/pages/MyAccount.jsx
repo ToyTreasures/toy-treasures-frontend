@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import localStorageServices from "../services/localStorageServices";
 import authApiRequests from "../services/authApiRequests";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 const MyAccount = () => {
   const { user, setUser } = useUserContext();
@@ -13,8 +14,11 @@ const MyAccount = () => {
   };
 
   return (
-    <div className="bg-gray-100 h-full  py-14 ">
-      <div className="container mx-auto px-4 max-w-7xl ">
+    <div className="bg-gray-100 h-full">
+      <div className="w-full md:w-11/12 mx-auto py-8">
+        <BreadCrumbs currentPage={"My Account"} />
+      </div>
+      <div className="container mx-auto px-4 max-w-7xl pt-6 pb-14">
         <div className="bg-white rounded-lg shadow-md overflow-hidden ">
           <div className="md:flex">
             <div className="md:w-1/4  p-6 bg-[--secondary-color]  border-r border-gray-200  ">
