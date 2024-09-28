@@ -8,7 +8,7 @@ const About = () => {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="text-center md:py-16 md:px-96">
+        <div className="text-center lg:py-8 xl:py-16 lg:px-52 xl:px-96">
           <p className="text-sm text-[#a5c926]  mb-3 sm:mb-5 leading-4 font-semibold">
             All You Need is Fun!
           </p>
