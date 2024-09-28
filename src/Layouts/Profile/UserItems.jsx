@@ -23,7 +23,7 @@ const UserItems = () => {
     } catch (error) {
       setErrorMessage(
         "Failed to fetch items: " +
-          (error.error || "Something wen wrong, Please try again later")
+          (error.message || "Something wen wrong, Please try again later")
       );
       setUserItems([]);
     }

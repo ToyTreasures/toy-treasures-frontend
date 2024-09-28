@@ -36,7 +36,7 @@ const AccountDetails = () => {
       setIsFormModified(false);
     } catch (error) {
       setUpdateUserFormError(
-        error.error || "An unexpected error occurred. Please try again later."
+        error.message || "An unexpected error occurred. Please try again later."
       );
     } finally {
       setSubmitting(false);

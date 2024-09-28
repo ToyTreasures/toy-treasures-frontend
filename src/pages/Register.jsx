@@ -26,7 +26,7 @@ const Register = () => {
       resetForm();
     } catch (error) {
       setRegisterError(
-        error.error || "An unexpected error occurred. Please try again later."
+        error.message || "An unexpected error occurred. Please try again later."
       );
     } finally {
       setSubmitting(false);

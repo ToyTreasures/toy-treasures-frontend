@@ -46,7 +46,7 @@ const SellItem = () => {
       navigate("/");
     } catch (error) {
       setSubmitError(
-        error.error || "An unexpected error occurred. Please try again."
+        error.message || "An unexpected error occurred. Please try again."
       );
     } finally {
       setSubmitting(false);
