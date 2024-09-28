@@ -187,7 +187,6 @@ const SellItem = () => {
                   >
                     <option value="">Select Item Category</option>
                     <option value="Action Figures">Action Figures</option>
-                    <option value="Board Games">Board Games</option>
                     <option value="Stuffed Animals">Stuffed Animals</option>
                     <option value="Wooden Toys">Wooden Toys</option>
                     <option value="Doll & Plush">Doll & Plush</option>

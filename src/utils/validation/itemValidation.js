@@ -5,7 +5,6 @@ const FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 const validCategoryNames = [
   "Action Figures",
-  "Board Games",
   "Stuffed Animals",
   "Wooden Toys",
   "Puzzle",

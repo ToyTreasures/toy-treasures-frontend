@@ -1,16 +1,30 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaSadTear, FaTrashAlt, FaPlus } from "react-icons/fa";
 import itemApiRequests from "../services/itemApiRequests";
 import { useUserContext } from "../contexts/UserContext";
 import MyItemCard from "../components/MyItemCard";
+import Toast from "../components/Toast";
 
 const MyItemsPage = () => {
   const { user } = useUserContext();
   const [userItems, setUserItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isRedirected, setIsRedirected] = useState(false);
+
+  const [toastConfig, setToastConfig] = useState({
+    show: false,
+    message: "",
+    type: null,
+  });
+
+  const showToast = useCallback((message, type) => {
+    setToastConfig({ show: true, message, type });
+    setTimeout(
+      () => setToastConfig({ show: false, message: "", type: null }),
+      3000
+    );
+  }, []);
 
   const location = useLocation();
 
@@ -36,10 +50,7 @@ const MyItemsPage = () => {
     };
 
     if (location.state?.isRedirected) {
-      setIsRedirected(true);
-      setTimeout(() => {
-        setIsRedirected(false);
-      }, 3000);
+      showToast("Item created successfully", "success");
     }
 
     fetchUserItems(user._id);
@@ -86,6 +97,10 @@ const MyItemsPage = () => {
 
   return (
     <div className="bg-base-100 rounded-lg shadow-md p-4 sm:p-6 max-w-7xl mx-auto mt-10">
+      {toastConfig.show && (
+        <Toast message={toastConfig.message} type={toastConfig.type} />
+      )}
+
       <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
         My Items
       </h2>
