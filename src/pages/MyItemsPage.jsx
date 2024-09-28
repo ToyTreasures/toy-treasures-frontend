@@ -4,6 +4,7 @@ import { FaSadTear, FaTrashAlt, FaPlus } from "react-icons/fa";
 import itemApiRequests from "../services/itemApiRequests";
 import { useUserContext } from "../contexts/UserContext";
 import MyItemCard from "../components/MyItemCard"; // Make sure this path is correct
+import BreadCrumbs from "../components/BreadCrumbs";
 
 const MyItemsPage = () => {
   const { user } = useUserContext();
@@ -77,23 +78,28 @@ const MyItemsPage = () => {
   }
 
   return (
-    <div className="bg-base-100 rounded-lg shadow-md p-4 sm:p-6 max-w-7xl mx-auto mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
-        My Items
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {userItems.map((item) => (
-          <MyItemCard key={item._id} item={item} />
-        ))}
+    <div>
+      <div className="w-full md:w-11/12 mx-auto py-8">
+        <BreadCrumbs currentPage={"My Items"} />
       </div>
-      <div className="text-center">
-        <button
-          onClick={removeAllItems}
-          className="btn bg-red-600 text-white font-bold hover:bg-red-700 transition-all duration-300"
-        >
-          <FaTrashAlt size={16} className="mr-2" />
-          Remove All Items
-        </button>
+      <div className="bg-base-100 rounded-lg shadow-md p-4 sm:p-6 max-w-7xl mx-auto mt-10">
+        <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
+          My Items
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {userItems.map((item) => (
+            <MyItemCard key={item._id} item={item} />
+          ))}
+        </div>
+        <div className="text-center">
+          <button
+            onClick={removeAllItems}
+            className="btn bg-red-600 text-white font-bold hover:bg-red-700 transition-all duration-300"
+          >
+            <FaTrashAlt size={16} className="mr-2" />
+            Remove All Items
+          </button>
+        </div>
       </div>
     </div>
   );
