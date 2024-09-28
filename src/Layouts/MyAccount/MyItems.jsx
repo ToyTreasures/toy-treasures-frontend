@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import MyItemCard from "../../components/MyItemCard";
-import { useEffect, useState } from "react";
 import itemApiRequests from "../../services/itemApiRequests";
 import { useOutletContext } from "react-router-dom";
 
@@ -14,16 +15,15 @@ const MyItems = () => {
     setErrorMessage("");
     try {
       const response = await itemApiRequests.getUsersItems(userId);
-
       if (response && response.items && response.items.length > 0) {
-        setUserItems(response.items);
+        setUserItems(response.items.slice(0, 3));
       } else {
         setUserItems([]);
       }
     } catch (error) {
       setErrorMessage(
         "Failed to fetch items: " +
-          (error.message || "Something wen wrong, Please try again later")
+          (error.message || "Something went wrong. Please try again later")
       );
       setUserItems([]);
     }
@@ -35,34 +35,44 @@ const MyItems = () => {
       fetchUserItems(user._id);
     }
   }, [user]);
+
   return (
-    <>
-      <div className="overflow-y-scroll max-h-64 sm:max-h-80 md:max-h-96 lg:max-h-full">
-        <h1 className="text-2xl font-bold mb-6">My Items</h1>
-        {loading ? (
-          <p>Loading...</p>
-        ) : errorMessage ? (
-          <div
-            className="bg-red-200 border border-red-400 text-red-800 px-4 py-3 rounded relative mb-4"
-            role="alert"
-          >
-            <span className="block sm:inline">{errorMessage}</span>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="bg-base-100 rounded-lg shadow-md p-6">
+      <h2 className="text-2xl font-bold mb-6">My Items Preview</h2>
+      {loading ? (
+        <div className="flex justify-center items-center h-48">
+          <div className="loading loading-spinner loading-lg"></div>
+        </div>
+      ) : errorMessage ? (
+        <div
+          className="bg-red-200 border border-red-400 text-red-800 px-4 py-3 rounded relative mb-4"
+          role="alert"
+        >
+          <span className="block sm:inline">{errorMessage}</span>
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             {userItems.length > 0 ? (
               userItems.map((item, index) => (
                 <MyItemCard item={item} key={index} />
               ))
             ) : (
-              <h1 className="text-2xl font-bold mb-6 text-center">
-                You didn't list any item yet!
-              </h1>
+              <p className="col-span-3 text-center text-lg font-semibold text-gray-600">
+                You haven't listed any items yet!
+              </p>
             )}
           </div>
-        )}
-      </div>
-    </>
+          <Link
+            to="/my-items-page"
+            className="btn btn-ghost font-bold bg-[--primary-color] text-[--secondary-color] w-full"
+          >
+            View All My Items
+          </Link>
+        </>
+      )}
+    </div>
   );
 };
+
 export default MyItems;

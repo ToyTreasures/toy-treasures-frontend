@@ -19,6 +19,7 @@ import MyItems from "./Layouts/MyAccount/MyItems";
 import SwapRequests from "./Layouts/MyAccount/SwapRequests";
 import WishlistSection from "./Layouts/MyAccount/WishlistSection";
 import Wishlist from "./pages/Wishlist";
+import MyItemsPage from "./pages/MyItemsPage";
 
 const AppRoutes = () => {
   return (
@@ -146,6 +147,16 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <Wishlist />
+                <Footer />
+              </>
+            }
+          />{" "}
+          <Route
+            path="/my-items-page"
+            element={
+              <>
+                <Navbar />
+                <MyItemsPage />
                 <Footer />
               </>
             }
