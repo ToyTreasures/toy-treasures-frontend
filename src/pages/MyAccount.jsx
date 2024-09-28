@@ -27,7 +27,7 @@ const MyAccount = () => {
               >
                 {[
                   { to: "/my-account/", label: "Dashboard" },
-                  { to: "/my-account/user-items", label: "My Items" },
+                  { to: "/my-account/my-items", label: "My Items" },
                   { to: "/my-account/swap-requests", label: "Swap Requests" },
                   {
                     to: "/my-account/edit-account",

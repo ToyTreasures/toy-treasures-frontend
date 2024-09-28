@@ -43,6 +43,7 @@ export const setupInterceptors = (api, authService) => {
           originalRequest.headers["Authorization"] = accessToken;
           return api(originalRequest);
         } catch (refreshError) {
+          console.log(refreshError);
           authService.onRefreshFailure(refreshError);
           localStorageService.clearTokensAndUser();
           window.location.href = "/login";

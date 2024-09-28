@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
 import itemApiRequests from "../services/itemApiRequests";
-import categoryApiRequests from "../services/categoryApiRequests";
 import { SellItemSchema } from "../utils/validation/itemValidation";
 
 const SellItem = () => {
@@ -21,29 +20,19 @@ const SellItem = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
-      const response = await categoryApiRequests.getCategoryByName(
-        values.category
-      );
-
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("description", values.description);
       formData.append("price", values.price);
       formData.append("condition", values.condition);
-      formData.append("category", response.category._id);
+      formData.append("category", values.category);
       formData.append("isAvailableForSwap", values.isAvailableForSwap);
       formData.append("thumbnail", values.image);
 
       await itemApiRequests.createItem(formData);
       setSubmitError("");
       resetForm();
-      navigate("/");
+      navigate("/my-account/my-items");
     } catch (error) {
       setSubmitError(
         error.message || "An unexpected error occurred. Please try again."
@@ -125,6 +114,7 @@ const SellItem = () => {
                     type="number"
                     name="price"
                     id="price"
+                    step="0.01"
                     min="1"
                     placeholder="Enter item price"
                     className="grow bg-transparent outline-none w-full"
@@ -198,8 +188,10 @@ const SellItem = () => {
                     <option value="">Select Item Category</option>
                     <option value="Action Figures">Action Figures</option>
                     <option value="Board Games">Board Games</option>
+                    <option value="Stuffed Animals">Stuffed Animals</option>
                     <option value="Wooden Toys">Wooden Toys</option>
                     <option value="Doll & Plush">Doll & Plush</option>
+                    <option value="Puzzle">Puzzle</option>
                     <option value="Technology">Technology</option>
                   </Field>
                 </div>
@@ -214,6 +206,7 @@ const SellItem = () => {
                 <div className="flex items-center gap-2 p-4">
                   <Field
                     type="checkbox"
+                    id="isAvailableForSwap"
                     name="isAvailableForSwap"
                     className="w-4 h-4"
                   />
