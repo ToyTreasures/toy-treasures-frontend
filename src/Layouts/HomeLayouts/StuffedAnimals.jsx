@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import ItemCard from "../../components/ItemCard";
+import { HiOutlineShoppingCart } from "react-icons/hi2";
+
 
 const StuffedAnimals = () => {
   const items = [
@@ -7,29 +9,33 @@ const StuffedAnimals = () => {
       id: 1,
       name: "Teddy Bear",
       price: 30.0,
-      image:
-        "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae12942ca03553bf0d536c_33903-2-plush-toy-transparent-image-min.png",
+      thumbnail: "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae12942ca03553bf0d536c_33903-2-plush-toy-transparent-image-min.png",
+      condition: "new",
+      isAvailableForSwap: true,
     },
     {
       id: 2,
       name: "Mega Plush Toy",
       price: 38.0,
-      image:
-        "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae124e03ef144f2b4a9bef_33837-2-plush-toy-transparent-background-min.png",
+      thumbnail: "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae124e03ef144f2b4a9bef_33837-2-plush-toy-transparent-background-min.png",
+      condition: "gentle",
+      isAvailableForSwap: false,
     },
     {
       id: 3,
       name: "Cute Dog",
       price: 24.0,
-      image:
-        "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae0f7a1f2da258291736c4_33908-7-plush-toy-file-min.png",
+      thumbnail: "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae0f7a1f2da258291736c4_33908-7-plush-toy-file-min.png",
+      condition: "used",
+      isAvailableForSwap: true,
     },
     {
       id: 4,
       name: "Little Friend",
       price: 27.0,
-      image:
-        "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae0f1835e11376299a8089_33878-5-plush-toy-transparent-min.png",
+      thumbnail: "https://cdn.prod.website-files.com/5baddb6a35e113da0e9a4802/5bae0f1835e11376299a8089_33878-5-plush-toy-transparent-min.png",
+      condition: "new",
+      isAvailableForSwap: false,
     },
   ];
 
@@ -43,12 +49,7 @@ const StuffedAnimals = () => {
             className="py-2 border-b-2 border-gray-300 transition-colors duration-300 ease-in-out text-gray-900 text-sm font-semibold no-underline hover:border-lime-500 flex items-center gap-1"
           >
             See All Toys
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-4"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
               <path
                 fillRule="evenodd"
                 d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
@@ -62,7 +63,7 @@ const StuffedAnimals = () => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mt-8">
           {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard key={item.id} item={item} buttonText="Add to cart" icon={HiOutlineShoppingCart} />
           ))}
         </div>
       </div>
