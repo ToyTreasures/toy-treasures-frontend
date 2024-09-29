@@ -11,13 +11,6 @@ class CategoryService {
 
     setupInterceptors(this.api, AuthService);
   }
-
-  async getCategoryByName(categoryName) {
-    const res = await this.api.get(`/name`, {
-      params: { categoryName },
-    });
-    return res.data;
-  }
 }
 
 export default new CategoryService();

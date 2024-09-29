@@ -4,7 +4,7 @@ const Toast = ({ message, type = "success" }) => {
   const bgColor = type === "success" ? "bg-green-500" : "bg-red-500";
 
   return (
-    <div className={`fixed bottom-5 right-5 ${bgColor} text-white p-3 rounded-md shadow-md flex items-center justify-between`}>
+    <div className={`z-10 fixed bottom-5 right-5 ${bgColor} text-white p-3 rounded-md shadow-md flex items-center justify-between`}>
       <div className="font-sans text-sm mr-2">{message}</div>
       <div className="flex-shrink-0">
         {type === "success" ? (

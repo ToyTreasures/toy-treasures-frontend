@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
-import Navbar from "./layouts/Navbar";
-import Footer from "./layouts/Footer";
+import Navbar from "./Layouts/Navbar";
+import Footer from "./Layouts/Footer";
 import MyAccount from "./pages/MyAccount";
 import ItemDetails from "./pages/ItemDetails";
 import NotFound from "./pages/NotFound";
@@ -19,6 +19,7 @@ import MyItems from "./Layouts/MyAccount/MyItems";
 import SwapRequests from "./Layouts/MyAccount/SwapRequests";
 import WishlistSection from "./Layouts/MyAccount/WishlistSection";
 import Wishlist from "./pages/Wishlist";
+import MyItemsPage from "./pages/MyItemsPage";
 
 const AppRoutes = () => {
   return (
@@ -49,7 +50,7 @@ const AppRoutes = () => {
             }
           >
             <Route path="" element={<UserDashboard />} />
-            <Route path="user-items" element={<MyItems />} />
+            <Route path="my-items" element={<MyItems />} />
             <Route path="swap-requests" element={<SwapRequests />} />
             <Route path="edit-account" element={<EditAccount />} />
             <Route path="wishlist" element={<WishlistSection />} />
@@ -145,7 +146,23 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <Wishlist />
+                <ProtectedRoute
+                  element={<Wishlist />}
+                  isRequiredToLogIn={true}
+                />
+                <Footer />
+              </>
+            }
+          />{" "}
+          <Route
+            path="/my-items"
+            element={
+              <>
+                <Navbar />
+                <ProtectedRoute
+                  element={<MyItemsPage />}
+                  isRequiredToLogIn={true}
+                />
                 <Footer />
               </>
             }

@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserContext";
 
 const UserDashboard = () => {
-  const { user } = useOutletContext();
+  const { user } = useUserContext();
 
   return (
     <>
@@ -13,7 +14,7 @@ const UserDashboard = () => {
         <p className=" text-white ">
           From your account dashboard you can view your{" "}
           <Link
-            to="/my-account/user-items"
+            to="/my-account/my-items"
             className=" text-white font-bold  hover:underline"
           >
             your items list
@@ -30,7 +31,7 @@ const UserDashboard = () => {
             to="/my-account/edit-account"
             className=" text-white  font-bold  font-boldhover:underline"
           >
-            Change your account information
+            Edit your account information
           </Link>
           .
         </p>
@@ -38,7 +39,7 @@ const UserDashboard = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
-          { to: "/my-account/user-items", label: "My Items", icon: "📦" },
+          { to: "/my-account/my-items", label: "My Items", icon: "📦" },
           {
             to: "/my-account/swap-requests",
             label: "Swap Requests",
