@@ -146,7 +146,10 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <Wishlist />
+                <ProtectedRoute
+                  element={<Wishlist />}
+                  isRequiredToLogIn={true}
+                />
                 <Footer />
               </>
             }
