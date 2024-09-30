@@ -6,12 +6,11 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
     <footer className="bg-[var(--primary-color)] text-white">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center  py-12 gap-8">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center  py-7 gap-8">
         <div className="footer-left">
           <Link to="/">
             {/* <img src={logo} alt="ToyStore Logo" className="h-48 w-48" />{" "} */}
