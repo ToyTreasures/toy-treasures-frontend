@@ -13,9 +13,7 @@ const ToysTypeSection = forwardRef((props, ref) => {
               className="w-2/5 h-48 sm:h-48 object-contain"
             />
             <div className="p-3 sm:p-6 text-left flex flex-col justify-start items-start w-3/5">
-              <h3 className="text-3xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4">
-                Stuffed Animals
-              </h3>
+              <h3 className="text-3xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4">Stuffed Animals</h3>
               <Link
                 to="/shop"
                 className="flex justify-center items-center bg-white text-[#111] text-base sm:text-sm h-10 w-2/5 rounded-full duration-300 hover:shadow-[0_8px_8px_-4px_rgba(17,17,17,0.2)] hover:transform hover:scale-105 transition-all ease-in-out mt-1"
@@ -32,9 +30,7 @@ const ToysTypeSection = forwardRef((props, ref) => {
               className="w-2/5 h-48 sm:h-48 object-contain"
             />
             <div className="p-3 sm:p-6 text-right flex flex-col justify-end items-end w-3/5">
-              <h3 className="text-3xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4">
-                Wooden Toys
-              </h3>
+              <h3 className="text-3xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4">Wooden Toys</h3>
               <Link
                 to="/shop"
                 className="flex justify-center items-center bg-white text-[#111] text-base sm:text-sm h-10 w-2/5 rounded-full duration-300 hover:shadow-[0_8px_8px_-4px_rgba(17,17,17,0.2)] hover:transform hover:scale-105 transition-all ease-in-out mt-1"
