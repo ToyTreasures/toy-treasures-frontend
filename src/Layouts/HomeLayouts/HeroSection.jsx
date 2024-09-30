@@ -21,20 +21,20 @@ const HeroSection = ({ toysTypeSectionRef }) => {
       aria-label="Hero section"
     >
       <div className="flex flex-col justify-center items-center w-full max-w-[570px] p-6 sm:p-8 md:p-12 rounded-2xl bg-white text-center gap-4">
-        <p className="text-sm text-[#a5c926] font-bold mb-3 sm:mb-5 leading-4">
-          Say Hello to ToyStore!
+        <p className="text-sm text-[--primary-color] font-bold mb-3 sm:mb-5 leading-4">
+          Say Hello to ToyzCity!
         </p>
-        <h1 className="mb-3 sm:mb-5 font-varela-round text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
-          Free Ecommerce
+        <h1 className="mb-3 sm:mb-5 font-varela-round text-[--secondary-color] text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
+          Wedsite for
           <br />
-          Template for Webflow
+          used children's toys and baby gear{" "}
         </h1>
         <Link
           to="/shop"
-          className="flex items-center justify-center bg-[#a5c926] text-white rounded-3xl h-12 p-2 w-full sm:w-8/12 md:w-6/12 lg:w-4/12 text-sm leading-6 font-bold text-center hover:shadow-[0_8px_8px_-4px_rgba(165,201,38,0.5)] hover:scale-105 transition-transform"
+          className="flex items-center justify-center bg-[--primary-color] text-white rounded-3xl h-12 p-2 w-full sm:w-8/12 md:w-6/12 lg:w-4/12 text-sm leading-6 font-bold text-center hover:shadow-[0_8px_8px_-4px_rgba(165,201,38,0.5)] hover:scale-105 transition-transform"
           aria-label="Open Catalog"
         >
-          Open Catalog
+          Open Shop
         </Link>
       </div>
       <div className="absolute -bottom-[30px] left-0 right-0 flex justify-center">
