@@ -99,9 +99,6 @@ const Navbar = () => {
             <NavLink to="/shop" className="nav-link hover:underline">
               Shop
             </NavLink>
-            <NavLink to="/delivery" className="nav-link hover:underline">
-              Delivery
-            </NavLink>
             <NavLink to="/about" className="nav-link hover:underline">
               About
             </NavLink>
@@ -115,7 +112,10 @@ const Navbar = () => {
               <span className="loading loading-bars loading-md"></span>
             ) : (
               <>
-                <NavLink to="/sell-item" className="nav-link hover:underline me-4 hidden md:inline-flex">
+                <NavLink
+                  to="/sell-item"
+                  className="nav-link hover:underline me-4 hidden md:inline-flex"
+                >
                   Sell a toy
                 </NavLink>
                 {!user ? (
