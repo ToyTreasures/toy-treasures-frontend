@@ -86,7 +86,7 @@ const ItemDetails = () => {
             </div>
           </div>
           <div className="w-full h-0.5 mt-8 bg-gray-200 relative mb-8">
-            <div className="w-[136px] h-full bg-lime-500 absolute top-0 left-0"></div>
+            <div className="w-[136px] h-full bg-[--primary-color] absolute top-0 left-0"></div>
           </div>
 
           <div className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-10">

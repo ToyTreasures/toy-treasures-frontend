@@ -6,9 +6,6 @@ import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { AiTwotoneEye } from "react-icons/ai";
 
-
-
-
 const Shop = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -137,22 +134,26 @@ const Shop = () => {
 
   return (
     <div className="pb-6">
-      <div className="container mx-auto">
+      <div className="container mx-auto ">
         <div className="join mt-6 flex flex-wrap justify-center items-center">
           <button
-            className="text-white text-xl font-bold bg-[var(--primary-color)] hover:bg-[#93ae30] transition-colors duration-200 join-item btn btn-sm w-10"
+            className="text-white text-xl  font-bold bg-[var(--primary-color)] hover:bg-[var(--primary-color)] transition-colors duration-200 join-item btn btn-sm w-10"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
             <MdOutlineKeyboardDoubleArrowLeft />
           </button>
-          <div className="flex items-center justify-center mx-3 gap-1">
+          <div className="flex items-center justify-center  mx-3 gap-1">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
                 className={`
          text-md w-9 h-9 rounded-full
-        ${page === currentPage ? "bg-[#93ae30] text-white font-bold" : "text-gray-700 hover:bg-gray-300 hover:text-gray-900"}
+        ${
+          page === currentPage
+            ? "bg-[var(--secondary-color)] text-white font-bold"
+            : "text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+        }
         transition-colors duration-200
       `}
                 onClick={() => handlePageChange(page)}
@@ -162,15 +163,15 @@ const Shop = () => {
             ))}
           </div>
           <button
-            className="text-white text-xl font-bold bg-[var(--primary-color)] hover:bg-[#93ae30] transition-colors duration-200 join-item btn btn-sm w-10 "
+            className="text-white text-xl font-bold bg-[var(--primary-color)] hover:bg-[var(--primary-color)] transition-colors duration-200 join-item btn btn-sm w-10 "
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
             <MdOutlineKeyboardDoubleArrowRight />
           </button>
         </div>
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="filters w-full h-max mt-14 md:w-1/4 bg-white p-4 rounded-lg shadow-md">
+        <div className="flex flex-col md:flex-row gap-6  ">
+          <div className="filters w-full h-max mt-8 md:w-1/4 bg-white p-4  rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-3">Filters</h2>
             <div className="mb-3">
               <input
@@ -180,21 +181,36 @@ const Shop = () => {
                 placeholder="Search"
                 className="border border-gray-300 rounded-md w-full p-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-150 ease-in-out"
               />
-              <button className="mt-2 btn text-white bg-[--secondary-color] hover:bg-[var(--primary-color)] w-full rounded-md p-2 text-sm transition duration-150 ease-in-out" onClick={handleSearch}>
+              <button
+                className="mt-2 btn text-white bg-[--secondary-color] hover:bg-[var(--primary-color)] w-full rounded-md p-2 text-sm transition duration-150 ease-in-out"
+                onClick={handleSearch}
+              >
                 Search
               </button>
             </div>
 
             <div className="flex mb-3 gap-4 text-sm">
               <div className="flex items-center">
-                <input className="cursor-pointer" id="buy" type="checkbox" checked={buy} onChange={(e) => setBuy(e.target.checked)} />
+                <input
+                  className="cursor-pointer"
+                  id="buy"
+                  type="checkbox"
+                  checked={buy}
+                  onChange={(e) => setBuy(e.target.checked)}
+                />
                 <label className="ml-1 cursor-pointer" htmlFor="buy">
                   Buy
                 </label>
               </div>
 
               <div className="flex items-center">
-                <input className="cursor-pointer" id="swap" type="checkbox" checked={swap} onChange={(e) => setSwap(e.target.checked)} />
+                <input
+                  className="cursor-pointer"
+                  id="swap"
+                  type="checkbox"
+                  checked={swap}
+                  onChange={(e) => setSwap(e.target.checked)}
+                />
                 <label htmlFor="swap" className="ml-1 cursor-pointer">
                   Swap
                 </label>
@@ -237,7 +253,10 @@ const Shop = () => {
                         })
                       }
                     />
-                    <label htmlFor={condition} className="ml-1 cursor-pointer capitalize text-sm">
+                    <label
+                      htmlFor={condition}
+                      className="ml-1 cursor-pointer capitalize text-sm"
+                    >
                       {condition}
                     </label>
                   </div>
@@ -292,7 +311,12 @@ const Shop = () => {
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
                   {items.map((item) => (
-                    <ItemCard key={item._id} item={item} buttonText="Add To Watchlist" icon={AiTwotoneEye} />
+                    <ItemCard
+                      key={item._id}
+                      item={item}
+                      buttonText="Add To Watchlist"
+                      icon={AiTwotoneEye}
+                    />
                   ))}
                 </div>
               </>
