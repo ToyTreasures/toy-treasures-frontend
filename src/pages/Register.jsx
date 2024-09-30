@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import localStorageServices from "../services/localStorageServices";
 import { RegisterSchema } from "../utils/validation/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
@@ -41,9 +41,9 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto justify-around gap-4 md:gap-10 my-4 md:my-10  p-4 md:p-8">
+    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto justify-around gap-4 md:gap-10 my-4 md:my-10 p-4 md:p-8">
       <div className="w-full md:w-1/2 p-4 md:p-8 rounded-lg shadow-2xl">
-        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6 ">
+        <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
           Create Account
         </h1>
         <Formik
@@ -116,6 +116,14 @@ const Register = () => {
             </Form>
           )}
         </Formik>
+        <div className="text-center mt-4">
+          <p className="text-sm">
+            Already have an account?{" "}
+            <Link to="/login" className="text-red-600 font-semibold">
+              Login here
+            </Link>
+          </p>
+        </div>
       </div>
       <div className="w-full rounded-lg md:w-1/2 mt-4 md:mt-0 hidden md:inline-block">
         <img

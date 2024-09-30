@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import authApiRequests from "../services/authApiRequests";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import localStorageServices from "../services/localStorageServices";
 import { useUserContext } from "../contexts/UserContext";
 
@@ -102,7 +102,7 @@ const Login = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="flex justify-center ">
+              <div className="flex justify-center">
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -110,6 +110,14 @@ const Login = () => {
                 >
                   {isSubmitting ? "Logging in..." : "Login"}
                 </button>
+              </div>
+              <div className="text-center mt-4">
+                <p className="text-sm">
+                  Don't have an account?{" "}
+                  <Link to="/register" className="text-red-500 font-semibold">
+                    Register here
+                  </Link>
+                </p>
               </div>
             </Form>
           )}
