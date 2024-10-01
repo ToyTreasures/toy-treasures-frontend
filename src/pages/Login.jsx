@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import authApiRequests from "../services/authApiRequests";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import localStorageServices from "../services/localStorageServices";
 import { useUserContext } from "../contexts/UserContext";
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string().min(8).required("Password is required"),
-});
+import { LoginSchema } from "../utils/validation/userValidation";
 
 const Login = () => {
   const [loginError, setLoginError] = useState("");
