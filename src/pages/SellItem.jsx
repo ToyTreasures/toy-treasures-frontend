@@ -191,12 +191,14 @@ const SellItem = () => {
                       className="grow bg-transparent outline-none w-full"
                     >
                       <option value="">Select Item Category</option>
-                      <option value="Action Figures">Action Figures</option>
-                      <option value="Stuffed Animals">Stuffed Animals</option>
-                      <option value="Wooden Toys">Wooden Toys</option>
-                      <option value="Doll & Plush">Doll & Plush</option>
-                      <option value="Puzzle">Puzzle</option>
-                      <option value="Technology">Technology</option>
+                      <option value="Educational">Educational</option>
+                      <option value="Action Figures & Dolls">
+                        Action Figures & Dolls
+                      </option>
+                      <option value="Outdoor & Sports">Outdoor & Sports</option>
+                      <option value="Electronic & Interactive">
+                        Electronic & Interactive
+                      </option>
                     </Field>
                   </div>
                   <ErrorMessage

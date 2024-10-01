@@ -4,12 +4,10 @@ const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 const FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 const validCategoryNames = [
-  "Action Figures",
-  "Stuffed Animals",
-  "Wooden Toys",
-  "Puzzle",
-  "Doll & Plush",
-  "Technology",
+  "Educational",
+  "Action Figures & Dolls",
+  "Outdoor & Sports",
+  "Electronic & Interactive",
 ];
 
 export const SellItemSchema = Yup.object().shape({
