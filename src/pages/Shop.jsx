@@ -4,7 +4,6 @@ import itemApiRequests from "../services/itemApiRequests";
 import ItemCard from "../components/ItemCard";
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
-import { AiTwotoneEye } from "react-icons/ai";
 
 const Shop = () => {
   const [items, setItems] = useState([]);
@@ -326,8 +325,6 @@ const Shop = () => {
                     <ItemCard
                       key={item._id}
                       item={item}
-                      buttonText="Add To Watchlist"
-                      icon={AiTwotoneEye}
                     />
                   ))}
                 </div>
