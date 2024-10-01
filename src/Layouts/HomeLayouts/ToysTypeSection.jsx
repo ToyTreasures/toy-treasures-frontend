@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
-import technologyImage from "../../assets/technology .png"; // Update the path accordingly
-import actionImage from "../../assets/action.png"; // Update the path accordingly
+import technologyImage from "../../assets/technology .png";
+import actionImage from "../../assets/action.png";
 
 const ToysTypeSection = forwardRef((props, ref) => {
   const toyTypes = [

@@ -10,13 +10,10 @@ const Story = () => {
     >
       <div className="flex flex-col items-center justify-center w-full max-w-4xl">
         <div className="flex flex-col items-center text-center max-w-2xl mb-4">
-          <h3 className="text-base font-semibold mb-4 tracking-wider">
-            About The Shop
-          </h3>
           <h2 className="text-5xl font-bold mb-6 text-[--secondary-color]">
-            Watch Our Story
+            About ToyzCity
           </h2>
-          <p className="text-lg font-semibold ">
+          <p className="text-lg font-bold ">
             ToysCity is transforming how families handle children's toys by
             providing a platform for exchanging and selling pre-loved items,
             reducing waste and costs. Our user-friendly interface encourages

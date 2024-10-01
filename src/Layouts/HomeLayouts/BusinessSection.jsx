@@ -21,7 +21,7 @@ const BusinessSection = () => {
           <div className="flex flex-col justify-center items-center w-full lg:w-1/2 lg:pr-[8.33%]">
             <div className="flex flex-col items-start w-full px-4">
               <h2 className="text-3xl mb-4 tracking-wider font-bold text-[--secondary-color]">
-                Available for FREE!
+                Sign up for FREE!
               </h2>
               <div className="w-[70px] h-[2px] my-6 bg-[--primary-color]"></div>
               <p className="text-[--secondary-color] mb-6 font-semibold">
@@ -38,7 +38,7 @@ const BusinessSection = () => {
                   to="/register"
                   className="flex items-center justify-center w-full md:w-auto h-12 px-7 rounded-full bg-[--primary-color] text-white text-sm font-semibold transition-all duration-300 ease-in-out hover:transform hover:scale-105"
                 >
-                  GET IT NOW!
+                  SIGN UP NOW!
                 </Link>
               </div>
             </div>

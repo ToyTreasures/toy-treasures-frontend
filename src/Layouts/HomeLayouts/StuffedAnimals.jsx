@@ -53,7 +53,7 @@ const StuffedAnimals = () => {
             to="/shop"
             className="py-2 border-b-2 border-gray-300 transition-colors duration-300 ease-in-out text-gray-900 text-sm font-semibold no-underline hover:border-[--primary-color] flex items-center gap-1"
           >
-            See All Toys
+            See All Stuffed Toys
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

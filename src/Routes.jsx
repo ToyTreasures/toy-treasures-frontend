@@ -81,7 +81,6 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <Register />
-                <Footer />
               </>
             }
           />
@@ -91,7 +90,6 @@ const AppRoutes = () => {
               <>
                 <Navbar />
                 <ProtectedRoute element={<Login />} isRequiredToLogIn={false} />
-                <Footer />
               </>
             }
           />

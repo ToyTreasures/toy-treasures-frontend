@@ -67,7 +67,7 @@ const About = () => {
                   to="/register"
                   className="btn bg-[--primary-color] hover:bg-[--secondary-color] text-white rounded-full px-6 py-2"
                 >
-                  Get It for FREE!
+                  Sign up for FREE!
                 </Link>
               </div>
             </div>

@@ -107,16 +107,28 @@ const Shop = () => {
   };
 
   const resetFilters = () => {
-    setSearch("");
-    setMinPrice("");
-    setMaxPrice("");
-    setBuy(false);
-    setSwap(false);
-    setConditions({ new: false, gentle: false, used: false });
-    setAddress("");
-    setCurrentPage(1);
-    navigate(location.pathname, { replace: true });
-    updateFilters();
+    if (
+      search ||
+      minPrice ||
+      maxPrice ||
+      buy ||
+      swap ||
+      conditions.new ||
+      conditions.gentle ||
+      conditions.used ||
+      address
+    ) {
+      setSearch("");
+      setMinPrice("");
+      setMaxPrice("");
+      setBuy(false);
+      setSwap(false);
+      setConditions({ new: false, gentle: false, used: false });
+      setAddress("");
+      setCurrentPage(1);
+      navigate(location.pathname, { replace: true });
+      updateFilters();
+    }
   };
 
   useEffect(() => {

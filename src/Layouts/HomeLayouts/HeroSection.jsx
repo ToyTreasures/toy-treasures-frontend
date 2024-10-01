@@ -25,7 +25,7 @@ const HeroSection = ({ toysTypeSectionRef }) => {
           Say Hello to ToyzCity!
         </p>
         <h1 className="mb-3 sm:mb-5 font-varela-round text-[--secondary-color] text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
-          Wedsite for
+          Website for
           <br />
           used children's toys and baby gear{" "}
         </h1>
