@@ -10,16 +10,19 @@ const About = () => {
           <BreadCrumbs currentPage={"About"} />
         </div>
         <div className="text-center py-8 lg:px-52 xl:px-96">
-          <p className="text-sm text-[#a5c926]  mb-3 sm:mb-5 leading-4 font-semibold">
+          <p className="text-sm text-[--primary-color]  mb-3 sm:mb-5 leading-4 font-semibold">
             All You Need is Fun!
           </p>
-          <h2 className="mb-3 sm:mb-5 font-varela-round text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
-            Introducing ToyStore
+          <h2 className="mb-3  sm:mb-5 text-[--secondary-color] font-varela-round  sm:text-3xl md:text-5xl  leading-tight sm:leading-[1.2] font-normal text-center">
+            Introducing ToyzCity
           </h2>
-          <p className="text-gray-500 mb-4">
-            A successful marketing plan relies heavily on the pulling-power of
-            advertising copy. Writing result-oriented ad copy is difficult, as
-            it must appeal to, entice, and convince consumers to take action.
+          <p className="text-[--secondary-color]  font-semibold  mb-4">
+            ToysCity helps families buy, sell, and exchange gently-used toys and
+            baby gear, promoting sustainability and reducing waste. We’ll also
+            offer new eco-friendly products and a donation feature for
+            charities, making sure all children have access to quality toys.
+            Join us in building a circular economy that values reuse and joy for
+            families.
           </p>
         </div>
         <div className="flex flex-col lg:flex-row items-center lg:space-x-8 mb-12">
@@ -33,36 +36,39 @@ const About = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center max-w-screen-lg  mx-auto p-6 sm:p-8 md:p-12 rounded-2xl bg-white text-center gap-4">
-          <p className="text-sm text-[#a5c926]  mb-3 sm:mb-5 leading-4 font-semibold">
-            Made for Webflow
-          </p>
-          <h1 className="mb-3 sm:mb-5 font-varela-round text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
-            Simple & Colorful Ecommerce
-            <br />
-            Template for Your Business
+          <h1 className="mb-3 sm:mb-5 font-varela-round text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-[--secondary-color]">
+            ToyzCity: Exchange, Enjoy, Empower
           </h1>
         </div>
 
         <div className="space-y-12">
           <div className="flex flex-col lg:flex-row items-center lg:space-x-8">
             <div className="card-body  max-w-screen-sm">
-              <h1 className="card-title mb-3 lg:mb-5  sm:mb-5 font-varela-round text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
-                Beautifully Designed
+              <h1 className="text-3xl mb-4 tracking-wider font-bold text-[--secondary-color]">
+                Exchange and Sale of Pre-Loved Items{" "}
               </h1>
               <div className="w-32 h-0.5 mt-4 bg-gray-200 relative">
-                <div className="w-full h-full bg-lime-500 absolute top-0 left-0"></div>
+                <div className="w-full h-full bg-[--primary-color] absolute top-0 left-0"></div>
               </div>
-              <p className="text-gray-500 mb-5 lg:mb-7 text-base">
-                A successful marketing plan relies heavily on the pulling-power
-                of advertising copy. Writing result-oriented ad copy is
-                difficult, as it must appeal to, entice, and convince consumers
-                to take action. There is no magic formula to write perfect ad
-                copy.
+              <p className=" mb-5 lg:mb-7 text-base text-[--secondary-color] font-semibold">
+                ToyzCity offers a platform for families to easily exchange and
+                sell pre-loved toys, strollers, and baby gear. By facilitating
+                this trade, we create a sustainable cycle that benefits both the
+                environment and families looking to save money. Instead of
+                discarding outgrown or unwanted items, parents can give these
+                products a second life, reducing waste and allowing others to
+                refresh their children's collections affordably. Our
+                user-friendly interface makes it simple to list and browse
+                gently-used items, fostering a community of environmentally
+                conscious families who value reuse and sustainability.
               </p>
               <div className="card-actions flex items-center space-x-4 justify-start">
-                <button className="btn bg-lime-500 hover:bg-lime-600 text-white rounded-full px-6 py-2">
+                <Link
+                  to="/register"
+                  className="btn bg-[--primary-color] hover:bg-[--secondary-color] text-white rounded-full px-6 py-2"
+                >
                   Get It for FREE!
-                </button>
+                </Link>
               </div>
             </div>
             <figure className="lg:w-1/3 flex items-center justify-center mt-6 lg:mt-0">
@@ -82,48 +88,33 @@ const About = () => {
               />
             </figure>
             <div className="card-body max-w-screen-sm">
-              <h1 className="card-title mb-3 sm:mb-5 font-varela-round text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2] font-normal text-center text-black">
-                100% Responsive
+              <h1 className="text-3xl mb-4 tracking-wider font-bold text-[--secondary-color]">
+                Upcoming Donation Initiative
               </h1>
               <div className="w-32 h-0.5 mt-4 bg-gray-200 relative">
-                <div className="w-full h-full bg-lime-500 absolute top-0 left-0"></div>
+                <div className="w-full h-full bg-[--primary-color] absolute top-0 left-0"></div>
               </div>
-              <p className="text-gray-500 mb-5 lg:mb-7 text-base">
-                A successful marketing plan relies heavily on the pulling-power
-                of advertising copy. Writing result-oriented ad copy is
-                difficult, as it must appeal to, entice, and convince consumers
-                to take action. There is no magic formula to write perfect ad
-                copy.
+              <p className="mb-5 lg:mb-7 text-base text-[--secondary-color] font-semibold">
+                ToyzCity is excited to announce plans for a future donation
+                initiative that will allow users to contribute to charitable
+                organizations and orphanages. This feature aims to ensure that
+                children in need have access to quality toys and essential baby
+                items, spreading joy and enhancing play-based learning. By
+                encouraging donations, we will not only recycle products but
+                also promote a sense of community and support. Stay tuned for
+                more details as we work to implement this meaningful initiative,
+                helping to create positive change while fostering
+                environmentally responsible choices. Join us in our mission to
+                make a difference in the lives of children and families
+                everywhere!
               </p>
-              <div className="flex justify-between items-center mb-8">
-                <Link
-                  to="/shop"
-                  className="py-2 border-b-2 border-gray-300 transition-colors duration-300 ease-in-out text-gray-900 text-sm font-semibold no-underline hover:border-lime-500 flex items-center gap-1"
-                >
-                  See All Toys
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="size-4"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Link>
-              </div>
+              <div className="flex justify-between items-center mb-8"></div>
             </div>
           </div>
         </div>
         <Story />
         <div className="flex flex-col justify-center items-center max-w-screen-xl  p-6 sm:p-8 md:p-12 rounded-2xl bg-white text-center gap-4">
-          <p className="text-sm text-[#a5c926]  mb-1 sm:mb-3 leading-1 font-varela-round">
-            @ElasticThemes
-          </p>
-          <h1 className="mb-3 sm:mb-5  text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2]  text-center text-black font-varela-round">
+          <h1 className="mb-3 sm:mb-5  text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-tight sm:leading-[1.2]  text-center text-[secondary-color] font-varela-round">
             We're on Instagram!
           </h1>
           <div className="flex justify-center items-center gap-5">

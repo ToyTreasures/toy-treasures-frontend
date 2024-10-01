@@ -46,7 +46,7 @@ const Navbar = () => {
             <span className="text-[11px] md:text-sm">
               Email:{" "}
               <a href="mailto:toystore@template.com" className="underline">
-                ToyzCity@template.com
+                ToyzCity@gmail.com
               </a>
             </span>
           </div>
@@ -136,12 +136,17 @@ const Navbar = () => {
                 ) : (
                   <div className="space-x-4 hidden md:flex flex-grow">
                     <NavLink
+                      to="/my-items"
+                      className="nav-link hover:underline"
+                    >
+                      My Items
+                    </NavLink>
+                    <NavLink
                       to="/my-account"
                       className="nav-link hover:underline"
                     >
                       My Account
                     </NavLink>
-
                     <button
                       onClick={handleLogout}
                       className="nav-link hover:underline hidden md:inline-flex"
@@ -214,11 +219,18 @@ const Navbar = () => {
                   </li>
                 </>
               ) : (
-                <li>
-                  <NavLink to="/my-account" onClick={toggleMobileMenu}>
-                    My Account
-                  </NavLink>
-                </li>
+                <>
+                  <li>
+                    <NavLink to="/my-items" onClick={toggleMobileMenu}>
+                      My Items
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/my-account" onClick={toggleMobileMenu}>
+                      My Account
+                    </NavLink>
+                  </li>
+                </>
               )}
 
               <li>
@@ -236,15 +248,7 @@ const Navbar = () => {
                   Shop
                 </NavLink>
               </li>
-              <li>
-                <NavLink
-                  to="/delivery"
-                  onClick={toggleMobileMenu}
-                  className="w-full py-3 px-4 hover:bg-base-300"
-                >
-                  Delivery
-                </NavLink>
-              </li>
+
               <li>
                 <NavLink
                   to="/about"

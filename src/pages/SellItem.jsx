@@ -224,7 +224,7 @@ const SellItem = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-lime-500 transition-colors mb-4"
+                    className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-[--primary-color] transition-colors mb-4"
                   >
                     {isSubmitting ? "Submitting..." : "Submit"}
                   </button>
