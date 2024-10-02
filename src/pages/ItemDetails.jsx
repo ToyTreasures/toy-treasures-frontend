@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests";
+import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import StuffedAnimals from "../Layouts/HomeLayouts/StuffedAnimals";
 import WoodenToys from "../Layouts/HomeLayouts/WoodenToys";
 import { IoIosSend } from "react-icons/io";

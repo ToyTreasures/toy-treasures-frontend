@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Toast from "../../components/Toast";
-import contactUsService from "../../services/contactUsApiRequests";
+import contactUsService from "../../services/apiRequests/contactUsApiRequests";
 import { contactUsSchema } from "../../utils/validation/contactUsValidation";
 
 const INITIAL_VALUES = {

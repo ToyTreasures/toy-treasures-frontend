@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MyItemCard from "../../components/MyItemCard";
-import itemApiRequests from "../../services/itemApiRequests";
+import itemApiRequests from "../../services/apiRequests/itemApiRequests";
 import { useUserContext } from "../../contexts/UserContext";
 
 const MyItems = () => {
