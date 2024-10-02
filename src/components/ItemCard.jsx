@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { AiTwotoneEye } from "react-icons/ai";
 import { useUserContext } from "../contexts/UserContext";
+import { useEffect, useState } from "react";
+import localStorageServices from "../services/localStorageServices";
 
 const getConditionColor = (condition) => {
   switch (condition) {
@@ -15,6 +17,12 @@ const getConditionColor = (condition) => {
 
 const ItemCard = ({ item }) => {
   const { user } = useUserContext();
+  const [wishlist, setWishlist] = useState(null);
+
+  useEffect(() => {
+    setWishlist(localStorageServices.getWishlist());
+  }, []);
+  
   const handleAddToWishList = () => {
     console.log("first");
   };

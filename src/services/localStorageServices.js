@@ -25,6 +25,19 @@ const setUser = (user) => {
   localStorage.setItem("user", JSON.stringify(user));
 };
 
+const getWishlist = () => {
+  const wishlist = localStorage.getItem("wishlist");
+  return wishlist ? JSON.parse(wishlist) : null;
+};
+
+const setWishlist = (wishlist) => {
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+};
+
+const clearWishlist = () => {
+  localStorage.removeItem("wishlist");
+};
+
 export default {
   setTokensAndUser,
   clearTokensAndUser,
@@ -32,4 +45,7 @@ export default {
   setAccessToken,
   getUser,
   setUser,
+  getWishlist,
+  setWishlist,
+  clearWishlist,
 };

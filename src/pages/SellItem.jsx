@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests";
+import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import { SellItemSchema } from "../utils/validation/itemValidation";
 import BreadCrumbs from "../components/BreadCrumbs";
 

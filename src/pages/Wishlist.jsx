@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaTimes, FaSadTear, FaInfoCircle, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import wishlistApiRequests from "../services/wishlistApiRequests";
+import wishlistApiRequests from "../services/apiRequests/wishlistApiRequests";
 import BreadCrumbs from "../components/BreadCrumbs";
 
 const Wishlist = () => {

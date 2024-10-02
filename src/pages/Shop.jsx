@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests";
+import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import ItemCard from "../components/ItemCard";
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
