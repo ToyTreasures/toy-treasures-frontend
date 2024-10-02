@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import itemApiRequests from "../services/itemApiRequests";
+import itemApiRequests from "../services/apiRequests/itemApiRequests";
 
 const MyItemCard = ({ item, onToggleSoldState }) => {
   const [isLoading, setIsLoading] = useState(false);
