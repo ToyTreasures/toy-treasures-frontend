@@ -37,6 +37,11 @@ class ItemService {
     return res.data;
   }
 
+  async toggleSoldState(id) {
+    const res = await this.api.patch(`/${id}/toggle-sold`);
+    return res.data;
+  }
+
   async deleteItem(id) {
     const res = await this.api.delete(`/${id}`);
     return res.data;

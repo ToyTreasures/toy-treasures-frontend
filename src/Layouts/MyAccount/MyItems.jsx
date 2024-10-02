@@ -36,6 +36,23 @@ const MyItems = () => {
     }
   }, [user]);
 
+  const handleToggleSoldState = (itemId) => {
+    setUserItems((prevItems) =>
+      prevItems.map((item) =>
+        item._id === itemId ? { ...item, sold: !item.sold } : item
+      )
+    );
+
+    itemApiRequests.toggleSoldState(itemId).catch(() => {
+      // Optionally, revert the optimistic update if the API call fails
+      setUserItems((prevItems) =>
+        prevItems.map((item) =>
+          item._id === itemId ? { ...item, sold: !item.sold } : item
+        )
+      );
+    });
+  };
+
   return (
     <div className="bg-base-100 rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold mb-6">My Items Preview</h2>
@@ -55,7 +72,13 @@ const MyItems = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             {userItems.length > 0 ? (
               userItems.map((item, index) => (
-                <MyItemCard item={item} key={index} />
+                <MyItemCard
+                  item={item}
+                  key={index}
+                  onToggleSoldState={() => {
+                    handleToggleSoldState(item._id);
+                  }}
+                />
               ))
             ) : (
               <p className="col-span-3 text-center text-lg font-semibold text-gray-600">
