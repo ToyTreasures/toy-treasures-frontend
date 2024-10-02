@@ -38,6 +38,20 @@ const clearWishlist = () => {
   localStorage.removeItem("wishlist");
 };
 
+const addItemToWishlist = (item) => {
+  const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+  wishlist.items.push(item);
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+};
+
+const removeItemFromWishlist = (itemId) => {
+  const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+  wishlist.items = wishlist.items.filter(
+    (i) => i._id !== itemId
+  );
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+};
+
 export default {
   setTokensAndUser,
   clearTokensAndUser,
@@ -48,4 +62,6 @@ export default {
   getWishlist,
   setWishlist,
   clearWishlist,
+  addItemToWishlist,
+  removeItemFromWishlist,
 };
