@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import itemApiRequests from "../services/itemApiRequests";
 
 const MyItemCard = ({ item, onToggleSoldState }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,8 +12,7 @@ const MyItemCard = ({ item, onToggleSoldState }) => {
   const handleToggleSoldState = async () => {
     setIsLoading(true);
     try {
-      const updatedItem = await itemApiRequests.toggleSoldState(item._id);
-      onToggleSoldState(updatedItem);
+      onToggleSoldState(item._id);
     } catch (error) {
       console.error("Failed to toggle sold state:", error);
     } finally {
