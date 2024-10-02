@@ -1,11 +1,26 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import itemApiRequests from "../services/itemApiRequests";
 
-const MyItemCard = ({ item }) => {
-  // const timeAgo = formatDistanceToNow(parseISO(item.createdAt), {
-  //   addSuffix: true,
-  // });
+const MyItemCard = ({ item, onToggleSoldState }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const timeAgo = formatDistanceToNow(parseISO(item.createdAt), {
+    addSuffix: true,
+  });
+
+  const handleToggleSoldState = async () => {
+    setIsLoading(true);
+    try {
+      const updatedItem = await itemApiRequests.toggleSoldState(item._id);
+      onToggleSoldState(updatedItem);
+    } catch (error) {
+      console.error("Failed to toggle sold state:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
@@ -23,7 +38,7 @@ const MyItemCard = ({ item }) => {
           Condition: <span className="font-bold">{item.condition}</span>
         </p>
         <p className="text-sm font-medium text-gray-600 mb-2">
-          Listed: <span className="font-bold">{item.createdAt} </span>
+          Listed: <span className="font-bold">{timeAgo} </span>
         </p>
         <p className="text-sm font-medium text-gray-600 mb-4">
           Available for swap:{" "}
@@ -48,14 +63,18 @@ const MyItemCard = ({ item }) => {
             >
               <FaEdit />
             </button>
+
             <button
-              onClick={() => {
-                /* Implement delete functionality */
-              }}
+              onClick={handleToggleSoldState}
               className="btn btn-sm bg-red-500 text-white"
-              aria-label="Delete item"
+              aria-label="Toggle sold state"
+              disabled={isLoading}
             >
-              <FaTrash />
+              {isLoading
+                ? "Processing..."
+                : item.sold
+                ? "List for sale"
+                : "Mark as sold"}
             </button>
           </div>
         </div>
@@ -63,4 +82,5 @@ const MyItemCard = ({ item }) => {
     </div>
   );
 };
+
 export default MyItemCard;

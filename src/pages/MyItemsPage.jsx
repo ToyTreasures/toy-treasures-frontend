@@ -57,6 +57,23 @@ const MyItemsPage = () => {
     fetchUserItems(user._id);
   }, [user]);
 
+  const handleToggleSoldState = (itemId) => {
+    setUserItems((prevItems) =>
+      prevItems.map((item) =>
+        item._id === itemId ? { ...item, sold: !item.sold } : item
+      )
+    );
+
+    itemApiRequests.toggleSoldState(itemId).catch(() => {
+      // Optionally, revert the optimistic update if the API call fails
+      setUserItems((prevItems) =>
+        prevItems.map((item) =>
+          item._id === itemId ? { ...item, sold: !item.sold } : item
+        )
+      );
+    });
+  };
+
   const removeAllItems = async () => {
     // Implement the logic to remove all items
     console.log("Removing all items");
@@ -110,7 +127,13 @@ const MyItemsPage = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {userItems.map((item) => (
-            <MyItemCard key={item._id} item={item} />
+            <MyItemCard
+              key={item._id}
+              item={item}
+              onToggleSoldState={() => {
+                handleToggleSoldState(item._id);
+              }}
+            />
           ))}
         </div>
         <div className="text-center">
