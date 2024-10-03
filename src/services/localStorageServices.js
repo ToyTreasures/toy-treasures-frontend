@@ -34,6 +34,10 @@ const setWishlist = (wishlist) => {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 };
 
+const emptyWishlist = (wishlist) => {
+  localStorage.setItem("wishlist", JSON.stringify({ ...wishlist, items: [] }));
+};
+
 const clearWishlist = () => {
   localStorage.removeItem("wishlist");
 };
@@ -46,9 +50,7 @@ const addItemToWishlist = (item) => {
 
 const removeItemFromWishlist = (itemId) => {
   const wishlist = JSON.parse(localStorage.getItem("wishlist"));
-  wishlist.items = wishlist.items.filter(
-    (i) => i._id !== itemId
-  );
+  wishlist.items = wishlist.items.filter((i) => i._id !== itemId);
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 };
 
@@ -61,6 +63,7 @@ export default {
   setUser,
   getWishlist,
   setWishlist,
+  emptyWishlist,
   clearWishlist,
   addItemToWishlist,
   removeItemFromWishlist,

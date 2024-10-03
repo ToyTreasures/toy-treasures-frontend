@@ -16,14 +16,14 @@ const removeItemFromWishlist = async (itemId, wishlist, setWishlist) => {
   localStorageServices.removeItemFromWishlist(itemId);
 };
 
-const clearWishlist = async () => {
+const emptyWishlist = async (wishlist, setWishlist) => {
   await wishlistApiRequests.clearWishlist();
-  setWishlist(null);
-  localStorageServices.clearWishlist();
+  setWishlist({ ...wishlist, items: [] });
+  localStorageServices.emptyWishlist(wishlist);
 };
 
 export default {
   addItemToWishlist,
   removeItemFromWishlist,
-  clearWishlist,
+  emptyWishlist,
 };

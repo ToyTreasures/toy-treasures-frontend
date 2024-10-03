@@ -1,11 +1,29 @@
 import { Link } from "react-router-dom";
 import { FaTimes, FaInfoCircle } from "react-icons/fa";
+import wishlistServices from "../../services/wishlistServices";
+import { useState } from "react";
+import { useUserContext } from "../../contexts/UserContext";
 
-const WishlistItemCard = ({ item, onRemove }) => {
+const WishlistItemCard = ({ item }) => {
+  const { wishlist, setWishlist } = useUserContext();
+  const [error, setError] = useState("");
+
+  const removeFromWishlist = async (id) => {
+    try {
+      await wishlistServices.removeItemFromWishlist(id, wishlist, setWishlist);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  if (error) {
+    return <div className="text-red-500 text-center">{error}</div>;
+  }
+
   return (
     <div className="relative bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
       <button
-        onClick={() => onRemove(item._id)}
+        onClick={() => removeFromWishlist(item._id)}
         className="absolute top-2 left-2 bg-red-700 text-white rounded-full p-2 transition-transform transform hover:scale-110 hover:bg-red-800 focus:outline-none"
         aria-label="Remove from wishlist"
       >

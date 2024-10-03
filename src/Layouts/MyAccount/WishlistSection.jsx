@@ -1,21 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaSadTear } from "react-icons/fa";
 import WishlistItemCard from "../../components/cards/WishlistItemCard";
-import wishlistServices from "../../services/wishlistServices";
 import { useUserContext } from "../../contexts/UserContext";
 
 const WishlistSection = () => {
-  const { wishlist, setWishlist, userContextLoading } = useUserContext();
-  const [error, setError] = useState(null);
-
-  const removeFromWishlist = async (id) => {
-    try {
-      await wishlistServices.removeItemFromWishlist(id, wishlist, setWishlist);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+  const { wishlist, userContextLoading } = useUserContext();
 
   if (userContextLoading) {
     return (
@@ -25,11 +14,7 @@ const WishlistSection = () => {
     );
   }
 
-  if (error) {
-    return <div className="text-red-500 text-center">{error}</div>;
-  }
-
-  if (wishlist.items.length === 0) {
+  if (wishlist?.items.length === 0) {
     return (
       <div className="bg-base-100 rounded-lg shadow-md p-6 text-center">
         <h2 className="text-3xl font-bold mb-4">Your Wishlist</h2>
@@ -51,18 +36,14 @@ const WishlistSection = () => {
     );
   }
 
-  const limitedWishlistItems = wishlist.items.slice(0, 3);
+  const limitedWishlistItems = wishlist?.items.slice(0, 3);
 
   return (
     <div className="bg-base-100 rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold mb-4">Wishlist Preview</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        {limitedWishlistItems.map((item) => (
-          <WishlistItemCard
-            key={item._id}
-            item={item}
-            onRemove={removeFromWishlist}
-          />
+        {limitedWishlistItems?.map((item) => (
+          <WishlistItemCard key={item._id} item={item} />
         ))}
       </div>
       <Link

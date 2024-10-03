@@ -10,18 +10,11 @@ const Wishlist = () => {
   const { wishlist, setWishlist, userContextLoading } = useUserContext();
   const [error, setError] = useState(null);
 
-  const removeFromWishlist = async (id) => {
-    try {
-      await wishlistServices.removeItemFromWishlist(id, wishlist, setWishlist);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
   const clearWishlist = async () => {
     try {
-      await wishlistServices.clearWishlist();
+      await wishlistServices.emptyWishlist(wishlist, setWishlist);
     } catch (error) {
+      console.log(error);
       setError(error.message);
     }
   };
@@ -38,7 +31,7 @@ const Wishlist = () => {
     return <div className="text-red-500 text-center">{error}</div>;
   }
 
-  if (wishlist.items.length === 0) {
+  if (wishlist?.items.length === 0) {
     return (
       <div className="bg-base-100 rounded-lg shadow-md p-6 text-center max-w-md mx-auto mt-10">
         <h2 className="text-3xl font-bold mb-4">Your Wishlist</h2>
@@ -71,11 +64,7 @@ const Wishlist = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {wishlist.items.map((item) => (
-            <WishlistItemCard
-              key={item._id}
-              item={item}
-              onRemove={removeFromWishlist}
-            />
+            <WishlistItemCard key={item._id} item={item} />
           ))}
         </div>
         <div className="text-center">
