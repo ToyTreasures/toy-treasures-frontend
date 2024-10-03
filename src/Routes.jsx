@@ -80,7 +80,10 @@ const AppRoutes = () => {
             element={
               <>
                 <Navbar />
-                <Register />
+                <ProtectedRoute
+                  element={<Register />}
+                  isRequiredToLogIn={false}
+                />
               </>
             }
           />

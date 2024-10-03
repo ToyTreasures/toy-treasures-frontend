@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FaSadTear, FaTrashAlt, FaPlus } from "react-icons/fa";
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import { useUserContext } from "../contexts/UserContext";
-import MyItemCard from "../components/MyItemCard";
+import MyItemCard from "../components/cards/MyItemCard";
 import Toast from "../components/Toast";
 import BreadCrumbs from "../components/BreadCrumbs";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import MyItemCard from "../../components/MyItemCard";
+import MyItemCard from "../../components/cards/MyItemCard";
 import itemApiRequests from "../../services/apiRequests/itemApiRequests";
 import { useUserContext } from "../../contexts/UserContext";
 

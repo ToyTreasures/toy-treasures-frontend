@@ -12,13 +12,13 @@ const initialValues = {
 
 const Login = () => {
   const [loginError, setLoginError] = useState("");
-  const { setUser } = useUserContext();
+  const { setUser, setWishlist } = useUserContext();
 
   const navigate = useNavigate();
 
   const handleLogin = async (userData, { setSubmitting, resetForm }) => {
     try {
-      await authServices.login(userData, setUser);
+      await authServices.login(userData, setUser, setWishlist);
 
       setLoginError("");
       navigate("/");
