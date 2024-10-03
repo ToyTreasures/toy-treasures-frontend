@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiTwotoneEye } from "react-icons/ai";
-import { useUserContext } from "../contexts/UserContext";
-import { useEffect, useState } from "react";
-import localStorageServices from "../services/localStorageServices";
+import { useUserContext } from "../../contexts/UserContext";
+import wishlistServices from "../../services/wishlistServices";
 
 const getConditionColor = (condition) => {
   switch (condition) {
@@ -16,16 +16,33 @@ const getConditionColor = (condition) => {
 };
 
 const ItemCard = ({ item }) => {
-  const { user } = useUserContext();
-  const [wishlist, setWishlist] = useState(null);
+  const { user, wishlist, setWishlist, userContextLoading } = useUserContext();
+  const [inWishlist, setInWishlist] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    setWishlist(localStorageServices.getWishlist());
+    if (wishlist?.items.length > 0) {
+      setInWishlist(wishlist.items.some((i) => i._id === item._id));
+    }
   }, []);
-  
-  const handleAddToWishList = () => {
-    console.log("first");
+
+  const handleAddToOrRemoveFromWishlist = async () => {
+    try {
+      if (inWishlist) {
+        wishlistServices.removeItemFromWishlist(
+          item._id,
+          wishlist,
+          setWishlist
+        );
+      } else {
+        wishlistServices.addItemToWishlist(item, wishlist, setWishlist);
+      }
+      setInWishlist(!inWishlist);
+    } catch (error) {
+      setError(error.message);
+    }
   };
+
   return (
     <div className="transform transition-all duration-500 hover:scale-105 bg-white rounded-lg shadow-md overflow-hidden w-full h-[450px] flex flex-col">
       <div className="flex flex-col h-full">
@@ -68,12 +85,19 @@ const ItemCard = ({ item }) => {
           {user && (
             <button
               className="bg-[--primary-color] w-[90%] mt-auto py-2 px-4 mx-auto border-none rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
-              onClick={handleAddToWishList}
+              onClick={handleAddToOrRemoveFromWishlist}
+              disabled={userContextLoading}
             >
               <AiTwotoneEye className="w-4 h-4 fill-white z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-[4px]" />
-              Add To Watchlist
+              {userContextLoading
+                ? "Loading..."
+                : inWishlist
+                ? "Remove from "
+                : "Add to "}
+              Wishlist
             </button>
           )}
+          {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
       </div>
     </div>
