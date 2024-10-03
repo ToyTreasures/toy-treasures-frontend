@@ -1,8 +1,8 @@
 import { forwardRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import categoryApiRequests from "../../services/categoryApiRequests";
+import categoryApiRequests from "../../services/apiRequests/categoryApiRequests";
 
-const ToysTypeSection = forwardRef((props, ref) => {
+const CategoriesSection = forwardRef((props, ref) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -73,4 +73,4 @@ const ToysTypeSection = forwardRef((props, ref) => {
   );
 });
 
-export default ToysTypeSection;
+export default CategoriesSection;
