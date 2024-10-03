@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTimes, FaSadTear, FaInfoCircle } from "react-icons/fa";
-import wishlistApiRequests from "../../services/wishlistApiRequests";
+import wishlistApiRequests from "../../services/apiRequests/wishlistApiRequests";
 
 const WishlistSection = () => {
   const [wishlistItems, setWishlistItems] = useState([]);

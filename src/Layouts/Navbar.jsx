@@ -10,10 +10,8 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { BsBagHeartFill } from "react-icons/bs";
-
 import { useUserContext } from "../contexts/UserContext";
-import localStorageServices from "../services/localStorageServices";
-import authApiRequests from "../services/authApiRequests";
+import authServices from "../services/authServices";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,9 +24,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    await authApiRequests.logout();
-    setUser(null);
-    localStorageServices.clearTokensAndUser();
+    authServices.logout(setUser);
   };
 
   const toggleMobileMenu = () => {
