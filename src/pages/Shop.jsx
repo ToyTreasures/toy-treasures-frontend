@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests";
-import ItemCard from "../components/ItemCard";
+import itemApiRequests from "../services/apiRequests/itemApiRequests";
+import ItemCard from "../components/cards/ItemCard";
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
-import { AiTwotoneEye } from "react-icons/ai";
 
 const Shop = () => {
   const [items, setItems] = useState([]);
@@ -24,6 +23,12 @@ const Shop = () => {
     new: false,
     gentle: false,
     used: false,
+  });
+  const [categories, setCategories] = useState({
+    Educational: false,
+    "Action Figures & Dolls": false,
+    "Outdoor & Sports": false,
+    "Electronic & Interactive": false,
   });
   const [address, setAddress] = useState("");
 
@@ -79,6 +84,12 @@ const Shop = () => {
       .filter((key) => conditions[key])
       .join(",");
     if (selectedConditions) filters.push(`condition-${selectedConditions}`);
+
+    const selectedCategories = Object.keys(categories)
+      .filter((key) => categories[key])
+      .join(",");
+    if (selectedCategories) filters.push(`category-${selectedCategories}`);
+
     if (address) filters.push(`address-${address}`);
 
     return filters;
@@ -277,6 +288,34 @@ const Shop = () => {
             </div>
 
             <div className="mb-3">
+              <h3 className="font-semibold mb-1 text-sm">Categories</h3>
+              <div className="flex flex-wrap gap-2">
+                {Object.keys(categories).map((category) => (
+                  <div key={category} className="flex items-center">
+                    <input
+                      className="cursor-pointer"
+                      id={category}
+                      type="checkbox"
+                      checked={categories[category]}
+                      onChange={(e) =>
+                        setCategories({
+                          ...categories,
+                          [category]: e.target.checked,
+                        })
+                      }
+                    />
+                    <label
+                      htmlFor={category}
+                      className="ml-1 cursor-pointer capitalize text-sm"
+                    >
+                      {category}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-3">
               <select
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -326,8 +365,6 @@ const Shop = () => {
                     <ItemCard
                       key={item._id}
                       item={item}
-                      buttonText="Add To Watchlist"
-                      icon={AiTwotoneEye}
                     />
                   ))}
                 </div>

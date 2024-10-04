@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import userApiRequests from "../services/userApiRequests";
+import userApiRequests from "../services/apiRequests/userApiRequests";
 import { useParams } from "react-router-dom";
 import UserDetailsSkeleton from "../components/skeletons/UserDetailsSkeleton";
 

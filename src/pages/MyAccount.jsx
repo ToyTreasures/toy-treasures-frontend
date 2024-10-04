@@ -1,16 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
-import localStorageServices from "../services/localStorageServices";
-import authApiRequests from "../services/authApiRequests";
 import BreadCrumbs from "../components/BreadCrumbs";
 
 const MyAccount = () => {
   const { user, setUser } = useUserContext();
 
   const handleLogout = async () => {
-    await authApiRequests.logout();
-    setUser(null);
-    localStorageServices.clearTokensAndUser();
+    authServices.logout(setUser);
   };
 
   return (

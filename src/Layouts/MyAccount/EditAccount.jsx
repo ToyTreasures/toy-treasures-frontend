@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { UpdateUserSchema } from "../../utils/validation/userValidation";
 import cities from "../../utils/staticData/cities.json";
 import { useCallback, useState } from "react";
-import userApiRequests from "../../services/userApiRequests";
+import userApiRequests from "../../services/apiRequests/userApiRequests";
 import { getModifiedFields } from "../../utils/formUtils";
 import { useUserContext } from "../../contexts/UserContext";
 import Toast from "../../components/Toast";
