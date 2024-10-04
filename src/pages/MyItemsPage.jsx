@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaSadTear, FaTrashAlt, FaPlus } from "react-icons/fa";
+import { FaSadTear, FaPlus } from "react-icons/fa";
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import { useUserContext } from "../contexts/UserContext";
 import MyItemCard from "../components/cards/MyItemCard";
@@ -74,11 +74,6 @@ const MyItemsPage = () => {
     });
   };
 
-  const removeAllItems = async () => {
-    // Implement the logic to remove all items
-    console.log("Removing all items");
-  };
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -135,15 +130,6 @@ const MyItemsPage = () => {
               }}
             />
           ))}
-        </div>
-        <div className="text-center">
-          <button
-            onClick={removeAllItems}
-            className="btn bg-red-600 text-white font-bold hover:bg-red-700 transition-all duration-300"
-          >
-            <FaTrashAlt size={16} className="mr-2" />
-            Remove All Items
-          </button>
         </div>
       </div>
     </div>
