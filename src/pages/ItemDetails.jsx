@@ -3,27 +3,31 @@ import { useParams, Link } from "react-router-dom";
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import StuffedAnimals from "../Layouts/HomeLayouts/StuffedAnimals";
 import WoodenToys from "../Layouts/HomeLayouts/WoodenToys";
-import ZoomableImage from "../components/MagnifyingGlassImage";
 import MagnifyingGlassImage from "../components/MagnifyingGlassImage";
+import { AiTwotoneEye } from "react-icons/ai";
+import { useUserContext } from "../contexts/UserContext";
+import wishlistServices from "../services/wishlistServices";
+
+const getConditionColor = (condition) => {
+  switch (condition) {
+    case "new":
+      return "bg-green-500";
+    case "gently used":
+      return "bg-yellow-500";
+    case "used":
+      return "bg-red-500";
+    default:
+      return "bg-gray-500";
+  }
+};
 
 const ItemDetails = () => {
   const { id } = useParams();
+  const { user, wishlist, setWishlist, userContextLoading } = useUserContext();
+  const [inWishlist, setInWishlist] = useState(false);
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const getConditionColor = (condition) => {
-    switch (condition) {
-      case "new":
-        return "bg-green-500";
-      case "gently used":
-        return "bg-yellow-500";
-      case "used":
-        return "bg-red-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -39,6 +43,29 @@ const ItemDetails = () => {
 
     fetchItems();
   }, [id]);
+
+  useEffect(() => {
+    if (wishlist?.items.length > 0) {
+      setInWishlist(wishlist.items.some((i) => i._id === item?._id));
+    }
+  }, []);
+
+  const handleAddToOrRemoveFromWishlist = async () => {
+    try {
+      if (inWishlist) {
+        wishlistServices.removeItemFromWishlist(
+          item._id,
+          wishlist,
+          setWishlist
+        );
+      } else {
+        wishlistServices.addItemToWishlist(item, wishlist, setWishlist);
+      }
+      setInWishlist(!inWishlist);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -94,12 +121,22 @@ const ItemDetails = () => {
             <p className="text-4xl font-bold mt-4 mb-6 text-[var(--secondary-color)]">
               ${item.price.toFixed(2)} USD
             </p>
-            <Link
-              to="/wishlist"
-              className="btn bg-[var(--primary-color)] hover:bg-[var(--secondary-color)] text-white rounded-full px-6 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Add to Wishlist
-            </Link>
+            {user && (
+              <button
+                className="bg-[--primary-color] w-[90%] mt-auto py-2 px-4 mx-auto border-none rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
+                onClick={handleAddToOrRemoveFromWishlist}
+                disabled={userContextLoading}
+              >
+                <AiTwotoneEye className="w-4 h-4 fill-white z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-[4px]" />
+                {userContextLoading
+                  ? "Loading..."
+                  : inWishlist
+                  ? "Remove from "
+                  : "Add to "}
+                Wishlist
+              </button>
+            )}
+            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
           </div>
         </div>
       </div>
