@@ -4,8 +4,11 @@ import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import ItemCard from "../components/cards/ItemCard";
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import Toast from "../components/Toast";
+import { useUserContext } from "../contexts/UserContext";
 
 const Shop = () => {
+  const { user } = useUserContext();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -158,6 +161,12 @@ const Shop = () => {
   return (
     <div className="pb-6">
       <div className="container mx-auto ">
+        {!user && (
+          <Toast
+            message="Log in To be able to add to your wishlist"
+            type="error"
+          />
+        )}
         <div className="join mt-6 flex flex-wrap justify-center items-center">
           <button
             className="text-white text-xl  font-bold bg-[var(--primary-color)] hover:bg-[var(--primary-color)] transition-colors duration-200 join-item btn btn-sm w-10"
@@ -362,10 +371,7 @@ const Shop = () => {
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
                   {items.map((item) => (
-                    <ItemCard
-                      key={item._id}
-                      item={item}
-                    />
+                    <ItemCard key={item._id} item={item} />
                   ))}
                 </div>
               </>
