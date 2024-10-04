@@ -1,35 +1,26 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import authApiRequests from "../services/authApiRequests";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import localStorageServices from "../services/localStorageServices";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
+import { LoginSchema } from "../utils/validation/userValidation";
+import authServices from "../services/authServices";
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  password: Yup.string().min(8).required("Password is required"),
-});
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
   const [loginError, setLoginError] = useState("");
-  const { user, setUser } = useUserContext();
+  const { setUser, setWishlist } = useUserContext();
 
   const navigate = useNavigate();
 
-  const initialValues = {
-    email: "",
-    password: "",
-  };
-
-  const onSubmit = async (values, { setSubmitting, resetForm }) => {
+  const handleLogin = async (userData, { setSubmitting, resetForm }) => {
     try {
-      const res = await authApiRequests.login(values);
+      await authServices.login(userData, setUser, setWishlist);
+
       setLoginError("");
-      localStorageServices.setTokensAndUser(res.user, res.accessToken);
-      setUser(res.user);
       navigate("/");
       resetForm();
     } catch (error) {
@@ -50,7 +41,7 @@ const Login = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={LoginSchema}
-          onSubmit={onSubmit}
+          onSubmit={handleLogin}
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">

@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import localStorageServices from "../services/localStorageServices";
 import { RegisterSchema } from "../utils/validation/userValidation";
 import registerImage from "../assets/register/registerImage.jpg";
-import authApiRequests from "../services/authApiRequests";
+import authApiRequests from "../services/apiRequests/authApiRequests";
 import cities from "../utils/staticData/cities.json";
-import wishlistApiRequests from "../services/wishlistApiRequests";
+import wishlistApiRequests from "../services/apiRequests/wishlistApiRequests";
 
 const Register = () => {
   const [registerError, setRegisterError] = useState("");

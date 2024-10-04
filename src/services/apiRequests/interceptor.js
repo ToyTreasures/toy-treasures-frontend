@@ -1,4 +1,4 @@
-import localStorageService from "../services/localStorageServices";
+import localStorageService from "../localStorageServices";
 
 export const setupInterceptors = (api, authService) => {
   api.interceptors.request.use(

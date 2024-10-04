@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import itemApiRequests from "../services/itemApiRequests";
+import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import StuffedAnimals from "../Layouts/HomeLayouts/StuffedAnimals";
 import WoodenToys from "../Layouts/HomeLayouts/WoodenToys";
 import ZoomableImage from "../components/MagnifyingGlassImage";

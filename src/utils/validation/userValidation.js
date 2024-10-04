@@ -1,6 +1,13 @@
 import * as Yup from "yup";
 import cities from "../staticData/cities.json";
 
+export const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: Yup.string().min(8).required("Password is required"),
+});
+
 export const RegisterSchema = Yup.object().shape({
   name: Yup.string()
     .required("Full Name is required")

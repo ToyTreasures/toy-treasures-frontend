@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ItemCard from "../../components/ItemCard";
+import ItemCard from "../../components/cards/ItemCard";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
 const WoodenToys = () => {
