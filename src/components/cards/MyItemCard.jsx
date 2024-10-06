@@ -2,25 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import itemApiRequests from "../../services/apiRequests/itemApiRequests";
 
 const MyItemCard = ({ item, onToggleSoldState }) => {
   const [isLoading, setIsLoading] = useState(false);
   const timeAgo = formatDistanceToNow(parseISO(item.createdAt), {
     addSuffix: true,
   });
-
-  const handleToggleSoldState = async () => {
-    setIsLoading(true);
-    try {
-      const updatedItem = await itemApiRequests.toggleSoldState(item._id);
-      onToggleSoldState(updatedItem);
-    } catch (error) {
-      console.error("Failed to toggle sold state:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
@@ -67,7 +54,7 @@ const MyItemCard = ({ item, onToggleSoldState }) => {
             <FaEdit className="text-xs sm:text-sm " />
           </button>
           <button
-            onClick={handleToggleSoldState}
+            onClick={onToggleSoldState}
             className="btn btn-sm bg-red-500 text-white text-xs hover:text-[--secondary-color] sm:text-sm whitespace-nowrap px-2 sm:px-3 flex-1 min-w-[100px]"
             aria-label="Toggle sold state"
             disabled={isLoading}
