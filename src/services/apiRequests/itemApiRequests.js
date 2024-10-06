@@ -13,7 +13,9 @@ class ItemService {
   }
 
   async getAllItems(queryParams = "") {
-    const res = await this.api.get("/" + queryParams);
+    const res = await this.api.get("/", {
+      params: queryParams,
+    });
     return res.data;
   }
 

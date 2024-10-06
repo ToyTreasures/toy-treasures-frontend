@@ -20,33 +20,24 @@ import SwapRequests from "./Layouts/MyAccount/SwapRequests";
 import WishlistSection from "./Layouts/MyAccount/WishlistSection";
 import Wishlist from "./pages/Wishlist";
 import MyItemsPage from "./pages/MyItemsPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const AppRoutes = () => {
   return (
     <Router>
+      <ScrollToTop />
+      <Navbar />
       <div className="flex flex-col min-h-screen justify-between">
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Navbar />
-                <Home />
-                <Footer />
-              </>
-            }
-          />
+          <Route path="/" element={<Home />} />
+
           <Route
             path="/my-account/*"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute
-                  element={<MyAccount />}
-                  isRequiredToLogIn={true}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute
+                element={<MyAccount />}
+                isRequiredToLogIn={true}
+              />
             }
           >
             <Route path="" element={<UserDashboard />} />
@@ -55,122 +46,60 @@ const AppRoutes = () => {
             <Route path="edit-account" element={<EditAccount />} />
             <Route path="wishlist" element={<WishlistSection />} />
           </Route>
-          <Route
-            path="/shop"
-            element={
-              <>
-                <Navbar />
-                <Shop />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/items/:id"
-            element={
-              <>
-                <Navbar />
-                <ItemDetails />
-                <Footer />
-              </>
-            }
-          />
+
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/items/:id" element={<ItemDetails />} />
           <Route
             path="/register"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute
-                  element={<Register />}
-                  isRequiredToLogIn={false}
-                />
-              </>
+              <ProtectedRoute
+                element={<Register />}
+                isRequiredToLogIn={false}
+              />
             }
           />
           <Route
             path="/login"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute element={<Login />} isRequiredToLogIn={false} />
-              </>
+              <ProtectedRoute element={<Login />} isRequiredToLogIn={false} />
             }
           />
           <Route
             path="/sell-item"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute
-                  element={<SellItem />}
-                  isRequiredToLogIn={true}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute element={<SellItem />} isRequiredToLogIn={true} />
             }
           />
           <Route
             path="/sellers/:id"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute
-                  element={<SellerContacts />}
-                  isRequiredToLogIn={true}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute
+                element={<SellerContacts />}
+                isRequiredToLogIn={true}
+              />
             }
           />
-          <Route
-            path="/contact-us"
-            element={
-              <>
-                <Navbar />
-                <ContactUs />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <>
-                <Navbar />
-                <About />
-                <Footer />
-              </>
-            }
-          />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/about" element={<About />} />
           <Route
             path="/wishlist"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute
-                  element={<Wishlist />}
-                  isRequiredToLogIn={true}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute element={<Wishlist />} isRequiredToLogIn={true} />
             }
-          />{" "}
+          />
           <Route
             path="/my-items"
             element={
-              <>
-                <Navbar />
-                <ProtectedRoute
-                  element={<MyItemsPage />}
-                  isRequiredToLogIn={true}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute
+                element={<MyItemsPage />}
+                isRequiredToLogIn={true}
+              />
             }
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <Footer />
     </Router>
   );
 };
