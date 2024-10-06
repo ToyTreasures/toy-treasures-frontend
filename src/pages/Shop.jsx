@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import FilterPanel from "../Layouts/shop-layouts/FilterPanel";
 import ItemGrid from "../Layouts/shop-layouts/ItemGrid";
@@ -25,6 +25,18 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
+  // Read the category from the query parameter and set it in the filters
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get("category");
+    if (category) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        categories: [decodeURIComponent(category)],
+      }));
+    }
+  }, [location.search]);
+
   const queryParams = useMemo(() => {
     const params = {
       currentPage,
@@ -39,10 +51,31 @@ const Shop = () => {
 
   const { items, loading, error, totalPages } = useItems(queryParams);
 
-  const handleFilterChange = useCallback((newFilters) => {
-    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
-    setCurrentPage(1);
-  }, []);
+  const updateURL = (newFilters) => {
+    const params = new URLSearchParams();
+    Object.keys(newFilters).forEach((key) => {
+      if (newFilters[key]) {
+        if (Array.isArray(newFilters[key])) {
+          newFilters[key].forEach((value) => params.append(key, value));
+        } else {
+          params.set(key, newFilters[key]);
+        }
+      }
+    });
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+  };
+
+  const handleFilterChange = useCallback(
+    (newFilters) => {
+      setFilters((prevFilters) => {
+        const updatedFilters = { ...prevFilters, ...newFilters };
+        updateURL(updatedFilters);
+        return updatedFilters;
+      });
+      setCurrentPage(1);
+    },
+    [navigate, location.pathname]
+  );
 
   const handlePageChange = useCallback((pageNumber) => {
     setCurrentPage(pageNumber);
@@ -51,12 +84,8 @@ const Shop = () => {
   const handleSearch = useCallback(
     (searchValue) => {
       handleFilterChange({ search: searchValue });
-      navigate(
-        `${location.pathname}?${new URLSearchParams(queryParams).toString()}`,
-        { replace: true }
-      );
     },
-    [navigate, location.pathname, queryParams, handleFilterChange]
+    [handleFilterChange]
   );
 
   return (
