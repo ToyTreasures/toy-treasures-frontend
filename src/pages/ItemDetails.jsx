@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
-import StuffedAnimals from "../Layouts/HomeLayouts/StuffedAnimals";
-import WoodenToys from "../Layouts/HomeLayouts/WoodenToys";
 import MagnifyingGlassImage from "../components/MagnifyingGlassImage";
 import { AiTwotoneEye } from "react-icons/ai";
 import { useUserContext } from "../contexts/UserContext";
