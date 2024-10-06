@@ -16,33 +16,36 @@ const getConditionColor = (condition) => {
 };
 
 const ItemCard = ({ item }) => {
-  const { user, wishlist, setWishlist, userContextLoading } = useUserContext();
+  const {
+    user,
+    wishlist,
+    addToWishlist,
+    removeFromWishlist,
+    userContextLoading,
+  } = useUserContext();
   const [inWishlist, setInWishlist] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (wishlist?.items.length > 0) {
-      setInWishlist(wishlist.items.some((i) => i._id === item._id));
-    }
-  }, []);
+    setInWishlist(
+      wishlist.items.some((wishlistItem) => wishlistItem._id === item._id)
+    );
+  }, [wishlist, item._id]);
 
-  const handleAddToOrRemoveFromWishlist = async () => {
+  const handleWishlistToggle = async () => {
+    if (userContextLoading) return;
+
     try {
       if (inWishlist) {
-        wishlistServices.removeItemFromWishlist(
-          item._id,
-          wishlist,
-          setWishlist
-        );
+        await removeFromWishlist(item._id);
       } else {
-        wishlistServices.addItemToWishlist(item, wishlist, setWishlist);
+        await addToWishlist(item);
       }
       setInWishlist(!inWishlist);
     } catch (error) {
-      setError(error.message);
+      setError("An error occurred while updating the wishlist.");
     }
   };
-
   return (
     <div className="transform transition-all duration-500 hover:scale-105 bg-white rounded-lg shadow-md overflow-hidden w-full h-[450px] flex flex-col">
       <div className="flex flex-col h-full">
@@ -85,7 +88,7 @@ const ItemCard = ({ item }) => {
           {user && (
             <button
               className="bg-[--primary-color] w-[90%] mt-auto py-2 px-4 mx-auto border-none rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
-              onClick={handleAddToOrRemoveFromWishlist}
+              onClick={handleWishlistToggle}
               disabled={userContextLoading}
             >
               <AiTwotoneEye className="w-4 h-4 fill-white z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-[4px]" />
