@@ -5,15 +5,26 @@ import AddressSelector from "../../components/shop/AddressSelector";
 
 const FilterPanel = ({ filters, onFilterChange, onSearch }) => {
   const handleResetFilters = () => {
-    onFilterChange({
-      search: "",
-      minPrice: "",
-      maxPrice: "",
-      tradeType: "all",
-      conditions: [],
-      categories: [],
-      address: "",
-    });
+    console.log(filters);
+    if (
+      filters.address ||
+      filters.categories.length ||
+      filters.conditions.length ||
+      filters.maxPrice ||
+      filters.minPrice ||
+      filters.search ||
+      filters.tradeType !== "all"
+    ) {
+      onFilterChange({
+        search: "",
+        minPrice: "",
+        maxPrice: "",
+        tradeType: "all",
+        conditions: [],
+        categories: [],
+        address: "",
+      });
+    }
   };
 
   return (

@@ -8,7 +8,9 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const handleSearchClick = () => {
-    onSearch(inputValue);
+    if (inputValue) {
+      onSearch(inputValue);
+    }
   };
 
   return (
