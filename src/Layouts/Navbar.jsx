@@ -17,7 +17,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const { user, setUser } = useUserContext();
+  const { user, setUser, wishlist, userContextLoading } = useUserContext();
 
   useEffect(() => {
     setLoading(false);
@@ -162,11 +162,13 @@ const Navbar = () => {
                 <div className="flex justify-center space-x-1 mb-[-2px]">
                   <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
                   <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
-                </div>
-                <div className="bg-[var(--primary-color)] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                  0
-                </div>
-              </div>
+                </div>{" "}
+                {!userContextLoading && (
+                  <div className="bg-[--primary-color] text-[--secondary-color] text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    {wishlist.items.length}
+                  </div>
+                )}
+              </div>{" "}
               <BsBagHeartFill className="text-xl" />{" "}
             </NavLink>
             <div className="md:hidden">
