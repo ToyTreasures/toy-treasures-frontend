@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import userApiRequests from "../services/apiRequests/userApiRequests";
+
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import MagnifyingGlassImage from "../components/MagnifyingGlassImage";
 import { AiTwotoneEye } from "react-icons/ai";
@@ -26,14 +28,23 @@ const ItemDetails = () => {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [seller, setSeller] = useState(null);
+  const [showSellerContacts, setShowSellerContacts] = useState(false);
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await itemApiRequests.getItemById(id);
         setItem(response.item);
+        if (response.item.ownerId) {
+          const sellerResponse = await userApiRequests.getUserById(
+            response.item.ownerId
+          );
+          setSeller(sellerResponse.user);
+        } else {
+          setError("Seller information is not available");
+        }
       } catch (error) {
-        setError(error.message);
+        setError("Error fetching item or seller information");
       } finally {
         setLoading(false);
       }
@@ -46,7 +57,7 @@ const ItemDetails = () => {
     if (wishlist?.items.length > 0) {
       setInWishlist(wishlist.items.some((i) => i._id === item?._id));
     }
-  }, []);
+  }, [wishlist, item]);
 
   const handleAddToOrRemoveFromWishlist = async () => {
     try {
@@ -136,15 +147,53 @@ const ItemDetails = () => {
             )}
             {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
           </div>
-        </div>
-      </div>
+        </div>{" "}
+        <div className="mt-6">
+          <button
+            className="bg-[--secondary-color] text-white px-6 py-3 rounded-full shadow-lg hover:bg-[--primary-color] transition-all duration-300 ease-in-out mb-6 text-lg font-medium"
+            onClick={() => setShowSellerContacts(!showSellerContacts)}
+          >
+            {showSellerContacts
+              ? "Hide Seller Info"
+              : " Interested?   Contact Seller"}
+          </button>
 
-      <div className="container mx-auto w-full lg:w-11/12 my-14">
-        <h2 className="text-xl font-bold text-center mb-4 text-[var(--secondary-color)]">
-          You Might Also Like
-        </h2>
-        <StuffedAnimals />
-        <WoodenToys />
+          {showSellerContacts && seller && (
+            <div className="bg-[--secondary-color-light] p-6 rounded-xl shadow-md transition-transform duration-300 ease-in-out transform ">
+              <h2 className="text-3xl font-bold text-[--secondary-color] mb-4">
+                Seller Contact Information
+              </h2>
+              <div className="space-y-3 text-lg text-[--secondary-color-dark]">
+                <p>
+                  <strong className="font-semibold">Name: </strong>
+                  {seller.name}
+                </p>
+                <p>
+                  <strong className="font-semibold">Email: </strong>
+                  <a
+                    href={`mailto:${seller.email}`}
+                    className="text-[--primary-color] underline"
+                  >
+                    {seller.email}
+                  </a>
+                </p>
+                <p>
+                  <strong className="font-semibold">Phone: </strong>
+                  <a
+                    href={`tel:${seller.phoneNumber}`}
+                    className="text-[--primary-color] underline"
+                  >
+                    {seller.phoneNumber}
+                  </a>
+                </p>
+                <p>
+                  <strong className="font-semibold">Address: </strong>
+                  {seller.address}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
