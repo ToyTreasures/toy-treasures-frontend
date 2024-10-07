@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import SellItem from "./pages/SellItem";
 import ContactUs from "./pages/ContactUs";
 import About from "./pages/About";
-import SellerContacts from "./pages/SellerContacts";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserDashboard from "./Layouts/MyAccount/UserDashboard";
 import EditAccount from "./Layouts/MyAccount/EditAccount";
@@ -70,15 +69,7 @@ const AppRoutes = () => {
               <ProtectedRoute element={<SellItem />} isRequiredToLogIn={true} />
             }
           />
-          <Route
-            path="/sellers/:id"
-            element={
-              <ProtectedRoute
-                element={<SellerContacts />}
-                isRequiredToLogIn={true}
-              />
-            }
-          />
+
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/about" element={<About />} />
           <Route
