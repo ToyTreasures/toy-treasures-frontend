@@ -30,6 +30,7 @@ const ItemDetails = () => {
   const [error, setError] = useState(null);
   const [seller, setSeller] = useState(null);
   const [showSellerContacts, setShowSellerContacts] = useState(false);
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -44,7 +45,7 @@ const ItemDetails = () => {
           setError("Seller information is not available");
         }
       } catch (error) {
-        setError("Error fetching item or seller information");
+        setError(error.message || "Error fetching item or seller information");
       } finally {
         setLoading(false);
       }
@@ -57,7 +58,7 @@ const ItemDetails = () => {
     if (wishlist?.items.length > 0) {
       setInWishlist(wishlist.items.some((i) => i._id === item?._id));
     }
-  }, [wishlist, item]);
+  }, []);
 
   const handleAddToOrRemoveFromWishlist = async () => {
     try {
@@ -72,7 +73,7 @@ const ItemDetails = () => {
       }
       setInWishlist(!inWishlist);
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "Error Adding or removing item from wishlist");
     }
   };
 
