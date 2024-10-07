@@ -17,7 +17,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const { user, setUser } = useUserContext();
+  const { user, setUser, wishlist } = useUserContext();
 
   useEffect(() => {
     setLoading(false);
@@ -30,6 +30,7 @@ const Navbar = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  const wishlistCount = wishlist?.items?.length || 0;
 
   return (
     <header className="sticky top-0 z-50">
@@ -163,8 +164,8 @@ const Navbar = () => {
                   <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
                   <div className="bg-[var(--primary-color)] rounded-full w-2 h-2"></div>
                 </div>
-                <div className="bg-[var(--primary-color)] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                  0
+                <div className="bg-[var(--primary-color)] text-[var(--secondary-color)] text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  {wishlistCount}
                 </div>
               </div>
               <BsBagHeartFill className="text-xl" />{" "}
