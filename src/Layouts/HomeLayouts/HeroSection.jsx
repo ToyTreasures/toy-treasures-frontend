@@ -37,17 +37,6 @@ const HeroSection = ({ toysTypeSectionRef }) => {
           Open Shop
         </Link>
       </div>
-      <div className="absolute -bottom-[30px] left-0 right-0 flex justify-center">
-        <button
-          onClick={handleSmoothScroll}
-          className="hidden lg:flex w-16 h-16 bg-white rounded-full shadow-md items-center justify-center"
-          aria-label="Scroll to toy types"
-        >
-          <div className="w-6 h-9 border-2 border-gray-400 rounded-full relative flex items-center justify-center">
-            <div className="w-1 h-1 bg-gray-400 rounded-full animate-scroll-down" />
-          </div>
-        </button>
-      </div>
     </section>
   );
 };
