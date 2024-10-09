@@ -2,13 +2,28 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import ConfirmationModal from "../modals/ConfirmationModal";
 
 const MyItemCard = ({ item, onToggleSoldState, onEditClick }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const location = useLocation();
   const timeAgo = formatDistanceToNow(parseISO(item.createdAt), {
     addSuffix: true,
   });
+
+  const handleToggleClick = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirm = () => {
+    onToggleSoldState();
+    setShowModal(false);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
 
   return (
     <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
@@ -56,7 +71,7 @@ const MyItemCard = ({ item, onToggleSoldState, onEditClick }) => {
           )}
 
           <button
-            onClick={onToggleSoldState}
+            onClick={handleToggleClick}
             className="btn btn-sm bg-red-500 text-white text-xs hover:text-[--secondary-color] sm:text-sm whitespace-nowrap px-2 sm:px-3 flex-1 min-w-[100px]"
             aria-label="Toggle sold state"
             disabled={isLoading}
@@ -69,6 +84,15 @@ const MyItemCard = ({ item, onToggleSoldState, onEditClick }) => {
           </button>
         </div>
       </div>
+
+      <ConfirmationModal
+        show={showModal}
+        message={`Are you sure you want to ${
+          item.sold ? "list this item for sale" : "mark this item as sold"
+        }?`}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </div>
   );
 };
