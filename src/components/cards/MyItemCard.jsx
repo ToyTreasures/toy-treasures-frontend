@@ -16,8 +16,10 @@ const MyItemCard = ({ item, onToggleSoldState, onEditClick }) => {
     setShowModal(true);
   };
 
-  const handleConfirm = () => {
-    onToggleSoldState();
+  const handleConfirm = async () => {
+    setIsLoading(true);
+    await onToggleSoldState();
+    setIsLoading(false);
     setShowModal(false);
   };
 
@@ -92,6 +94,7 @@ const MyItemCard = ({ item, onToggleSoldState, onEditClick }) => {
         }?`}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
+        isLoading={isLoading}
       />
     </div>
   );
