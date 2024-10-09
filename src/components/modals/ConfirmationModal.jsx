@@ -1,4 +1,10 @@
-const ConfirmationModal = ({ show, message, onConfirm, onCancel }) => {
+const ConfirmationModal = ({
+  show,
+  message,
+  onConfirm,
+  onCancel,
+  isLoading = false,
+}) => {
   if (!show) return null;
 
   return (
@@ -19,9 +25,10 @@ const ConfirmationModal = ({ show, message, onConfirm, onCancel }) => {
           </button>
           <button
             onClick={onConfirm}
+            disabled={isLoading}
             className="bg-[--primary-color] text-white hover:bg-[--secondary-color] hover:text-[--primary-color] px-4 py-2 rounded"
           >
-            Confirm
+            {isLoading ? "Processing..." : "Confirm"}
           </button>
         </div>
       </div>
