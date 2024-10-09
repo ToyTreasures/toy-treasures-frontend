@@ -4,9 +4,14 @@ import { useNavigate } from "react-router-dom";
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import { SellItemSchema } from "../utils/validation/itemValidation";
 import BreadCrumbs from "../components/BreadCrumbs";
+import ConfirmationModal from "../components/modals/ConfirmationModal";
 
 const SellItem = () => {
   const [submitError, setSubmitError] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [formValues, setFormValues] = useState(null);
+  const [formActions, setFormActions] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const initialValues = {
@@ -19,16 +24,28 @@ const SellItem = () => {
     isAvailableForSwap: false,
   };
 
-  const onSubmit = async (values, { setSubmitting, resetForm }) => {
+  const onSubmit = (values, actions) => {
+    setFormValues(values);
+    setFormActions(actions);
+    setShowModal(true);
+  };
+
+  const handleConfirm = async () => {
+    if (!formValues || !formActions || isSubmitting) return;
+
+    const { setSubmitting, resetForm } = formActions;
+
     try {
+      setIsSubmitting(true);
+      setSubmitting(true);
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("description", values.description);
-      formData.append("price", values.price);
-      formData.append("condition", values.condition);
-      formData.append("category", values.category);
-      formData.append("isAvailableForSwap", values.isAvailableForSwap);
-      formData.append("thumbnail", values.image);
+      Object.keys(formValues).forEach((key) => {
+        if (key === "image") {
+          formData.append("thumbnail", formValues[key]);
+        } else {
+          formData.append(key, formValues[key]);
+        }
+      });
 
       await itemApiRequests.createItem(formData);
       setSubmitError("");
@@ -40,16 +57,24 @@ const SellItem = () => {
       );
     } finally {
       setSubmitting(false);
+      setIsSubmitting(false);
+      setShowModal(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (!isSubmitting) {
+      setShowModal(false);
     }
   };
 
   return (
-    <div className="mx-auto w-full flex-col align-middle  p-4 md:p-4">
+    <div className="mx-auto w-full flex-col align-middle p-4 md:p-4">
       <div className="w-full md:w-11/12 mx-auto py-4">
         <BreadCrumbs currentPage={"Sell Item"} />
       </div>
       <div className="flex justify-center">
-        <div className="w-full max-w-6xl md:w-1/2 p-4 md:p-8 ">
+        <div className="w-full max-w-6xl md:w-1/2 p-4 md:p-8">
           <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
             Sell Your Item
           </h1>
@@ -58,7 +83,7 @@ const SellItem = () => {
             validationSchema={SellItemSchema}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting, setFieldValue }) => (
+            {({ isSubmitting: formIsSubmitting, setFieldValue }) => (
               <Form className="space-y-4">
                 {submitError && (
                   <div
@@ -225,15 +250,18 @@ const SellItem = () => {
                 <div className="flex-col justify-between mt-6 md:flex-col">
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-[--primary-color] transition-colors mb-4"
+                    disabled={formIsSubmitting || isSubmitting}
+                    className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-[--primary-color] transition-colors mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? "Submitting..." : "Submit"}
+                    {formIsSubmitting || isSubmitting
+                      ? "Submitting..."
+                      : "Submit"}
                   </button>
                   <button
                     type="button"
                     onClick={() => navigate("/")}
-                    className="btn rounded-3xl bg-gray-300 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-gray-400 transition-colors"
+                    disabled={formIsSubmitting || isSubmitting}
+                    className="btn rounded-3xl bg-gray-300 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Cancel
                   </button>
@@ -243,6 +271,13 @@ const SellItem = () => {
           </Formik>
         </div>
       </div>
+      <ConfirmationModal
+        show={showModal}
+        message="Are you sure you want to list this item for sale?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 };
