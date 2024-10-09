@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import itemApiRequests from "../../services/apiRequests/itemApiRequests";
 import { UpdateItemSchema } from "../../utils/validation/itemValidation";
+import ConfirmationModal from "./ConfirmationModal";
 
 const EditItemModal = ({ item, onClose }) => {
   const [submitError, setSubmitError] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [formValues, setFormValues] = useState(null);
+  const [formActions, setFormActions] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues = {
     name: item.name,
@@ -16,17 +21,29 @@ const EditItemModal = ({ item, onClose }) => {
     isAvailableForSwap: item.isAvailableForSwap,
   };
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = (values, actions) => {
+    setFormValues(values);
+    setFormActions(actions);
+    setShowModal(true);
+  };
+
+  const handleConfirm = async () => {
+    if (!formValues || !formActions || isSubmitting) return;
+
+    const { setSubmitting, resetForm } = formActions;
+
     try {
+      setIsSubmitting(true);
+      setSubmitting(true);
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("description", values.description);
-      formData.append("price", values.price);
-      formData.append("condition", values.condition);
-      formData.append("category", values.category);
-      formData.append("isAvailableForSwap", values.isAvailableForSwap);
-      if (values.image instanceof File) {
-        formData.append("thumbnail", values.image);
+      formData.append("name", formValues.name);
+      formData.append("description", formValues.description);
+      formData.append("price", formValues.price);
+      formData.append("condition", formValues.condition);
+      formData.append("category", formValues.category);
+      formData.append("isAvailableForSwap", formValues.isAvailableForSwap);
+      if (formValues.image instanceof File) {
+        formData.append("thumbnail", formValues.image);
       }
 
       await itemApiRequests.updateItem(item._id, formData);
@@ -38,6 +55,14 @@ const EditItemModal = ({ item, onClose }) => {
       );
     } finally {
       setSubmitting(false);
+      setIsSubmitting(false);
+      setShowModal(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (!isSubmitting) {
+      setShowModal(false);
     }
   };
 
@@ -59,7 +84,7 @@ const EditItemModal = ({ item, onClose }) => {
             validationSchema={UpdateItemSchema}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting, setFieldValue }) => (
+            {({ isSubmitting: formIsSubmitting, setFieldValue }) => (
               <Form className="space-y-4">
                 {submitError && (
                   <div
@@ -230,16 +255,25 @@ const EditItemModal = ({ item, onClose }) => {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={formIsSubmitting || isSubmitting}
                   className="bg-[--primary-color] text-[--secondary-color] rounded-lg px-4 py-2 hover:bg-[--secondary-color] hover:text-[--primary-color] w-full"
                 >
-                  {isSubmitting ? "Saving..." : "Save Changes"}
+                  {formIsSubmitting || isSubmitting
+                    ? "Saving..."
+                    : "Save Changes"}
                 </button>
               </Form>
             )}
           </Formik>
         </div>
       </div>
+      <ConfirmationModal
+        show={showModal}
+        message="Do you want to save these changes to your listed item?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 };
