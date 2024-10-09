@@ -276,7 +276,7 @@ const SellItem = () => {
         message="Are you sure you want to list this item for sale?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
-        isSubmitting={isSubmitting}
+        isLoading={isSubmitting}
       />
     </div>
   );
