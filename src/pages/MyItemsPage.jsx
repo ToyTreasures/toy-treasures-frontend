@@ -6,12 +6,25 @@ import { useUserContext } from "../contexts/UserContext";
 import MyItemCard from "../components/cards/MyItemCard";
 import Toast from "../components/Toast";
 import BreadCrumbs from "../components/BreadCrumbs";
+import EditItemModal from "../components/modals/EditItemModal";
 
 const MyItemsPage = () => {
   const { user } = useUserContext();
   const [userItems, setUserItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [itemToEdit, setItemToEdit] = useState(null);
+
+  const handleEditClick = (item) => {
+    setItemToEdit(item);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsEditModalOpen(false);
+    setItemToEdit(null);
+  };
 
   const [toastConfig, setToastConfig] = useState({
     show: false,
@@ -128,8 +141,12 @@ const MyItemsPage = () => {
               onToggleSoldState={() => {
                 handleToggleSoldState(item._id);
               }}
+              onEditClick={handleEditClick}
             />
           ))}
+          {isEditModalOpen && (
+            <EditItemModal item={itemToEdit} onClose={handleCloseModal} />
+          )}
         </div>
       </div>
     </div>
