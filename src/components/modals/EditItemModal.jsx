@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import itemApiRequests from "../../services/apiRequests/itemApiRequests";
 import { UpdateItemSchema } from "../../utils/validation/itemValidation";
 import ConfirmationModal from "./ConfirmationModal";
 
-const EditItemModal = ({ item, onClose }) => {
+const EditItemModal = ({ item, onClose, onItemUpdated, onEditError }) => {
   const [submitError, setSubmitError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState(null);
@@ -21,20 +21,18 @@ const EditItemModal = ({ item, onClose }) => {
     isAvailableForSwap: item.isAvailableForSwap,
   };
 
-  const onSubmit = (values, actions) => {
+  const onSubmit = useCallback((values, actions) => {
     setFormValues(values);
     setFormActions(actions);
     setShowModal(true);
-  };
+  }, []);
 
-  const handleConfirm = async () => {
+  const handleConfirm = useCallback(async () => {
     if (!formValues || !formActions || isSubmitting) return;
-
-    const { setSubmitting, resetForm } = formActions;
 
     try {
       setIsSubmitting(true);
-      setSubmitting(true);
+      formActions.setSubmitting(true);
       const formData = new FormData();
       formData.append("name", formValues.name);
       formData.append("description", formValues.description);
@@ -46,25 +44,34 @@ const EditItemModal = ({ item, onClose }) => {
         formData.append("thumbnail", formValues.image);
       }
 
-      await itemApiRequests.updateItem(item._id, formData);
-      setSubmitError("");
+      const updatedItem = await itemApiRequests.updateItem(item._id, formData);
+      onItemUpdated(updatedItem);
       onClose();
     } catch (error) {
       setSubmitError(
         error.message || "An unexpected error occurred. Please try again."
       );
+      onEditError(error);
     } finally {
-      setSubmitting(false);
+      formActions.setSubmitting(false);
       setIsSubmitting(false);
       setShowModal(false);
     }
-  };
+  }, [
+    formValues,
+    formActions,
+    isSubmitting,
+    item._id,
+    onClose,
+    onItemUpdated,
+    onEditError,
+  ]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     if (!isSubmitting) {
       setShowModal(false);
     }
-  };
+  }, [isSubmitting]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
@@ -74,6 +81,8 @@ const EditItemModal = ({ item, onClose }) => {
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
+            type="button"
+            disabled={isSubmitting}
           >
             Close
           </button>
@@ -84,7 +93,7 @@ const EditItemModal = ({ item, onClose }) => {
             validationSchema={UpdateItemSchema}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting: formIsSubmitting, setFieldValue }) => (
+            {({ isSubmitting: formikIsSubmitting, setFieldValue }) => (
               <Form className="space-y-4">
                 {submitError && (
                   <div
@@ -255,10 +264,10 @@ const EditItemModal = ({ item, onClose }) => {
 
                 <button
                   type="submit"
-                  disabled={formIsSubmitting || isSubmitting}
-                  className="bg-[--primary-color] text-[--secondary-color] rounded-lg px-4 py-2 hover:bg-[--secondary-color] hover:text-[--primary-color] w-full"
+                  disabled={formikIsSubmitting || isSubmitting}
+                  className="bg-[--primary-color] text-[--secondary-color] rounded-lg px-4 py-2 hover:bg-[--secondary-color] hover:text-[--primary-color] w-full disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {formIsSubmitting || isSubmitting
+                  {formikIsSubmitting || isSubmitting
                     ? "Saving..."
                     : "Save Changes"}
                 </button>
@@ -272,7 +281,8 @@ const EditItemModal = ({ item, onClose }) => {
         message="Do you want to save these changes to your listed item?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
-        isSubmitting={isSubmitting}
+        isLoading={isSubmitting}
+        disableActions={isSubmitting}
       />
     </div>
   );
