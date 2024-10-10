@@ -5,26 +5,13 @@ import { useCallback, useState } from "react";
 import userApiRequests from "../../services/apiRequests/userApiRequests";
 import { getModifiedFields } from "../../utils/formUtils";
 import { useUserContext } from "../../contexts/UserContext";
-import Toast from "../../components/Toast";
+import { useToast, TOAST_TYPES } from "../../hooks/useToast";
 
 const AccountDetails = () => {
   const { user, setUser } = useUserContext();
   const [updateUserFormError, setUpdateUserFormError] = useState("");
   const [isFormModified, setIsFormModified] = useState(false);
-
-  const [toastConfig, setToastConfig] = useState({
-    show: false,
-    message: "",
-    type: null,
-  });
-
-  const showToast = useCallback((message, type) => {
-    setToastConfig({ show: true, message, type });
-    setTimeout(
-      () => setToastConfig({ show: false, message: "", type: null }),
-      3000
-    );
-  }, []);
+  const { showToast, ToastContainer } = useToast();
 
   const initialValues = {
     name: user.name || "",
@@ -49,11 +36,12 @@ const AccountDetails = () => {
       setUser(response.user);
       localStorage.setItem("user", JSON.stringify(response.user));
       setIsFormModified(false);
-      showToast("Account Updated successfully", "success");
+      showToast("Account Updated successfully", TOAST_TYPES.SUCCESS);
     } catch (error) {
       setUpdateUserFormError(
         error.message || "An unexpected error occurred. Please try again later."
       );
+      showToast(error.message, TOAST_TYPES.ERROR);
     } finally {
       setSubmitting(false);
     }
@@ -61,9 +49,6 @@ const AccountDetails = () => {
 
   return (
     <>
-      {toastConfig.show && (
-        <Toast message={toastConfig.message} type={toastConfig.type} />
-      )}
       <h2 className="text-2xl font-bold mb-6">Edit Your Account</h2>
       <Formik
         initialValues={initialValues}
@@ -228,6 +213,7 @@ const AccountDetails = () => {
           </Form>
         )}
       </Formik>
+      <ToastContainer />
     </>
   );
 };

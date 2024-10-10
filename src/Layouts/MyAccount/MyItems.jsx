@@ -36,14 +36,14 @@ const MyItems = () => {
     }
   }, [user]);
 
-  const handleToggleSoldState = (itemId) => {
+  const handleToggleSoldState = async (itemId) => {
     setUserItems((prevItems) =>
       prevItems.map((item) =>
         item._id === itemId ? { ...item, sold: !item.sold } : item
       )
     );
 
-    itemApiRequests.toggleSoldState(itemId).catch(() => {
+    await itemApiRequests.toggleSoldState(itemId).catch(() => {
       // Optionally, revert the optimistic update if the API call fails
       setUserItems((prevItems) =>
         prevItems.map((item) =>
