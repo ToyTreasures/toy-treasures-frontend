@@ -61,11 +61,11 @@ const ItemCard = ({ item }) => {
             <img
               src={item.thumbnail}
               alt={item.name}
-              className="w-[90%] mx-auto p-2 h-full flex items-center object-cover transition-opacity duration-300"
+              className="w-auto mx-auto p-2 h-full flex items-center object-cover transition-opacity duration-300"
             />
           </div>
 
-          <h6 className="text-lg font-semibold line-clamp-2 text-center h-10 overflow-hidden">
+          <h6 className="text-lg font-semibold line-clamp-2 text-center h-auto overflow-hidden">
             <Link to={`/items/${item._id}`}>{item.name}</Link>
           </h6>
 
