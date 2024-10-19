@@ -249,21 +249,21 @@ const SellItem = () => {
 
                 <div className="flex-col justify-between mt-6 md:flex-col">
                   <button
+                    type="button"
+                    onClick={() => navigate("/")}
+                    disabled={formIsSubmitting || isSubmitting}
+                    className="btn rounded-3xl bg-[var(--secondary-color)] w-full md:w-1/2 py-2 text-white font-semibold hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Cancel
+                  </button>
+                  <button
                     type="submit"
                     disabled={formIsSubmitting || isSubmitting}
-                    className="btn rounded-3xl bg-lime-400 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-[--primary-color] transition-colors mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn rounded-3xl bg-[var(--primary-color)] w-full md:w-1/2 py-2 text-black font-semibold hover:bg-[--primary-color] transition-colors mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {formIsSubmitting || isSubmitting
                       ? "Submitting..."
                       : "Submit"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigate("/")}
-                    disabled={formIsSubmitting || isSubmitting}
-                    className="btn rounded-3xl bg-gray-300 w-full md:w-1/2 py-2 text-black font-semibold hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Cancel
                   </button>
                 </div>
               </Form>
