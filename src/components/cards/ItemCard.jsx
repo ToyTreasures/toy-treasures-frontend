@@ -44,60 +44,59 @@ const ItemCard = ({ item }) => {
   };
 
   return (
-    <div className="transform transition-all duration-500 hover:scale-105 bg-white rounded-lg shadow-md overflow-hidden w-full h-[450px] flex flex-col">
-      <div className="flex flex-col h-full">
-        <div className="p-4 flex flex-col h-full">
-          <div className="h-6 mb-4">
-            <span
-              className={`relative inline-block px-3 py-1 text-xs font-semibold text-white ${getConditionColor(
-                item.condition
-              )} rounded-md overflow-hidden`}
-            >
-              {item.condition}
+    <div className="transform transition-all duration-500 hover:scale-105 bg-white rounded-lg shadow-md overflow-hidden w-full h-[300px] sm:h-[350px] flex flex-col">
+      <div className="p-2 sm:p-3 flex flex-col h-full">
+        <div className="flex justify-between items-center mb-2 gap-1">
+          <span
+            className={`inline-block px-2 py-0.5 text-[10px] sm:text-xs font-semibold text-white ${getConditionColor(
+              item.condition
+            )} rounded-md`}
+          >
+            {item.condition}
+          </span>
+
+          {item.isAvailableForSwap && (
+            <span className="text-[10px] sm:text-xs px-1.5 py-0.5 rounded-lg text-[--primary-color] border border-[--primary-color] animate-text-shimmer bg-gradient-to-r from-[--primary-color] via-[--secondary-color] to-[--primary-color] bg-[length:200%_100%] bg-clip-text text-transparent whitespace-nowrap">
+              Available For Swap
             </span>
-          </div>
+          )}
+        </div>
 
-          <div className="relative w-full h-48 mb-4 flex-shrink-0">
-            <img
-              src={item.thumbnail}
-              alt={item.name}
-              className="w-auto mx-auto p-2 h-full flex items-center object-cover transition-opacity duration-300"
-            />
-          </div>
+        <div className="relative w-full h-40 sm:h-40 mb-2 flex-shrink-0">
+          <img
+            src={item.thumbnail}
+            alt={item.name}
+            className="w-full h-full object-fit transition-opacity duration-300"
+          />
+        </div>
 
-          <h6 className="text-lg font-semibold line-clamp-2 text-center h-auto overflow-hidden">
+        <div className="flex justify-between items-start gap-1 ">
+          <h6 className="text-sm sm:text-base font-semibold line-clamp-2 flex-1">
             <Link to={`/items/${item._id}`}>{item.name}</Link>
           </h6>
-
-          <div className="flex flex-col items-center justify-center gap-2 mb-4 h-16">
-            <div className="h-8 flex items-center justify-center">
-              {item.isAvailableForSwap && (
-                <span className="text-sm px-2 py-1 rounded-lg text-[--primary-color] border border-[--primary-color] animate-text-shimmer bg-gradient-to-r from-[--primary-color] via-[--secondary-color] to-[--primary-color] bg-[length:200%_100%] bg-clip-text text-transparent">
-                  Available For Swap
-                </span>
-              )}
-            </div>
-            <div className="text-white bg-[--secondary-color] font-bold rounded-full text-xs py-1 px-3">
-              ${item.price ? item.price.toFixed(2) : "0.00"} USD
-            </div>
+          <div className="text-white bg-[--secondary-color] font-bold rounded-full text-[10px] sm:text-xs py-0.5 px-2 whitespace-nowrap">
+            ${item.price ? item.price.toFixed(2) : "0.00"} USD
           </div>
+        </div>
 
+        <div className="mt-auto">
           {user && (
             <button
-              className="bg-[--primary-color] w-[90%] mt-auto py-2 px-4 mx-auto border-none rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
+              className="bg-[--primary-color] w-auto mx-auto py-1.5 sm:py-2 px-3 border-none rounded-full flex items-center justify-center gap-1.5 text-white text-xs sm:text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
               onClick={handleAddToOrRemoveFromWishlist}
               disabled={userContextLoading}
             >
-              <AiTwotoneEye className="w-4 h-4 fill-white z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-[4px]" />
-              {userContextLoading
-                ? "Loading..."
-                : inWishlist
-                ? "Remove from "
-                : "Add to "}
-              Wishlist
+              <AiTwotoneEye className="w-3 h-3 sm:w-4 sm:h-4 fill-white z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-[4px]" />
+              <span className="whitespace-nowrap">
+                {userContextLoading
+                  ? "Loading..."
+                  : inWishlist
+                  ? "Remove from Wishlist"
+                  : "Add to Wishlist"}
+              </span>
             </button>
           )}
-          {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+          {error && <p className="text-red-500 text-[10px] mt-1">{error}</p>}
         </div>
       </div>
     </div>

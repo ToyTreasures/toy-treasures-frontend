@@ -28,10 +28,11 @@ const FilterPanel = ({ filters, onFilterChange, onSearch }) => {
   };
 
   return (
-    <div className="w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md mt-8">
+    <div className="w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md mt-8 h-full">
       <h2 className="text-xl font-bold mb-3">Filters</h2>
       <SearchBar onSearch={(value) => onFilterChange({ search: value })} />
       <PriceRangeInputs
+        title="Price"
         minPrice={filters.minPrice}
         maxPrice={filters.maxPrice}
         onChange={(minPrice, maxPrice) =>
