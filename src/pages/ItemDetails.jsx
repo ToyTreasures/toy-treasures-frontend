@@ -29,7 +29,6 @@ const ItemDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [seller, setSeller] = useState(null);
-  const [showSellerContacts, setShowSellerContacts] = useState(false);
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -132,7 +131,7 @@ const ItemDetails = () => {
             </p>
             {user && (
               <button
-                className="bg-[--primary-color] w-[90%] mt-auto py-2 px-4 mx-auto border-none rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
+                className="bg-[--primary-color] w-auto mt-auto py-2 px-4  border-none rounded-full flex items-center justify-center gap-2 text-white text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
                 onClick={handleAddToOrRemoveFromWishlist}
                 disabled={userContextLoading}
               >
@@ -149,50 +148,39 @@ const ItemDetails = () => {
           </div>
         </div>{" "}
         <div className="mt-6">
-          <button
-            className="bg-[--secondary-color] text-white px-6 py-3 rounded-full shadow-lg hover:bg-[--primary-color] transition-all duration-300 ease-in-out mb-6 text-lg font-medium"
-            onClick={() => setShowSellerContacts(!showSellerContacts)}
-          >
-            {showSellerContacts
-              ? "Hide Seller Info"
-              : " Interested?   Contact Seller"}
-          </button>
-
-          {showSellerContacts && seller && (
-            <div className="bg-[--secondary-color-light] p-6 rounded-xl shadow-md transition-transform duration-300 ease-in-out transform ">
-              <h2 className="text-3xl font-bold text-[--secondary-color] mb-4">
-                Seller Contact Information
-              </h2>
-              <div className="space-y-3 text-lg text-[--secondary-color-dark]">
-                <p>
-                  <strong className="font-semibold">Name: </strong>
-                  {seller.name}
-                </p>
-                <p>
-                  <strong className="font-semibold">Email: </strong>
-                  <a
-                    href={`mailto:${seller.email}`}
-                    className="text-[--primary-color] underline"
-                  >
-                    {seller.email}
-                  </a>
-                </p>
-                <p>
-                  <strong className="font-semibold">Phone: </strong>
-                  <a
-                    href={`tel:${seller.phoneNumber}`}
-                    className="text-[--primary-color] underline"
-                  >
-                    {seller.phoneNumber}
-                  </a>
-                </p>
-                <p>
-                  <strong className="font-semibold">Address: </strong>
-                  {seller.address}
-                </p>
-              </div>
+          <div className="bg-[--secondary-color-light] p-6 rounded-xl shadow-md transition-transform duration-300 ease-in-out transform ">
+            <h2 className="text-3xl font-bold text-[--secondary-color] mb-4">
+              Seller Contact Information
+            </h2>
+            <div className="space-y-3 text-lg text-[--secondary-color-dark]">
+              <p>
+                <strong className="font-semibold">Name: </strong>
+                {seller.name}
+              </p>
+              <p>
+                <strong className="font-semibold">Email: </strong>
+                <a
+                  href={`mailto:${seller.email}`}
+                  className="text-[--primary-color] underline"
+                >
+                  {seller.email}
+                </a>
+              </p>
+              <p>
+                <strong className="font-semibold">Phone: </strong>
+                <a
+                  href={`tel:${seller.phoneNumber}`}
+                  className="text-[--primary-color] underline"
+                >
+                  {seller.phoneNumber}
+                </a>
+              </p>
+              <p>
+                <strong className="font-semibold">Address: </strong>
+                {seller.address}
+              </p>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

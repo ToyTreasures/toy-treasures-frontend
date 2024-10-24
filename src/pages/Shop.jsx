@@ -24,7 +24,7 @@ const Shop = () => {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -99,11 +99,6 @@ const Shop = () => {
 
   return (
     <div className="container mx-auto pb-6">
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
       <div className="flex flex-col md:flex-row gap-6">
         <FilterPanel
           filters={filters}
@@ -118,6 +113,11 @@ const Shop = () => {
         />
       </div>
       <ToastContainer />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MyItemCard from "../../components/cards/MyItemCard";
 import itemApiRequests from "../../services/apiRequests/itemApiRequests";
@@ -44,7 +44,6 @@ const MyItems = () => {
     );
 
     await itemApiRequests.toggleSoldState(itemId).catch(() => {
-      // Optionally, revert the optimistic update if the API call fails
       setUserItems((prevItems) =>
         prevItems.map((item) =>
           item._id === itemId ? { ...item, sold: !item.sold } : item
@@ -86,12 +85,14 @@ const MyItems = () => {
               </p>
             )}
           </div>
-          <Link
-            to="/my-items"
-            className="btn btn-ghost font-bold bg-[--primary-color] text-[--secondary-color] w-full"
-          >
-            View All My Items
-          </Link>
+          <div className="flex justify-center items-center h-full">
+            <Link
+              to="/my-items"
+              className="btn btn-ghost font-bold bg-[--primary-color] text-[--secondary-color] w-auto"
+            >
+              View All My Items
+            </Link>{" "}
+          </div>
         </>
       )}
     </div>

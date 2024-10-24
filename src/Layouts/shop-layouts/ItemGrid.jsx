@@ -25,7 +25,7 @@ const ItemGrid = ({ items, loading, error, onRetry }) => {
   }
 
   return (
-    <div className="w-full md:w-3/4">
+    <div className="w-full md:w-3/4 ">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-8">
         {items.map((item) => (
           <ItemCard key={item._id} item={item} />

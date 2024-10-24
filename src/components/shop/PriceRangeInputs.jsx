@@ -1,6 +1,8 @@
-const PriceRangeInputs = ({ minPrice, maxPrice, onChange }) => {
+const PriceRangeInputs = ({ title, minPrice, maxPrice, onChange }) => {
   return (
     <div className="flex flex-col gap-3 mb-3">
+      {" "}
+      <h3 className="font-semibold mb-1 text-sm">{title}</h3>
       <input
         type="number"
         placeholder="Min Price"
