@@ -14,7 +14,7 @@ const ConfirmationModal = ({
           <h2 className="text-xl font-semibold text-[--secondary-color]">
             Confirm Action
           </h2>
-          <p>{message}</p>
+          <p className="text-gray-800">{message}</p>
         </div>
         <div className="flex justify-end space-x-4">
           <button

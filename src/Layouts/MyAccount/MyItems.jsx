@@ -1,34 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MyItemCard from "../../components/cards/MyItemCard";
 import itemApiRequests from "../../services/apiRequests/itemApiRequests";
 import { useUserContext } from "../../contexts/UserContext";
+import { useToast } from "../../hooks/useToast";
 
 const MyItems = () => {
   const { user } = useUserContext();
   const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const { showToast, ToastContainer } = useToast();
 
-  const fetchUserItems = async (userId) => {
-    setLoading(true);
-    setErrorMessage("");
-    try {
-      const response = await itemApiRequests.getUsersItems(userId);
-      if (response && response.items && response.items.length > 0) {
-        setUserItems(response.items.slice(0, 3));
-      } else {
+  const fetchUserItems = useCallback(
+    async (userId) => {
+      setLoading(true);
+      setErrorMessage("");
+      try {
+        const response = await itemApiRequests.getUsersItems(userId);
+        if (response && response.items && response.items.length > 0) {
+          setUserItems(response.items.slice(0, 3));
+        } else {
+          setUserItems([]);
+        }
+      } catch (error) {
+        const errorMsg =
+          "Failed to fetch items: " +
+          (error.message || "Something went wrong. Please try again later");
+        setErrorMessage(errorMsg);
+        showToast(errorMsg, TOAST_TYPES.ERROR);
         setUserItems([]);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      setErrorMessage(
-        "Failed to fetch items: " +
-          (error.message || "Something went wrong. Please try again later")
-      );
-      setUserItems([]);
-    }
-    setLoading(false);
-  };
+    },
+    [showToast, itemApiRequests]
+  );
 
   useEffect(() => {
     if (user && user._id) {
@@ -71,10 +78,10 @@ const MyItems = () => {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             {userItems.length > 0 ? (
-              userItems.map((item, index) => (
+              userItems.map((item) => (
                 <MyItemCard
                   item={item}
-                  key={index}
+                  key={item._id}
                   onToggleSoldState={() => {
                     handleToggleSoldState(item._id);
                   }}
@@ -94,6 +101,7 @@ const MyItems = () => {
           </Link>
         </>
       )}
+      <ToastContainer />
     </div>
   );
 };
