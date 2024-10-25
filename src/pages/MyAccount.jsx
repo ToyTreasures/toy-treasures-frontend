@@ -17,8 +17,8 @@ const MyAccount = () => {
       <div className="container mx-auto px-4 max-w-7xl pt-6 pb-14">
         <div className="bg-white rounded-lg shadow-md overflow-hidden ">
           <div className="md:flex">
-            <div className="md:w-1/4  p-6 bg-[--secondary-color]  border-r border-gray-200  ">
-              <h3 className="text-2xl font-bold mb-6 text-white ">
+            <div className="md:w-1/4  p-6 bg-white border-r border-gray-200  ">
+              <h3 className="text-2xl font-bold mb-6 text-[--secondary-color] ">
                 My Account
               </h3>
               <nav
@@ -26,13 +26,13 @@ const MyAccount = () => {
                 aria-label="Account pages"
               >
                 {[
-                  { to: "/my-account/", label: "Dashboard" },
-                  { to: "/my-account/my-items", label: "My Items" },
-                  { to: "/my-account/swap-requests", label: "Swap Requests" },
+                  // { to: "/my-account/", label: "Dashboard" },
                   {
                     to: "/my-account/edit-account",
                     label: "Edit Account",
                   },
+                  { to: "/my-account/my-items", label: "My Items" },
+                  { to: "/my-account/swap-requests", label: "Swap Requests" },
                   { to: "/my-account/wishlist", label: "Wishlist" },
                 ].map((item, index) => (
                   <div key={index} className="mb-4 md:w-full">
@@ -51,7 +51,7 @@ const MyAccount = () => {
                 ))}
               </nav>
             </div>
-            <div className="md:w-3/4 p-6 bg-[--secondary-color] text-white">
+            <div className="md:w-3/4 p-6 bg-white text-[--secondary-color]">
               <Outlet context={{ user, setUser, handleLogout }} />
             </div>
           </div>

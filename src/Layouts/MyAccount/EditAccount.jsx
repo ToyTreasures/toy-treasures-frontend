@@ -66,7 +66,7 @@ const AccountDetails = () => {
             <div className="space-y-2">
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-white"
+                className="block text-sm font-medium text-[--secondary-color]"
               >
                 Name
               </label>
@@ -91,7 +91,7 @@ const AccountDetails = () => {
             <div className="space-y-2">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-white"
+                className="block text-sm font-medium text-[--secondary-color]"
               >
                 Email
               </label>
@@ -116,7 +116,7 @@ const AccountDetails = () => {
             <div className="space-y-2">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-white"
+                className="block text-sm font-medium text-[--secondary-color]"
               >
                 Password
               </label>
@@ -142,7 +142,7 @@ const AccountDetails = () => {
               <div className="space-y-2 w-5/12">
                 <label
                   htmlFor="phoneNumber"
-                  className="block text-sm font-medium text-white"
+                  className="block text-sm font-medium text-[--secondary-color]"
                 >
                   Phone Number
                 </label>
@@ -167,7 +167,7 @@ const AccountDetails = () => {
               <div className="space-y-2 w-5/12">
                 <label
                   htmlFor="address"
-                  className="block text-sm font-medium text-white"
+                  className="block text-sm font-medium text-[--secondary-color]"
                 >
                   Address
                 </label>

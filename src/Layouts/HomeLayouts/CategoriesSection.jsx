@@ -55,9 +55,10 @@ const CategoriesSection = forwardRef((props, ref) => {
                   index % 2 !== 0 ? "text-right" : "text-left"
                 } flex flex-col justify-start items-start w-3/5`}
               >
-                <h3 className="text-2xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4">
+                <h3 className="text-2xl sm:text-2xl md:text-3xl font-semibold mb-2 sm:mb-4 text-center whitespace-nowrap">
                   {category.name}
                 </h3>
+
                 <Link
                   to={`/shop?category=${encodeURIComponent(category.name)}`}
                   className="flex justify-center items-center font-semibold bg-white text-[--secondary-color] text-xs sm:text-sm md:text-base h-8 sm:h-9 md:h-10 w-20 sm:w-24 md:w-28 rounded-full duration-300 hover:shadow-[0_8px_8px_-4px_rgba(17,17,17,0.2)] hover:transform hover:scale-105 transition-all ease-in-out mt-1"

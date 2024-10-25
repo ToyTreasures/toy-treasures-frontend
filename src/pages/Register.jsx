@@ -81,7 +81,7 @@ const Register = () => {
               ))}
               <div className="space-y-1">
                 <label htmlFor="address" className="ml-2 font-semibold">
-                  Address
+                  City
                 </label>
                 <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-2">
                   <Field
@@ -90,7 +90,7 @@ const Register = () => {
                     id="address"
                     className="grow bg-transparent outline-none w-full"
                   >
-                    <option value="">Select Address</option>
+                    <option value="">Select City</option>
                     {cities.map((city, index) => (
                       <option key={index} value={city}>
                         {city}

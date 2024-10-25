@@ -28,7 +28,7 @@ const MyItemCard = ({ item, onToggleSoldState, onEditClick }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="relative bg-gray-100 rounded-lg shadow-md overflow-hidden">
       <img
         src={item.thumbnail || "/placeholder-thumbnail.jpg"}
         alt={item.name}

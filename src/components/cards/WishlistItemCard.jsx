@@ -21,7 +21,7 @@ const WishlistItemCard = ({ item }) => {
   }
 
   return (
-    <div className="relative bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+    <div className="relative bg-gray-100 rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
       <button
         onClick={() => removeFromWishlist(item._id)}
         className="absolute top-2 left-2 bg-red-700 text-white rounded-full p-2 transition-transform transform hover:scale-110 hover:bg-red-800 focus:outline-none"
@@ -35,10 +35,10 @@ const WishlistItemCard = ({ item }) => {
         className="w-full h-56 object-cover"
       />
       <div className="p-4">
-        <h3 className="text-xl font-semibold text-[--secondary-color] mb-2">
+        <h3 className="text-xl h-12 font-semibold text-[--secondary-color] mb-2">
           {item.name}
         </h3>
-        <p className="text-gray-600 mb-3 text-sm">{item.description}</p>
+        <p className="text-gray-600 mb-3 h-14 text-sm">{item.description}</p>
         <p className="text-2xl font-bold text-[--secondary-color] mb-4">
           ${item.price}
         </p>
