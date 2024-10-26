@@ -154,7 +154,7 @@ const Navbar = () => {
                       My Items
                     </NavLink>
                     <NavLink
-                      to="/my-account"
+                      to="/my-account/edit-account"
                       className="nav-link hover:underline"
                     >
                       My Account
@@ -238,7 +238,10 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/my-account" onClick={toggleMobileMenu}>
+                    <NavLink
+                      to="/my-account/edit-account"
+                      onClick={toggleMobileMenu}
+                    >
                       My Account
                     </NavLink>
                   </li>

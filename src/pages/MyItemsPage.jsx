@@ -117,7 +117,7 @@ const MyItemsPage = () => {
           Start adding items to your collection or create new listings.
         </p>
         <Link
-          to="/add-item"
+          to="/sell-item"
           className="btn bg-[--primary-color] text-[--secondary-color] font-bold hover:bg-opacity-80 transition-all duration-300"
         >
           <FaPlus className="mr-2" />
