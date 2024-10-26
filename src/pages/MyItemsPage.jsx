@@ -78,7 +78,7 @@ const MyItemsPage = () => {
         await itemApiRequests.toggleSoldState(itemId);
         const updatedItem = userItems.find((item) => item._id === itemId);
         showToast(
-          updatedItem.sold ? "Item marked as sold" : "Item listed as available",
+          updatedItem.sold ? "Item listed as available" : "Item marked as sold",
           TOAST_TYPES.INFO
         );
       } catch (error) {
