@@ -80,7 +80,7 @@ const ItemCard = ({ item }) => {
         </div>
 
         <div className="mt-auto">
-          {user && (
+          {user && user._id !== item.ownerId._id  && (
             <button
               className="bg-[--primary-color] w-auto mx-auto py-1.5 sm:py-2 px-3 border-none rounded-full flex items-center justify-center gap-1.5 text-white text-xs sm:text-sm font-medium relative shadow-lg shadow-gray-900/20 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden hover:shadow-gray-900/30 active:scale-95 group"
               onClick={handleAddToOrRemoveFromWishlist}
