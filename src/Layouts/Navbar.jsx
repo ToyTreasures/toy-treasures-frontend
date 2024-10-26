@@ -12,12 +12,27 @@ import {
 import { BsBagHeartFill } from "react-icons/bs";
 import { useUserContext } from "../contexts/UserContext";
 import authServices from "../services/authServices";
+import ConfirmationModal from "../components/modals/ConfirmationModal";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const { user, setUser, wishlist } = useUserContext();
+
+  const handleLogoutClick = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirm = () => {
+    handleLogout();
+    setShowModal(false);
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     setLoading(false);
@@ -145,7 +160,7 @@ const Navbar = () => {
                       My Account
                     </NavLink>
                     <button
-                      onClick={handleLogout}
+                      onClick={handleLogoutClick}
                       className="nav-link hover:underline hidden md:inline-flex"
                     >
                       Logout
@@ -278,7 +293,7 @@ const Navbar = () => {
                   <button
                     onClick={() => {
                       toggleMobileMenu();
-                      handleLogout();
+                      handleLogoutClick();
                     }}
                     className="w-full mt-2 py-3 px-4 hover:bg-error"
                   >
@@ -289,6 +304,12 @@ const Navbar = () => {
             </ul>
           </div>
         )}
+        <ConfirmationModal
+          show={showModal}
+          message={`Are you sure you want to logout?`}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
       </nav>
     </header>
   );

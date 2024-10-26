@@ -1,78 +1,97 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaSadTear, FaPlus } from "react-icons/fa";
 import itemApiRequests from "../services/apiRequests/itemApiRequests";
 import { useUserContext } from "../contexts/UserContext";
 import MyItemCard from "../components/cards/MyItemCard";
-import Toast from "../components/Toast";
+import { useToast, TOAST_TYPES } from "../hooks/useToast";
 import BreadCrumbs from "../components/BreadCrumbs";
+import EditItemModal from "../components/modals/EditItemModal";
 
 const MyItemsPage = () => {
   const { user } = useUserContext();
   const [userItems, setUserItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const [toastConfig, setToastConfig] = useState({
-    show: false,
-    message: "",
-    type: null,
-  });
-
-  const showToast = useCallback((message, type) => {
-    setToastConfig({ show: true, message, type });
-    setTimeout(
-      () => setToastConfig({ show: false, message: "", type: null }),
-      3000
-    );
-  }, []);
-
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [itemToEdit, setItemToEdit] = useState(null);
+  const { showToast, ToastContainer } = useToast();
   const location = useLocation();
 
-  useEffect(() => {
-    const fetchUserItems = async (userId) => {
+  const fetchUserItems = useCallback(
+    async (userId) => {
       setIsLoading(true);
-      setError("");
+      setError(null);
       try {
         const response = await itemApiRequests.getUsersItems(userId);
-        if (response && response.items && response.items.length > 0) {
-          setUserItems(response.items);
-        } else {
-          setUserItems([]);
-        }
+        setUserItems(response?.items || []);
       } catch (error) {
-        setError(
-          "Failed to fetch items: " +
-            (error.message || "Something went wrong. Please try again later")
-        );
-        setUserItems([]);
+        const errorMessage =
+          error.message || "Something went wrong. Please try again later";
+        setError(`Failed to fetch items: ${errorMessage}`);
+        showToast(errorMessage, TOAST_TYPES.ERROR);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    };
+    },
+    [showToast]
+  );
 
+  useEffect(() => {
     if (location.state?.isRedirected) {
-      showToast("Item created successfully", "success");
+      showToast("Item added successfully", TOAST_TYPES.SUCCESS);
     }
-
     fetchUserItems(user._id);
-  }, [user]);
+  }, [user._id, showToast, location.state, fetchUserItems]);
 
-  const handleToggleSoldState = (itemId) => {
-    setUserItems((prevItems) =>
-      prevItems.map((item) =>
-        item._id === itemId ? { ...item, sold: !item.sold } : item
-      )
-    );
+  const handleEditClick = useCallback((item) => {
+    setItemToEdit(item);
+    setIsEditModalOpen(true);
+  }, []);
 
-    itemApiRequests.toggleSoldState(itemId).catch(() => {
-      // Optionally, revert the optimistic update if the API call fails
+  const handleCloseModal = useCallback(() => {
+    setIsEditModalOpen(false);
+    setItemToEdit(null);
+  }, []);
+
+  const handleItemUpdated = useCallback(
+    (updatedItem) => {
+      setUserItems((prevItems) =>
+        prevItems.map((item) =>
+          item._id === updatedItem._id ? updatedItem : item
+        )
+      );
+      showToast("Item updated successfully", TOAST_TYPES.SUCCESS);
+    },
+    [showToast]
+  );
+
+  const handleToggleSoldState = useCallback(
+    async (itemId) => {
       setUserItems((prevItems) =>
         prevItems.map((item) =>
           item._id === itemId ? { ...item, sold: !item.sold } : item
         )
       );
-    });
-  };
+
+      try {
+        await itemApiRequests.toggleSoldState(itemId);
+        const updatedItem = userItems.find((item) => item._id === itemId);
+        showToast(
+          updatedItem.sold ? "Item listed as available" : "Item marked as sold",
+          TOAST_TYPES.INFO
+        );
+      } catch (error) {
+        setUserItems((prevItems) =>
+          prevItems.map((item) =>
+            item._id === itemId ? { ...item, sold: !item.sold } : item
+          )
+        );
+        showToast("An error occurred. Please try again", TOAST_TYPES.ERROR);
+      }
+    },
+    [userItems, showToast]
+  );
 
   if (isLoading) {
     return (
@@ -110,11 +129,8 @@ const MyItemsPage = () => {
 
   return (
     <div>
-      {toastConfig.show && (
-        <Toast message={toastConfig.message} type={toastConfig.type} />
-      )}
       <div className="w-full md:w-11/12 mx-auto py-8">
-        <BreadCrumbs currentPage={"My Items"} />
+        <BreadCrumbs currentPage="My Items" />
       </div>
       <div className="bg-base-100 rounded-lg shadow-md p-4 sm:p-6 max-w-7xl mx-auto mt-10">
         <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
@@ -125,13 +141,20 @@ const MyItemsPage = () => {
             <MyItemCard
               key={item._id}
               item={item}
-              onToggleSoldState={() => {
-                handleToggleSoldState(item._id);
-              }}
+              onToggleSoldState={() => handleToggleSoldState(item._id)}
+              onEditClick={handleEditClick}
             />
           ))}
         </div>
       </div>
+      {isEditModalOpen && (
+        <EditItemModal
+          item={itemToEdit}
+          onClose={handleCloseModal}
+          onItemUpdated={handleItemUpdated}
+        />
+      )}
+      <ToastContainer />
     </div>
   );
 };

@@ -1,89 +1,99 @@
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router-dom";
-import itemApiRequests from "../services/apiRequests/itemApiRequests";
-import { SellItemSchema } from "../utils/validation/itemValidation";
-import BreadCrumbs from "../components/BreadCrumbs";
-import ConfirmationModal from "../components/modals/ConfirmationModal";
+import itemApiRequests from "../../services/apiRequests/itemApiRequests";
+import { UpdateItemSchema } from "../../utils/validation/itemValidation";
+import ConfirmationModal from "./ConfirmationModal";
 
-const SellItem = () => {
+const EditItemModal = ({ item, onClose, onItemUpdated, onEditError }) => {
   const [submitError, setSubmitError] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [formValues, setFormValues] = useState(null);
   const [formActions, setFormActions] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
 
   const initialValues = {
-    name: "",
-    description: "",
-    price: "",
-    image: null,
-    condition: "",
-    category: "",
-    isAvailableForSwap: false,
+    name: item.name,
+    description: item.description,
+    price: item.price,
+    image: item.image,
+    condition: item.condition,
+    category: item.category,
+    isAvailableForSwap: item.isAvailableForSwap,
   };
 
-  const onSubmit = (values, actions) => {
+  const onSubmit = useCallback((values, actions) => {
     setFormValues(values);
     setFormActions(actions);
     setShowModal(true);
-  };
+  }, []);
 
-  const handleConfirm = async () => {
+  const handleConfirm = useCallback(async () => {
     if (!formValues || !formActions || isSubmitting) return;
-
-    const { setSubmitting, resetForm } = formActions;
 
     try {
       setIsSubmitting(true);
-      setSubmitting(true);
+      formActions.setSubmitting(true);
       const formData = new FormData();
-      Object.keys(formValues).forEach((key) => {
-        if (key === "image") {
-          formData.append("thumbnail", formValues[key]);
-        } else {
-          formData.append(key, formValues[key]);
-        }
-      });
+      formData.append("name", formValues.name);
+      formData.append("description", formValues.description);
+      formData.append("price", formValues.price);
+      formData.append("condition", formValues.condition);
+      formData.append("category", formValues.category);
+      formData.append("isAvailableForSwap", formValues.isAvailableForSwap);
+      if (formValues.image instanceof File) {
+        formData.append("thumbnail", formValues.image);
+      }
 
-      await itemApiRequests.createItem(formData);
-      setSubmitError("");
-      resetForm();
-      navigate("/my-items", { state: { isRedirected: true } });
+      const updatedItem = await itemApiRequests.updateItem(item._id, formData);
+      onItemUpdated(updatedItem);
+      onClose();
     } catch (error) {
       setSubmitError(
         error.message || "An unexpected error occurred. Please try again."
       );
+      onEditError(error);
     } finally {
-      setSubmitting(false);
+      formActions.setSubmitting(false);
       setIsSubmitting(false);
       setShowModal(false);
     }
-  };
+  }, [
+    formValues,
+    formActions,
+    isSubmitting,
+    item._id,
+    onClose,
+    onItemUpdated,
+    onEditError,
+  ]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     if (!isSubmitting) {
       setShowModal(false);
     }
-  };
+  }, [isSubmitting]);
 
   return (
-    <div className="mx-auto w-full flex-col align-middle p-4 md:p-4">
-      <div className="w-full md:w-11/12 mx-auto py-4">
-        <BreadCrumbs currentPage={"Sell Item"} />
-      </div>
-      <div className="flex justify-center">
-        <div className="w-full max-w-6xl md:w-1/2 p-4 md:p-8">
-          <h1 className="text-2xl md:text-4xl font-semibold text-center mt-2 mb-6">
-            Sell Your Item
-          </h1>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg my-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold">Edit Item</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+            type="button"
+            disabled={isSubmitting}
+          >
+            Close
+          </button>
+        </div>
+        <div className="max-h-[calc(100vh-200px)] overflow-y-auto pr-4">
           <Formik
             initialValues={initialValues}
-            validationSchema={SellItemSchema}
+            validationSchema={UpdateItemSchema}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting: formIsSubmitting, setFieldValue }) => (
+            {({ isSubmitting: formikIsSubmitting, setFieldValue }) => (
               <Form className="space-y-4">
                 {submitError && (
                   <div
@@ -93,12 +103,11 @@ const SellItem = () => {
                     <span className="block sm:inline">{submitError}</span>
                   </div>
                 )}
-
                 <div className="space-y-2">
                   <label htmlFor="name" className="ml-4 font-semibold">
                     Item Name
                   </label>
-                  <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
+                  <div className="input input-bordered rounded-3xl bg-gray-100 flex items-center gap-2 p-4">
                     <Field
                       type="text"
                       name="name"
@@ -139,42 +148,17 @@ const SellItem = () => {
                   <label htmlFor="price" className="ml-4 font-semibold">
                     Price
                   </label>
-                  <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
+                  <div className="input input-bordered rounded-3xl bg-gray-100 flex items-center gap-2 p-4">
                     <Field
                       type="number"
                       name="price"
                       id="price"
-                      step="0.01"
-                      min="1"
                       placeholder="Enter item price"
                       className="grow bg-transparent outline-none w-full"
                     />
                   </div>
                   <ErrorMessage
                     name="price"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="image" className="ml-4 font-semibold">
-                    Image
-                  </label>
-                  <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
-                    <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept=".jpg,.jpeg,.png"
-                      className="grow bg-transparent outline-none w-full"
-                      onChange={(event) => {
-                        setFieldValue("image", event.currentTarget.files[0]);
-                      }}
-                    />
-                  </div>
-                  <ErrorMessage
-                    name="image"
                     component="div"
                     className="text-red-500 text-sm"
                   />
@@ -208,14 +192,14 @@ const SellItem = () => {
                   <label htmlFor="category" className="ml-4 font-semibold">
                     Category
                   </label>
-                  <div className="input input-bordered rounded-3xl bg-[#f8f8f8] flex items-center gap-2 p-4">
+                  <div className="input input-bordered rounded-3xl bg-gray-100 flex items-center gap-2 p-4">
                     <Field
                       as="select"
                       name="category"
                       id="category"
                       className="grow bg-transparent outline-none w-full"
                     >
-                      <option value="">Select Item Category</option>
+                      <option value="">Select a category</option>
                       <option value="Educational">Educational</option>
                       <option value="Action Figures & Dolls">
                         Action Figures & Dolls
@@ -234,38 +218,59 @@ const SellItem = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 p-4">
+                  <label
+                    htmlFor="isAvailableForSwap"
+                    className="ml-4 font-semibold"
+                  >
+                    Available for Swap
+                  </label>
+                  <div className="input input-bordered rounded-3xl bg-gray-100 flex items-center gap-2 p-4">
                     <Field
                       type="checkbox"
-                      id="isAvailableForSwap"
                       name="isAvailableForSwap"
-                      className="w-4 h-4"
+                      id="isAvailableForSwap"
+                      className="form-checkbox h-5 w-5 text-blue-600"
                     />
-                    <label htmlFor="isAvailableForSwap" className="text-lg">
-                      Available for Swap
-                    </label>
+                    <span className="ml-2">Available for swap</span>
                   </div>
+                  <ErrorMessage
+                    name="isAvailableForSwap"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
-                <div className="flex-col justify-between mt-6 md:flex-col">
-                  <button
-                    type="button"
-                    onClick={() => navigate("/")}
-                    disabled={formIsSubmitting || isSubmitting}
-                    className="btn rounded-3xl bg-[var(--secondary-color)] w-full md:w-1/2 py-2 text-white font-semibold hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={formIsSubmitting || isSubmitting}
-                    className="btn rounded-3xl bg-[var(--primary-color)] w-full md:w-1/2 py-2 text-black font-semibold hover:bg-[--primary-color] transition-colors mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {formIsSubmitting || isSubmitting
-                      ? "Submitting..."
-                      : "Submit"}
-                  </button>
+                <div className="space-y-2">
+                  <label htmlFor="image" className="ml-4 font-semibold">
+                    Image
+                  </label>
+                  <div className="input input-bordered rounded-3xl bg-gray-100 flex items-center gap-2 p-4">
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      onChange={(event) => {
+                        setFieldValue("image", event.currentTarget.files[0]);
+                      }}
+                      className="grow bg-transparent outline-none w-full"
+                    />
+                  </div>
+                  <ErrorMessage
+                    name="image"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
+
+                <button
+                  type="submit"
+                  disabled={formikIsSubmitting || isSubmitting}
+                  className="bg-[--primary-color] text-[--secondary-color] rounded-lg px-4 py-2 hover:bg-[--secondary-color] hover:text-[--primary-color] w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {formikIsSubmitting || isSubmitting
+                    ? "Saving..."
+                    : "Save Changes"}
+                </button>
               </Form>
             )}
           </Formik>
@@ -273,13 +278,14 @@ const SellItem = () => {
       </div>
       <ConfirmationModal
         show={showModal}
-        message="Are you sure you want to list this item for sale?"
+        message="Do you want to save these changes to your listed item?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
         isLoading={isSubmitting}
+        disableActions={isSubmitting}
       />
     </div>
   );
 };
 
-export default SellItem;
+export default EditItemModal;

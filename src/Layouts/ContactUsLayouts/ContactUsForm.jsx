@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Toast from "../../components/Toast";
+import { useToast, TOAST_TYPES } from "../../hooks/useToast";
 import contactUsService from "../../services/apiRequests/contactUsApiRequests";
 import { contactUsSchema } from "../../utils/validation/contactUsValidation";
 
@@ -11,31 +11,19 @@ const INITIAL_VALUES = {
 };
 
 const ContactUsForm = () => {
-  const [toastConfig, setToastConfig] = useState({
-    show: false,
-    message: "",
-    type: null,
-  });
-
-  const showToast = useCallback((message, type) => {
-    setToastConfig({ show: true, message, type });
-    setTimeout(
-      () => setToastConfig({ show: false, message: "", type: null }),
-      3000
-    );
-  }, []);
+  const { showToast, ToastContainer } = useToast();
 
   const handleSubmit = useCallback(
     async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        const response = await contactUsService.sendEmail(values);
-        showToast("Message sent successfully!", "success");
+        await contactUsService.sendEmail(values);
+        showToast("Message sent successfully!", TOAST_TYPES.SUCCESS);
         resetForm();
       } catch (error) {
         const errorMessage =
-          error.message || "Unexpected error occured, please try again later";
-        showToast(errorMessage, "error");
-        setErrors(errorMessage);
+          error.message || "Unexpected error occurred, please try again later";
+        showToast(errorMessage, TOAST_TYPES.ERROR);
+        setErrors({ submit: errorMessage });
       } finally {
         setSubmitting(false);
       }
@@ -70,39 +58,42 @@ const ContactUsForm = () => {
   );
 
   return (
-    <Formik
-      initialValues={INITIAL_VALUES}
-      validationSchema={contactUsSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting }) => (
-        <Form className="space-y-6 relative">
-          {renderField({ name: "fullName", label: "Full Name" })}
-          {renderField({
-            name: "email",
-            label: "Email Address",
-            type: "email",
-          })}
-          {renderField({
-            name: "messageText",
-            label: "Message",
-            as: "textarea",
-          })}
+    <>
+      <Formik
+        initialValues={INITIAL_VALUES}
+        validationSchema={contactUsSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, errors }) => (
+          <Form className="space-y-6 relative">
+            {renderField({ name: "fullName", label: "Full Name" })}
+            {renderField({
+              name: "email",
+              label: "Email Address",
+              type: "email",
+            })}
+            {renderField({
+              name: "messageText",
+              label: "Message",
+              as: "textarea",
+            })}
 
-          {toastConfig.show && (
-            <Toast message={toastConfig.message} type={toastConfig.type} />
-          )}
+            {errors.submit && (
+              <div className="text-red-500 text-sm">{errors.submit}</div>
+            )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full sm:w-auto px-8 py-3 bg-[--primary-color] text-white text-sm font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300 disabled:opacity-50"
-          >
-            {isSubmitting ? "Sending..." : "Send Message"}
-          </button>
-        </Form>
-      )}
-    </Formik>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full sm:w-auto px-8 py-3 bg-[--primary-color] text-white text-sm font-semibold rounded-full hover:bg-opacity-90 transition-colors duration-300 disabled:opacity-50"
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <ToastContainer />
+    </>
   );
 };
 

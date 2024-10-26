@@ -5,12 +5,13 @@ import ItemGrid from "../Layouts/shop-layouts/ItemGrid";
 import Pagination from "../Layouts/shop-layouts/Pagination";
 import useItems from "../hooks/useItems";
 import { useUserContext } from "../contexts/UserContext";
-import Toast from "../components/Toast";
+import { useToast, TOAST_TYPES } from "../hooks/useToast";
 
 const Shop = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
   const location = useLocation();
+  const { showToast, ToastContainer } = useToast();
 
   const [filters, setFilters] = useState({
     search: "",
@@ -23,9 +24,8 @@ const Shop = () => {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
 
-  // Read the category from the query parameter and set it in the filters
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const category = params.get("category");
@@ -36,6 +36,15 @@ const Shop = () => {
       }));
     }
   }, [location.search]);
+
+  useEffect(() => {
+    if (!user) {
+      showToast(
+        "Log in to be able to add to your wishlist",
+        TOAST_TYPES.WARNING
+      );
+    }
+  }, [user, showToast]);
 
   const queryParams = useMemo(() => {
     const params = {
@@ -90,17 +99,6 @@ const Shop = () => {
 
   return (
     <div className="container mx-auto pb-6">
-      {!user && (
-        <Toast
-          message="Log in to be able to add to your wishlist"
-          type="error"
-        />
-      )}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
       <div className="flex flex-col md:flex-row gap-6">
         <FilterPanel
           filters={filters}
@@ -114,6 +112,12 @@ const Shop = () => {
           onRetry={() => handleSearch(filters.search)}
         />
       </div>
+      <ToastContainer />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

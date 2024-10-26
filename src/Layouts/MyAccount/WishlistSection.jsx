@@ -46,12 +46,14 @@ const WishlistSection = () => {
           <WishlistItemCard key={item._id} item={item} />
         ))}
       </div>
-      <Link
-        to="/wishlist"
-        className="btn btn-ghost font-bold bg-[--primary-color] text-[--secondary-color]  w-full"
-      >
-        View All Wishlist Items
-      </Link>
+      <div className="flex justify-center items-center h-full">
+        <Link
+          to="/wishlist"
+          className="btn btn-ghost font-bold bg-[--primary-color] text-[--secondary-color] w-auto"
+        >
+          View All Wishlist Items
+        </Link>
+      </div>
     </div>
   );
 };
