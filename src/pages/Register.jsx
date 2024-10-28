@@ -53,11 +53,6 @@ const Register = () => {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-3">
-              {registerError && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative mb-2">
-                  <span className="block sm:inline">{registerError}</span>
-                </div>
-              )}
               {["name", "email", "password", "phoneNumber"].map((field) => (
                 <div key={field} className="space-y-1">
                   <label htmlFor={field} className="ml-2 font-semibold">
@@ -104,6 +99,11 @@ const Register = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
+              {registerError && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative mb-2">
+                  <span className="block sm:inline">{registerError}</span>
+                </div>
+              )}
               <div className="flex justify-center ">
                 <button
                   type="submit"
