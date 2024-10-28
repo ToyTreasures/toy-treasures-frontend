@@ -16,11 +16,13 @@ const login = async (userData, setUser, setWishlist) => {
   setWishlist(wishlistResponse.wishlist);
 };
 
-const logout = async (setUser) => {
+const logout = async (setUser, setWishlist) => {
   await authApiRequests.logout();
   setUser(null);
   localStorageServices.clearTokensAndUser();
   localStorageServices.clearWishlist();
+
+  setWishlist(null);
 };
 
 export default {

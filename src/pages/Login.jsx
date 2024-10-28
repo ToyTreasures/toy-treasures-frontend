@@ -45,15 +45,6 @@ const Login = () => {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">
-              {loginError && (
-                <div
-                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                  role="alert"
-                >
-                  <span className="block sm:inline">{loginError}</span>
-                </div>
-              )}
-
               <div className="space-y-2">
                 <label htmlFor="email" className="ml-4 font-semibold">
                   Email
@@ -93,6 +84,14 @@ const Login = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
+              {loginError && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                  role="alert"
+                >
+                  <span className="block sm:inline">{loginError}</span>
+                </div>
+              )}
               <div className="flex justify-center">
                 <button
                   type="submit"
