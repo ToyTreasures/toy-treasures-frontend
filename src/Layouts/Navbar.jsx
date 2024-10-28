@@ -19,7 +19,7 @@ const Navbar = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  const { user, setUser, wishlist } = useUserContext();
+  const { user, setUser, wishlist, setWishlist } = useUserContext();
 
   const handleLogoutClick = () => {
     setShowModal(true);
@@ -39,7 +39,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    authServices.logout(setUser);
+    authServices.logout(setUser, setWishlist);
   };
 
   const toggleMobileMenu = () => {
